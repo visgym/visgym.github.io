@@ -1,0 +1,14 @@
+You are solving a 8×8 patch-reassembly puzzle. There are 6 irregular pieces parked around the board. Your goal is to place them so the grid is completely filled—no gaps, no overlaps.
+
+Available actions:
+1. 'place': Snap a patch onto the grid by aligning its anchor (the cell that shows the patch's ID number) with a chosen board coordinate. Format: `('place', (patch_id, row, col))` where patch_id ∈ [0, 5], row ∈ [0, 7], col ∈ [0, 7].
+2. 'remove': Return a patch to its parking slot. Format: `('remove', patch_id)` where patch_id ∈ [0, 5].
+3. 'stop': End the episode and submit your solution. Format: `('stop', 'stop')`
+
+Success: You succeed if the grid is completely filled with no gaps or overlaps.
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To place patch 0 at (2, 3): `('place', (0, 2, 3))`
+- To remove patch 0: `('remove', 0)`
+- To finish: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

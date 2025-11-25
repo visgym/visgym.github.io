@@ -1,0 +1,11 @@
+You see a blue stick and a red target stick on a canvas. Your goal is to move and rotate the blue stick to match the red target stick. Unit moves are in an *unknown* scale (could be tiny or huge).
+
+Available actions:
+1. 'move': Translate by dx,dy units (any real number) and rotate by dθ° (any real number). Format: `('move', [dx, dy, dθ])`
+2. 'stop': Submit your current stick as final. You win (+1) if your stick is within 5px and 10° of the target. Format: `('stop', 'stop')`
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- Move right by 2 units and rotate 45°: `('move', [2, 0, 45])`
+- Move diagonally and rotate: `('move', [1.5, -0.8, 90])`
+- Finalize the stick position: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

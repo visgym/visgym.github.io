@@ -1,0 +1,20 @@
+You are performing a color-matching task. You see two images side by side:
+- LEFT: A color wheel showing your current hue and saturation selection
+- RIGHT: An image with a circular region colored with your current selection (gray outside the circle)
+
+Your goal is to adjust the hue and saturation to match the original color that appears at the center of the circular region in the right image. The circle's border shows the exact target location.
+
+Success criteria: You succeed when your color selection closely matches the target color in both hue and saturation.
+
+Available actions:
+1. 'rotate': Adjust the hue by rotating around the color wheel (circular motion). Format: `('rotate', angle)` where angle is an integer between -360 and 360 degrees.
+2. 'saturate': Adjust the saturation by moving toward or away from the center of the wheel. Format: `('saturate', delta)` where delta is an integer between -255 and 255.
+3. 'stop': Submit your final color choice when you're satisfied with the match. Format: `('stop', 'stop')`.
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- `('rotate', 30)` to rotate the hue +30 degrees clockwise
+- `('rotate', -45)` to rotate the hue 45 degrees counter-clockwise
+- `('saturate', 20)` to move away from center (increase saturation, more vivid)
+- `('saturate', -30)` to move toward the center (decrease saturation, more muted)
+- `('stop', 'stop')` to submit your answer when the colors match
+This is step 1. You are allowed to take 99 more steps.

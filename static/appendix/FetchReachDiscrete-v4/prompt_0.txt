@@ -1,0 +1,18 @@
+You are controlling a robotic arm to reach a target 3D position. The left image is a front view of the robot, and the right image moving camera attached to the gripper. Your goal is to move it to the red target marker. Each action moves the end-effector by a fixed step size in the specified direction.
+
+Available actions:
+1. 'move': Move the end-effector in 3D space. Format: `('move', [x, y, z])` where each element is -1, 0, or 1:
+   - x: -1=left, 0=no change, 1=right
+   - y: -1=backward, 0=no change, 1=forward
+   - z: -1=down, 0=no change, 1=up
+2. 'stop': End the reaching session. Format: `('stop', 'stop')`
+
+Success: You succeed when the end-effector reaches the target position (red marker).
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To move right and up: `('move', [1, 0, 1])`
+- To move forward: `('move', [0, 1, 0])`
+- To move down and left: `('move', [-1, 0, -1])`
+- To stay in place: `('move', [0, 0, 0])`
+- To stop: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

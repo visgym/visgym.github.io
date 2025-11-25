@@ -1,0 +1,10 @@
+Your goal is to point to 'plant with brown pot' in the image.
+
+Available actions:
+1. 'mark': Mark a point at the specified coordinates. Format: `('mark', (x_norm, y_norm))` where x_norm, y_norm are normalized coordinates between 0.0 and 1.0, which map to pixel x = round(x_norm*(500-1)), y = round(y_norm*(375-1)).
+2. 'stop': Submit your current mark as final answer. Format: `('stop', 'stop')`
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To mark center: `('mark', (0.5, 0.5))`
+- To submit: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

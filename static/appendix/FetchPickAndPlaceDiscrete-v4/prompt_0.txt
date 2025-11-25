@@ -1,0 +1,28 @@
+You are controlling a robotic arm to pick up a grey cube and place it at the target 3D position. The robot end-effector (gripper) and the cube are visible in the image. The left image is a front view of the robot, and the right image moving camera attached to the gripper. Your goal is to grasp the cube and move it to the red target marker. Each action moves the end-effector by a fixed step size in the specified direction.
+
+Available actions:
+1. 'move': Move the end-effector in 3D space. Format: `('move', [x, y, z])` where each element is -1, 0, or 1:
+   - x: -1=left, 0=no change, 1=right
+   - y: -1=backward, 0=no change, 1=forward
+   - z: -1=down, 0=no change, 1=up
+2. 'gripper': Control the gripper (sticky behavior). Format: `('gripper', value)` where value is:
+   - 0: open the gripper
+   - 1: close the gripper
+Note: Gripper state is sticky - once set, it continues until changed.
+3. 'stop': End the pick and place session. Format: `('stop', 'stop')`
+
+Success: You succeed when you pick up the cube and place it at the target position (green marker).
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To move right and up: `('move', [1, 0, 1])`
+- To move forward: `('move', [0, 1, 0])`
+- To move down and left: `('move', [-1, 0, -1])`
+- To stay in place: `('move', [0, 0, 0])`
+- To open gripper: `('gripper', 0)`
+- To close gripper: `('gripper', 1)`
+- To stop: `('stop', 'stop')`
+
+Gripper Behavior: The gripper has sticky behavior - once you open or close it, 
+
+Feedback: Action executed successfully.
+This is step 1. You are allowed to take 99 more steps.

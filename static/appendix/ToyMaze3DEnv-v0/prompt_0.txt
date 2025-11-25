@@ -1,0 +1,20 @@
+You are navigating a 9x9 3D maze environment. The maze consists of walls and open paths. You are given the first-person view from your current position and orientation.
+
+Your goal is to reach the target location which ismarked by a red sphere.
+
+Available actions:
+1. 'move': Move one step forward in your current facing direction. Format: `('move', 0)`
+2. 'turn': Rotate your view in the specified direction. Format: `('turn', direction)` where direction is 1 (left), 2 (right), or 3 (around).
+3. 'stop': Stop the episode. Format: `('stop', 'stop')`
+
+Success: You succeed when you reach the target location (red sphere).
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To move forward: `('move', 0)`
+- To turn left: `('turn', 1)`
+- To turn right: `('turn', 2)`
+- To turn around: `('turn', 3)`
+- To stop: `('stop', 'stop')`
+
+Note: If you try to move forward into a wall, you will remain in your current position. Turning actions do not change your position, only your facing direction.
+This is step 1. You are allowed to take 99 more steps.

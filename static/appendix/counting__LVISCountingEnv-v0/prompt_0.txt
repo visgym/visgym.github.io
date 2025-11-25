@@ -1,0 +1,16 @@
+You are solving a horse-counting task. Count the number of horse in the image. You can place dots to mark instances and then record your final count.
+
+Available actions:
+1. 'mark': Place a dot at normalized coordinates. Format: `('mark', (x, y))` where x and y are normalized coordinates between 0.0 and 1.0.
+2. 'undo': Remove your last placed dot. Format: `('undo', 'undo')`
+3. 'guess': Record your count guess. Format: `('guess', N)` where N is an integer between 5 and 30.
+4. 'stop': End the counting session. Format: `('stop', 'stop')`
+
+Success: You succeed if your final count guess matches the true number of objects.
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To mark a point: `('mark', (0.5, 0.3))`
+- To undo: `('undo', 'undo')`
+- To guess count: `('guess', 5)`
+- To stop: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

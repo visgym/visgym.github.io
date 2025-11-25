@@ -1,0 +1,16 @@
+You are solving a mental rotation task. Two panels appear side by side:
+- Left: the original circular image.
+- Right: the image has been rotated by a secret angle.
+Your job is to undo that rotation and align the right image back to match the left.
+
+Available actions:
+1. 'rotate': Rotate the right image by an integer angle. Format: `('rotate', angle)` where angle is an integer between -180 and 180 degrees (positive is clockwise, negative is counterclockwise).
+2. 'stop': Submit your final adjustment. Format: `('stop', 'stop')`
+
+Success: You succeed if your final adjustment undoes the secret rotation within ±5.0°.
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To rotate clockwise: `('rotate', 45)`
+- To rotate counterclockwise: `('rotate', -30)`
+- To submit: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

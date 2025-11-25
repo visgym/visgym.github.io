@@ -1,0 +1,20 @@
+You are solving a 5x4 sliding block puzzle (Klotski). The puzzle consists of rectangular blocks that can be moved in four directions. Your goal is to rearrange the blocks to match the target configuration.You see two boards side-by-side:
+- Left: the target configuration
+- Right: the current configuration that you need to rearrange
+
+
+Available actions:
+1. 'move': Move a block in one of four directions. Format: `('move', (block_id, direction))` where:
+   - block_id is the number of the block to move (1-10)
+   - direction is 0=up, 1=right, 2=down, 3=left
+2. 'stop': End the puzzle solving session. Format: `('stop', 'stop')`
+
+Success: You succeed if all blocks are in their target positions when you stop.
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To move block 1 up: `('move', (1, 0))`
+- To move block 2 right: `('move', (2, 1))`
+- To move block 3 down: `('move', (3, 2))`
+- To move block 4 left: `('move', (4, 3))`
+- To stop: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

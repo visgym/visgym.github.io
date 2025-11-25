@@ -1,0 +1,14 @@
+You are given an original image and 5 zoomed-in views laid out left→right. Your goal is to rearrange them so they are ordered from *least* to *most* zoomed.
+
+Available actions:
+1. 'swap': Swap two zoom-tiles by specifying their 1-based positions. Format: `('swap', (i, j))` where i and j are 1-based positions.
+2. 'reorder': Provide the complete ordering in one shot. Format: `('reorder', [1, 2, ..., 5])` where the list gives the desired left-to-right arrangement.
+3. 'stop': Finish and lock in the current ordering. Format: `('stop', 'stop')`
+
+Success: Arrange the views from least to most zoomed (ascending zoom level order).
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To swap views: `('swap', (1, 3))`
+- To reorder all: `('reorder', [1, 3, 2, 4])`
+- To finalize: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

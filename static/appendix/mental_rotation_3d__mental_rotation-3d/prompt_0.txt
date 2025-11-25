@@ -1,0 +1,19 @@
+You see two images side-by-side:
+- Left: the original 3D object (target orientation)
+- Right: the same object under an unknown rotation
+
+Your goal is to rotate the right object back to the original target orientation.
+
+Available actions:
+1. 'rotate': Rotate the 3D object by Euler angles. Format: `('rotate', [dyaw, dpitch, droll])` where each of dyaw, dpitch, droll is in degrees between -180 and 180.
+2. 'stop': Submit your final rotation. Format: `('stop', 'stop')`
+
+Note: Rotations are applied in the world (extrinsic) axes
+
+Success: You succeed if you end up within 10.0 degrees of target orientation.
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- To rotate in yaw: `('rotate', [15.0, 0.0, 0.0])`
+- To rotate in roll: `('rotate', [0.0, 0.0, -10.0])`
+- To submit: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

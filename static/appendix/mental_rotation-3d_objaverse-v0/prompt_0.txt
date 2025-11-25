@@ -1,0 +1,17 @@
+You are solving a 3D mental rotation task. Two panels are shown:
+- Left: the target view of the object (identity orientation).
+- Right: the current view that you can rotate.
+Your job is to rotate the object on the right so it matches the left.
+
+Available actions:
+1. 'rotate': Apply an incremental Euler rotation (yaw, pitch, roll). Format: `('rotate', [d_roll, d_yaw, d_pitch])` with angles in degrees.
+2. 'stop': Submit your final orientation. Format: `('stop', 'stop')`
+
+Success: You succeed if the final rotation error is less than or equal to 5.0°.
+
+Note: Rotations are applied in the world (extrinsic) axes
+
+For example:
+- Roll by 15°: `('rotate', [15, 0, 0])`
+- To submit: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.

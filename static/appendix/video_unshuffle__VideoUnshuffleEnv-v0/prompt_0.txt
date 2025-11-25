@@ -1,0 +1,14 @@
+You are given 5 video frames extracted from a short clip, laid out left->right in a shuffled order and labeled 1 through 5. The action being performed in the video is: 'pushing a chair with a hand'.
+
+Your goal is to rearrange the frames so they appear in their original chronological order from left to right. Pay attention to the temporal progression of the action described above.
+
+Available actions:
+1. 'swap': Swap two frames by specifying their 1-based positions. Format: `('swap', (i, j))`
+2. 'reorder': Provide the complete ordering in one shot. Format: `('reorder', [1, 2, ..., 5])` where the list gives the desired left-to-right arrangement.
+3. 'stop': Finish and lock in the current ordering. Format: `('stop', 'stop')`
+
+Please respond with exactly one action and its arguments in the specified format. For example:
+- Swap the first and third frames: `('swap', (1, 3))`
+- Reorder all frames: `('reorder', [2, 1, 4, 3, ..., 5])`
+- Finalize the ordering: `('stop', 'stop')`
+This is step 1. You are allowed to take 99 more steps.
