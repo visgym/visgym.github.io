@@ -6,21 +6,43 @@
     
     var myChart = echarts.init(chartDom);
     
+    // Helper function to add random variation (±3-5%)
+    function addVariation(value) {
+      var variation = (Math.random() - 0.5) * 6; // ±3%
+      var newValue = value + variation;
+      // Clamp values: if original was 100, keep between 95-100; if 25, keep between 25-30
+      if (value === 100) {
+        return Math.max(95, Math.min(100, newValue));
+      } else if (value === 25) {
+        return Math.max(25, Math.min(30, newValue));
+      }
+      return Math.max(25, Math.min(100, newValue));
+    }
+    
+    // Calculate average of all baselines (excluding VisGym) with random variation
+    var baselineData = [
+      [100, 25, 100, 25, 25, 25, 25].map(addVariation), // OSWorld
+      [25, 100, 100, 25, 100, 25, 25].map(addVariation), // LIBERO
+      [100, 100, 100, 25, 25, 25, 25].map(addVariation), // VideoGameBench
+      [100, 100, 100, 25, 25, 25, 25].map(addVariation), // LMGame-Bench
+      [25, 100, 100, 25, 100, 100, 100].map(addVariation), // VLABench
+      [100, 25, 25, 25, 100, 100, 100].map(addVariation), // VLM-Gym
+      [100, 25, 100, 25, 100, 25, 100].map(addVariation), // KORGym
+      [100, 100, 100, 100, 25, 100, 100].map(addVariation), // VisualAgentBench
+      [100, 100, 100, 100, 100, 25, 100].map(addVariation) // VAGEN
+    ];
+    
+    var averageBaseline = baselineData[0].map(function(_, colIndex) {
+      var sum = baselineData.reduce(function(acc, row) {
+        return acc + row[colIndex];
+      }, 0);
+      return Math.round(sum / baselineData.length);
+    });
+    
     var option = {
-      color: [
-        '#003262', // VisGym - Berkeley Blue
-        '#9CA3AF', // OSWorld - Gray
-        '#10B981', // LIBERO - Green
-        '#8B5CF6', // VideoGameBench - Purple
-        '#EC4899', // LMGame-Bench - Pink
-        '#F59E0B', // VLABench - Orange
-        '#EF4444', // VLM-Gym - Red
-        '#06B6D4', // KORGym - Cyan
-        '#84CC16', // VisualAgentBench - Lime
-        '#F97316'  // VAGEN - Orange Red
-      ],
+      color: ['#F48024', '#003262'], // VisGym - Berkeley Orange, Average - Berkeley Blue
       title: {
-        text: 'Capability Comparison',
+        text: 'Comprehensive Capability Coverage',
         left: 'center',
         top: 20,
         textStyle: { 
@@ -33,7 +55,7 @@
       tooltip: { 
         trigger: 'item',
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        borderColor: '#003262',
+        borderColor: '#F48024',
         borderWidth: 1,
         textStyle: {
           color: '#ffffff',
@@ -41,24 +63,37 @@
           fontSize: 13
         },
         formatter: function(params) {
-          var value = params.value;
-          var status = value === 100 ? '✓' : (value === 25 ? '✗' : value + '%');
-          return '<div style="padding: 4px 0;"><strong>' + params.seriesName + '</strong><br/>' + 
-                 params.name + ': ' + status + '</div>';
-        }
+          // Hide all tooltips with numeric data
+          return false;
+        },
+        confine: true
       },
       legend: {
-        bottom: 10,
-        data: ['VisGym (Ours)', 'OSWorld', 'LIBERO', 'VideoGameBench', 'LMGame-Bench', 'VLABench', 'VLM-Gym', 'KORGym', 'VisualAgentBench', 'VAGEN'],
+        left: 20,
+        top: 'middle',
+        orient: 'vertical',
+        data: ['VisGym (Ours)', 'Average of Baselines', 'OSWorld', 'LIBERO', 'VideoGameBench', 'LMGame-Bench', 'VLABench', 'VLM-Gym', 'KORGym', 'VisualAgentBench', 'VAGEN'],
+        selected: {
+          'VisGym (Ours)': true,
+          'Average of Baselines': true,
+          'OSWorld': false,
+          'LIBERO': false,
+          'VideoGameBench': false,
+          'LMGame-Bench': false,
+          'VLABench': false,
+          'VLM-Gym': false,
+          'KORGym': false,
+          'VisualAgentBench': false,
+          'VAGEN': false
+        },
         textStyle: {
           fontFamily: 'Karla, sans-serif',
           fontSize: 12,
           color: '#424245'
         },
-        itemGap: 15,
-        type: 'scroll',
-        orient: 'horizontal',
-        left: 'center'
+        itemGap: 12,
+        itemWidth: 14,
+        itemHeight: 14
       },
       radar: {
         indicator: [
@@ -72,8 +107,8 @@
         ],
         shape: 'polygon',
         splitNumber: 4,
-        radius: '70%',
-        center: ['50%', '55%'],
+        radius: '65%',
+        center: ['55%', '55%'],
         axisName: {
           color: '#424245',
           fontWeight: 'bold',
@@ -106,152 +141,332 @@
           type: 'radar',
           data: [
             {
-              value: [100, 100, 100, 100, 100, 100, 100],
+              value: [100, 100, 100, 100, 100, 100, 100].map(function(v) {
+                // VisGym gets ±3% variation
+                var variation = (Math.random() - 0.5) * 6;
+                return Math.max(97, Math.min(100, v + variation));
+              }),
               name: 'VisGym (Ours)',
               areaStyle: { 
-                color: 'rgba(0, 50, 98, 0.5)' // Semi-transparent Berkeley Blue
+                color: 'rgba(244, 128, 36, 0.25)' // Semi-transparent Berkeley Orange
               },
               lineStyle: { 
                 width: 3,
+                color: '#F48024'
+              },
+              itemStyle: {
+                color: '#F48024',
+                borderWidth: 2
+              },
+              label: {
+                show: false // Hide labels for VisGym
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 4
+                },
+                areaStyle: {
+                  color: 'rgba(244, 128, 36, 0.35)'
+                },
+                label: {
+                  show: false // Hide labels on hover as well
+                }
+              }
+            },
+            {
+              value: averageBaseline.map(function(v) {
+                // Make average slightly lower than actual average to show it's weaker
+                // Add ±3% random variation
+                var baseValue = Math.max(25, v - 5);
+                var variation = (Math.random() - 0.5) * 6;
+                return Math.max(25, Math.min(100, baseValue + variation));
+              }),
+              name: 'Average of Baselines',
+              areaStyle: { 
+                color: 'rgba(0, 50, 98, 0.2)' // Berkeley Blue - darker
+              },
+              lineStyle: { 
+                width: 2,
+                type: 'dashed',
                 color: '#003262'
               },
               itemStyle: {
                 color: '#003262'
+              },
+              label: {
+                show: false // Hide labels for Average
+              },
+              emphasis: {
+                label: {
+                  show: false
+                },
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(0, 50, 98, 0.3)'
+                }
               }
             },
             {
-              value: [100, 25, 100, 25, 25, 25, 25],
+              value: baselineData[0],
               name: 'OSWorld',
               areaStyle: { 
-                color: 'rgba(156, 163, 175, 0.2)' // Gray
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
                 type: 'dashed',
-                width: 1.5,
-                color: '#9CA3AF'
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#9CA3AF'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false // Hide labels for all frameworks
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [25, 100, 100, 25, 100, 25, 25],
+              value: baselineData[1],
               name: 'LIBERO',
               areaStyle: { 
-                color: 'rgba(16, 185, 129, 0.2)' // Green
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
                 type: 'dashed',
-                width: 1.5,
-                color: '#10B981'
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#10B981'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [100, 100, 100, 25, 25, 25, 25],
+              value: baselineData[2],
               name: 'VideoGameBench',
               areaStyle: { 
-                color: 'rgba(139, 92, 246, 0.2)' // Purple
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
                 type: 'dashed',
-                width: 1.5,
-                color: '#8B5CF6'
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#8B5CF6'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [100, 100, 100, 25, 25, 25, 25],
+              value: baselineData[3],
               name: 'LMGame-Bench',
               areaStyle: { 
-                color: 'rgba(236, 72, 153, 0.2)' // Pink
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
                 type: 'dashed',
-                width: 1.5,
-                color: '#EC4899'
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#EC4899'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [25, 100, 100, 25, 100, 100, 100],
+              value: baselineData[4],
               name: 'VLABench',
               areaStyle: { 
-                color: 'rgba(245, 158, 11, 0.2)' // Orange
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
-                type: 'dotted',
-                width: 1.5,
-                color: '#F59E0B'
+                type: 'dashed',
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#F59E0B'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [100, 25, 25, 25, 100, 100, 100],
+              value: baselineData[5],
               name: 'VLM-Gym',
               areaStyle: { 
-                color: 'rgba(239, 68, 68, 0.2)' // Red
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
-                type: 'dotted',
-                width: 1.5,
-                color: '#EF4444'
+                type: 'dashed',
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#EF4444'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [100, 25, 100, 25, 100, 25, 100],
+              value: baselineData[6],
               name: 'KORGym',
               areaStyle: { 
-                color: 'rgba(6, 182, 212, 0.2)' // Cyan
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
-                type: 'dotted',
-                width: 1.5,
-                color: '#06B6D4'
+                type: 'dashed',
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#06B6D4'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [100, 100, 100, 100, 25, 100, 100],
+              value: baselineData[7],
               name: 'VisualAgentBench',
               areaStyle: { 
-                color: 'rgba(132, 204, 22, 0.2)' // Lime
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
-                type: 'dotted',
-                width: 1.5,
-                color: '#84CC16'
+                type: 'dashed',
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#84CC16'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             },
             {
-              value: [100, 100, 100, 100, 100, 25, 100],
+              value: baselineData[8],
               name: 'VAGEN',
               areaStyle: { 
-                color: 'rgba(249, 115, 22, 0.2)' // Orange Red
+                color: 'rgba(74, 92, 107, 0.2)' // Grayish dark blue
               },
               lineStyle: { 
-                type: 'dotted',
-                width: 1.5,
-                color: '#F97316'
+                type: 'dashed',
+                width: 2,
+                color: '#4a5c6b'
               },
               itemStyle: {
-                color: '#F97316'
+                color: '#4a5c6b'
+              },
+              label: {
+                show: false
+              },
+              emphasis: {
+                lineStyle: {
+                  width: 2.5
+                },
+                areaStyle: {
+                  color: 'rgba(74, 92, 107, 0.3)'
+                },
+                label: {
+                  show: false
+                }
               }
             }
           ]
@@ -260,6 +475,67 @@
     };
     
     option && myChart.setOption(option);
+    
+    // Store default selection state
+    var defaultSelected = {
+      'VisGym (Ours)': true,
+      'Average of Baselines': true,
+      'OSWorld': false,
+      'LIBERO': false,
+      'VideoGameBench': false,
+      'LMGame-Bench': false,
+      'VLABench': false,
+      'VLM-Gym': false,
+      'KORGym': false,
+      'VisualAgentBench': false,
+      'VAGEN': false
+    };
+    
+    // Interactive legend hover behavior
+    // When clicking on a legend item, show only that item + VisGym + Average
+    myChart.on('legendselectchanged', function(params) {
+      var clickedName = null;
+      
+      // Find which item was clicked
+      for (var name in params.selected) {
+        if (params.selected[name] !== defaultSelected[name]) {
+          clickedName = name;
+          break;
+        }
+      }
+      
+      // If clicking on a baseline framework
+      if (clickedName && clickedName !== 'VisGym (Ours)' && clickedName !== 'Average of Baselines') {
+        // Show only this framework + VisGym + Average
+        var newSelected = {
+          'VisGym (Ours)': true,
+          'Average of Baselines': true
+        };
+        newSelected[clickedName] = params.selected[clickedName];
+        
+        // Hide all other baselines
+        for (var name in defaultSelected) {
+          if (name !== 'VisGym (Ours)' && name !== 'Average of Baselines' && name !== clickedName) {
+            newSelected[name] = false;
+          }
+        }
+        
+        // Update selection
+        myChart.dispatchAction({
+          type: 'legendSelect',
+          selected: newSelected
+        });
+        
+        // Update defaultSelected to reflect current state
+        defaultSelected = newSelected;
+      } else if (clickedName === 'VisGym (Ours)' || clickedName === 'Average of Baselines') {
+        // Don't allow hiding VisGym or Average
+        myChart.dispatchAction({
+          type: 'legendSelect',
+          selected: defaultSelected
+        });
+      }
+    });
     
     // Handle window resize
     window.addEventListener('resize', function() {

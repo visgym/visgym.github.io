@@ -1141,9 +1141,10 @@ section.hero.is-light .title.is-3::after {
 }
 
 .radar-chart-wrapper {
-  max-width: 1000px;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
+  padding: 0 20px;
 }
 
 .radar-chart-title {
@@ -1178,6 +1179,31 @@ section.hero.is-light .title.is-3::after {
   min-height: 500px;
 }
 
+.radar-chart-explanation {
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto 0;
+  padding: 0;
+}
+
+.radar-chart-explanation-text {
+  font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #424245;
+  text-align: left;
+  margin: 0;
+  padding: 0 20px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.radar-chart-explanation-text strong {
+  color: #1d1d1f;
+  font-weight: 600;
+}
+
 /* Radar Chart Responsive */
 @media screen and (max-width: 1024px) {
   .radar-chart-section {
@@ -1208,6 +1234,17 @@ section.hero.is-light .title.is-3::after {
     height: 500px;
     min-height: 400px;
   }
+  
+  .radar-chart-explanation {
+    padding: 0;
+    margin-top: 24px;
+  }
+  
+  .radar-chart-explanation-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding: 0 24px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -1221,6 +1258,17 @@ section.hero.is-light .title.is-3::after {
   
   .radar-chart-subtitle {
     font-size: 0.95rem;
+  }
+  
+  .radar-chart-explanation {
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .radar-chart-explanation-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    padding: 0 16px;
   }
   
   .echarts-radar {
