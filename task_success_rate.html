@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Success Rate - VisGym</title>
+  
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: transparent;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .table-container {
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 1rem 0;
+      margin: 0;
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    
+    .table-header {
+      margin-bottom: 1.5rem;
+    }
+    
+    .table-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #003262;
+      margin-bottom: 0.75rem;
+    }
+    
+    .table-subtitle {
+      font-family: 'Karla', sans-serif;
+      color: #424245;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+    
+    .table-subtitle .stat-easy {
+      color: #1e88e5;
+      font-weight: 700;
+    }
+    
+    .table-subtitle .stat-hard {
+      color: #e53e3e;
+      font-weight: 700;
+    }
+    
+    .table-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .task-selector {
+      width: 100%;
+    }
+    
+    .task-selector-header {
+      transition: background-color 0.3s;
+    }
+    
+    .task-selector-header:hover {
+      background-color: #f0f0f0;
+    }
+    
+    .task-selector-content {
+      animation: slideDown 0.3s ease-out;
+      overflow: visible;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        max-height: 0;
+      }
+      to {
+        opacity: 1;
+        max-height: none;
+      }
+    }
+    
+    .task-checkboxes-container {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      max-height: 300px;
+      gap: 0.5rem;
+      padding: 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      background-color: white;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    .task-checkboxes-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .task-checkboxes-container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    
+    .task-checkboxes-container::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+    
+    .task-checkboxes-container::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+    
+    .task-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .task-checkbox-item:hover {
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+    
+    .task-checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #003262;
+    }
+    
+    .task-checkbox-item label {
+      font-family: 'Karla', sans-serif;
+      font-size: 0.9rem;
+      color: #333;
+      cursor: pointer;
+      margin: 0;
+      flex: 1;
+    }
+    
+    .task-checkbox-item input[type="checkbox"]:checked + label {
+      font-weight: 600;
+      color: #003262;
+    }
+    
+    .filter-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .filter-btn:hover {
+      border-color: #003262;
+      background: #f5f5f5;
+    }
+    
+    .filter-btn.active {
+      background: #003262;
+      color: white;
+      border-color: #003262;
+    }
+    
+    .success-rate-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      display: block;
+      min-width: 2000px; /* Ensure table is wide enough for all columns */
+    }
+    
+    .success-rate-table thead {
+      background: #f8f9fa;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .success-rate-table th {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      padding: 0.75rem 0.5rem;
+      text-align: left;
+      border-bottom: 2px solid #e0e0e0;
+      border-right: 1px dashed #e0e0e0;
+      color: #003262;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      position: relative;
+      font-size: 0.8rem;
+    }
+    
+    .success-rate-table th:last-child {
+      border-right: none;
+    }
+    
+    .success-rate-table th:hover {
+      background: #f0f0f0;
+    }
+    
+    .success-rate-table th.sortable::after {
+      content: ' ↕';
+      opacity: 0.3;
+      font-size: 0.8em;
+    }
+    
+    .success-rate-table th.sort-asc::after {
+      content: ' ↑';
+      opacity: 1;
+      color: #003262;
+    }
+    
+    .success-rate-table th.sort-desc::after {
+      content: ' ↓';
+      opacity: 1;
+      color: #003262;
+    }
+    
+    .success-rate-table td {
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid #f0f0f0;
+      border-right: 1px dashed #e0e0e0;
+      white-space: nowrap;
+    }
+    
+    .success-rate-table td:last-child {
+      border-right: none;
+    }
+    
+    .success-rate-table tbody tr {
+      transition: background-color 0.2s;
+    }
+    
+    .success-rate-table tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .success-rate-table tbody tr.hidden {
+      display: none;
+    }
+    
+    .task-name {
+      font-weight: 600;
+      color: #333;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      position: sticky;
+      left: 0;
+      background-color: white;
+      z-index: 5;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+    }
+    
+    .success-rate-table thead th:first-child {
+      position: sticky;
+      left: 0;
+      background-color: #f8f9fa;
+      z-index: 15;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+    }
+    
+    .success-rate-table tbody td:first-child {
+      position: sticky;
+      left: 0;
+      background-color: white;
+      z-index: 5;
+      box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+    }
+    
+    .success-rate-table tbody tr.ours-model {
+      background-color: rgba(0, 50, 98, 0.04);
+    }
+    
+    .success-rate-table tbody tr.ours-model:hover {
+      background-color: rgba(0, 50, 98, 0.06);
+    }
+    
+    .success-rate-table tbody tr.ours-model td {
+      background-color: rgba(0, 50, 98, 0.04);
+    }
+    
+    .success-rate-table tbody tr.ours-model td:first-child {
+      background-color: rgba(0, 50, 98, 0.04);
+    }
+    
+    .success-rate-cell {
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .success-rate-table tbody td:first-child:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .rate-bar {
+      display: inline-block;
+      width: 50px;
+      height: 6px;
+      background: #e0e0e0;
+      border-radius: 3px;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .rate-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ED4E33 0%, #F48024 50%, #3B7EA1 100%);
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+    
+    .rate-value {
+      display: inline-block;
+      min-width: 45px;
+      text-align: right;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+    }
+    
+    .rate-value.high {
+      color: #3B7EA1;
+    }
+    
+    .rate-value.medium {
+      color: #F48024;
+    }
+    
+    .rate-value.low {
+      color: #ED4E33;
+    }
+    
+    .model-name {
+      font-weight: 600;
+      color: #003262;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    
+    @media (max-width: 768px) {
+      .table-container {
+        padding: 1rem;
+        max-width: 100%;
+      }
+      
+      .table-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .task-selector {
+        width: 100%;
+      }
+      
+      .task-checkboxes-container {
+        max-height: 200px;
+      }
+      
+      .success-rate-table {
+        font-size: 0.8rem;
+      }
+      
+      .success-rate-table th,
+      .success-rate-table td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 100%; padding: 0 20px; margin: 0; max-width: 100%;">
+    <div class="table-container" style="width: 100%; max-width: 100%;">
+      <div class="table-header">
+        <h1 class="table-title">Leaderboard</h1>
+        <p class="table-subtitle">
+          Even the best-performing frontier model, GPT-5, achieves only <strong class="stat-easy">26.43%</strong> on VisGym (Easy) and <strong class="stat-hard">12.57%</strong> on VisGym (Hard), indicating that VisGym poses a significant challenge for existing models.
+        </p>
+        
+        <div class="table-controls">
+          <div class="task-selector">
+            <div class="task-selector-header" id="taskSelectorHeader" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 0.5rem; border: 2px solid #e0e0e0; border-radius: 6px; background-color: #f8f9fa; margin-bottom: 0.5rem;">
+              <label style="font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #666; margin: 0;">Select Tasks</label>
+              <span id="taskSelectorToggle" style="font-size: 0.9rem; color: #003262;">▼</span>
+            </div>
+            <div id="taskSelectorContent" class="task-selector-content" style="display: none;">
+              <div id="taskCheckboxes" class="task-checkboxes-container">
+                <!-- Task checkboxes will be generated by JavaScript -->
+              </div>
+              <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="filter-btn" id="selectEasyBtn">Select Easy</button>
+                <button class="filter-btn" id="selectHardBtn">Select Hard</button>
+                <button class="filter-btn" id="selectAllBtn">Select All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="overflow-x: auto; width: 100%; max-width: 100%;">
+        <table class="success-rate-table" id="successRateTable" style="width: 100%;">
+          <thead>
+            <tr id="tableHeader">
+              <th class="sortable" data-sort="task">Task</th>
+              <!-- Model headers will be generated by JavaScript -->
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Table rows will be generated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+  
+  <script>
+    // Task list (31 tasks) - 顺序严格对应表格从左到右
+    const tasks = [
+      "Referring Dot-Pointing", 
+      "Counting (E)", "Counting (H)", 
+      "Mental Rotation 2D (E)", "Mental Rotation 2D (H)", 
+      "Colorization (E)", "Colorization (H)", 
+      "Matchstick Equation (E)", "Matchstick Equation (H)", 
+      "Matchstick Rotation (E)", "Matchstick Rotation (H)", 
+      "Jigsaw (E)", "Jigsaw (H)", 
+      "Maze 2D (E)", "Maze 2D (H)", 
+      "Zoom-In Puzzle (E)", "Zoom-In Puzzle (H)", 
+      "Fetch Reach", 
+      "Video Unshuffle (E)", "Video Unshuffle (H)", 
+      "Fetch Pick-Place", 
+      "Maze 3D (E)", "Maze 3D (H)", 
+      "Sliding Block (E)", "Sliding Block (H)", 
+      "Mental Rotation 3D (Objaverse) (E)", "Mental Rotation 3D (Objaverse) (H)", 
+      "Patch Reassembly (E)", "Patch Reassembly (H)", 
+      "Mental Rotation 3D (Cube) (E)", "Mental Rotation 3D (Cube) (H)"
+    ];
+
+    // Model list (13 models, from bottom to top in UI)
+    const models = [
+      "UI TARS 1.5 7B",
+      "Gemma 3 27B Instruct",
+      "Llama 4 Maverick",
+      "Qwen 2.5 VL 72B Instruct",
+      "Claude Sonnet 4",
+      "GLM 4.5V",
+      "Qwen VL Max",
+      "Qwen3 VL 235B Instruct",
+      "Grok 4 Fast",
+      "Gemini 2.5 Pro",
+      "GPT-5",
+      "Mixed-Task Fine-Tuning",
+      "Single-Task Fine-Tuning"
+    ];
+
+    // Raw data (13 models x 31 tasks)
+    // 数据结构: rawData[模型索引][任务索引]
+    // rawData[i] 表示第i个模型在所有31个任务上的表现（一行数据）
+    // rawData[i][j] 表示第i个模型在第j个任务上的成功率
+    // 
+    // 注意：在数据结构中，模型是行（第一维），任务是列（第二维）
+    // 但在表格显示中，任务是行（table row），模型是列（table column）
+    // 模型顺序：从下到上 (UI TARS在最下，Single-Task在最上)
+    const rawData = [
+      // [Row 1] Single-Task Fine-Tuning [cite: 182] - 图片最上面一行
+      // 检查点: Ref=90.0, Jigsaw(E)=97.1, Fetch Reach=100.0, Cube(H)=54.3
+      [90.0, 54.3, 15.7, 55.7, 75.7, 90.0, 88.6, 50.0, 0.0, 88.6, 70.0, 97.1, 0.0, 97.1, 77.1, 92.9, 57.1, 100.0, 48.6, 2.9, 70.0, 64.3, 28.6, 94.3, 84.3, 15.7, 2.9, 61.4, 0.0, 50.0, 54.3],
+      // [Row 2] Mixed-Task Fine-Tuning [cite: 182]
+      // 检查点: Ref=81.4, Fetch Reach=98.6, Sliding(E)=91.4
+      [81.4, 54.3, 8.6, 58.6, 52.9, 35.7, 17.1, 44.3, 0.0, 80.0, 57.1, 90.0, 0.0, 52.9, 31.4, 90.0, 35.7, 98.6, 42.9, 8.6, 67.1, 52.9, 24.3, 91.4, 61.4, 4.3, 0.0, 38.6, 0.0, 24.3, 25.7],
+      // [Row 3] GPT-5 [cite: 183]
+      // 检查点: Ref=67.1, MatchEq(E)=77.1, Cube(H)=1.4
+      [67.1, 40.0, 24.3, 50.0, 30.0, 27.1, 17.1, 77.1, 41.4, 58.6, 52.9, 18.6, 1.4, 18.6, 4.3, 11.4, 4.3, 7.1, 17.1, 0.0, 4.3, 0.0, 0.0, 11.4, 4.3, 5.7, 1.4, 11.4, 1.4, 1.4, 1.4],
+      // [Row 4] Gemini 2.5 Pro [cite: 184]
+      // 检查点: Ref=71.4, Counting(H)=20.0, Maze 3D(H)=0.0
+      [71.4, 51.4, 20.0, 50.0, 40.0, 24.3, 11.4, 48.6, 1.4, 31.4, 22.9, 27.1, 0.0, 28.6, 10.0, 30.0, 14.3, 10.0, 14.3, 5.7, 2.9, 4.3, 0.0, 32.9, 12.9, 1.4, 1.4, 1.4, 0.0, 1.4, 0.0],
+      // [Row 5] Grok 4 Fast [cite: 185]
+      // 检查点: Ref=42.9, MatchEq(E)=38.6
+      [42.9, 30.0, 10.0, 17.1, 8.6, 18.6, 7.1, 38.6, 17.1, 5.7, 1.4, 11.4, 1.4, 10.0, 7.1, 2.9, 2.9, 4.3, 4.3, 2.9, 4.3, 7.1, 5.7, 0.0, 0.0, 2.9, 0.0, 0.0, 0.0, 1.4, 0.0],
+      // [Row 6] Qwen3 VL 235B Instruct [cite: 186]
+      // 检查点: Ref=90.0, MatchRot(E)=0.0, Fetch Reach=1.4
+      [90.0, 40.0, 14.3, 27.1, 10.0, 12.9, 8.6, 0.0, 0.0, 0.0, 0.0, 18.6, 0.0, 8.6, 2.9, 11.4, 2.9, 1.4, 8.6, 0.0, 4.3, 0.0, 1.4, 0.0, 0.0, 1.4, 1.4, 0.0, 0.0, 0.0, 0.0],
+      // [Row 7] Qwen VL Max [cite: 187]
+      // 检查点: Ref=47.1, MatchRot(H)=2.9, Cube(H)=1.4
+      [47.1, 31.4, 8.6, 22.9, 20.0, 22.9, 11.4, 1.4, 0.0, 0.0, 2.9, 15.7, 0.0, 8.6, 1.4, 5.7, 2.9, 0.0, 4.3, 1.4, 4.3, 0.0, 2.9, 0.0, 0.0, 2.9, 0.0, 0.0, 0.0, 1.4, 1.4],
+      // [Row 8] GLM 4.5V [cite: 187]
+      // 检查点: Ref=70.0, Fetch Reach=1.4
+      [70.0, 20.0, 14.3, 12.9, 4.3, 22.9, 4.3, 7.1, 0.0, 8.6, 2.9, 8.6, 0.0, 12.9, 4.3, 1.4, 2.9, 1.4, 4.3, 0.0, 4.3, 1.4, 2.9, 4.3, 1.4, 2.9, 0.0, 0.0, 0.0, 0.0, 0.0],
+      // [Row 9] Claude Sonnet 4 [cite: 188]
+      // 检查点: Ref=47.1, Jigsaw(E)=22.9, Maze 3D(E)=10.0
+      [47.1, 14.3, 1.4, 15.7, 5.7, 20.0, 17.1, 1.4, 0.0, 2.9, 0.0, 22.9, 0.0, 14.3, 7.1, 4.3, 2.9, 7.1, 7.1, 0.0, 4.3, 10.0, 2.9, 0.0, 0.0, 1.4, 1.4, 0.0, 0.0, 0.0, 0.0],
+      // [Row 10] Qwen 2.5 VL 72B Instruct [cite: 189]
+      // 检查点: Ref=31.4, MatchRot(E)=7.1, Fetch Reach=10.0
+      [31.4, 31.4, 14.3, 17.1, 5.7, 17.1, 18.6, 1.4, 0.0, 7.1, 1.4, 24.3, 0.0, 4.3, 0.0, 2.9, 2.9, 10.0, 1.4, 0.0, 4.3, 1.4, 2.9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      // [Row 11] Llama 4 Maverick [cite: 190]
+      // 检查点: Ref=44.3, Fetch Reach=12.9
+      [44.3, 37.1, 10.0, 20.0, 10.0, 12.9, 8.6, 1.4, 0.0, 2.9, 1.4, 8.6, 0.0, 0.0, 0.0, 5.7, 2.9, 12.9, 5.7, 1.4, 4.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.4, 0.0, 0.0, 0.0],
+      // [Row 12] Gemma 3 27B Instruct [cite: 191]
+      // 检查点: Ref=31.4, Maze 3D(E)=17.1
+      [31.4, 31.4, 14.3, 17.1, 8.6, 10.0, 7.1, 0.0, 0.0, 1.4, 0.0, 2.9, 0.0, 4.3, 1.4, 2.9, 2.9, 4.3, 7.1, 0.0, 4.3, 17.1, 8.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      // [Row 13] UI TARS 1.5 7B [cite: 192-197] - 图片最下面一行
+      // 检查点: Ref=10.0, Cube(H)=1.4 (注意这里，这是右下角最后一个数)
+      [10.0, 24.3, 5.7, 8.6, 8.6, 14.3, 5.7, 0.0, 0.0, 1.4, 0.0, 1.4, 0.0, 0.0, 0.0, 4.3, 1.4, 1.4, 4.3, 0.0, 1.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.4]
+    ];
+
+    // Convert rawData to modelData format for table display
+    // 转换逻辑：将"模型为行，任务为列"的数据结构转换为"模型为行，任务为列"的表格格式
+    // 表格显示：模型是行（table row），任务是列（table column）
+    // 注意：rawData[0] 是 Single-Task Fine-Tuning（图片最上面），rawData[12] 是 UI TARS（图片最下面）
+    // 但 models 数组是从下到上的顺序，所以需要反转
+    const modelData = [];
+    for (let i = models.length - 1; i >= 0; i--) {
+      // 每个模型成为表格的一行，从 Single-Task 开始（最上面）
+      const modelRow = { model: models[i] };
+      // 为这一行添加所有任务的数据（成为表格的列）
+      // rawData 的索引需要对应：rawData[0] 是 Single-Task，对应 models[12]
+      const rawDataIndex = models.length - 1 - i;
+      for (let j = 0; j < tasks.length; j++) {
+        const taskKey = `task_${j}`;
+        // rawData[rawDataIndex][j]: 第rawDataIndex个模型在第j个任务上的表现
+        modelRow[taskKey] = rawData[rawDataIndex][j];
+      }
+      modelData.push(modelRow);
+    }
+    
+    let currentSort = { column: null, direction: 'asc' };
+    let selectedTaskIndices = []; // Array of selected task indices
+    
+    // Calculate average for each model across selected tasks
+    function calculateAverage(row, taskIndices) {
+      const values = [];
+      taskIndices.forEach(taskIndex => {
+        values.push(row[`task_${taskIndex}`]);
+      });
+      if (values.length === 0) return '0.0';
+      const sum = values.reduce((a, b) => a + b, 0);
+      return (sum / values.length).toFixed(1);
+    }
+    
+    // Generate table header - needs to be called after selection is set
+    function generateTableHeader() {
+      const headerRow = document.getElementById('tableHeader');
+      headerRow.innerHTML = '<th class="sortable" data-sort="model">Model</th>';
+      
+      // Add average column first (after Model)
+      const avgTh = document.createElement('th');
+      avgTh.className = 'sortable';
+      avgTh.setAttribute('data-sort', 'average');
+      avgTh.textContent = 'Average';
+      headerRow.appendChild(avgTh);
+      
+      // Use selected task indices
+      let taskIndices = selectedTaskIndices.length > 0 ? selectedTaskIndices : tasks.map((_, i) => i);
+      
+      // Add task columns (only selected tasks)
+      taskIndices.forEach(taskIndex => {
+        const th = document.createElement('th');
+        th.className = 'sortable';
+        th.setAttribute('data-sort', `task_${taskIndex}`);
+        th.textContent = tasks[taskIndex];
+        headerRow.appendChild(th);
+      });
+    }
+    
+    // Get rate class for styling
+    function getRateClass(rate) {
+      if (rate >= 70) return 'high';
+      if (rate >= 50) return 'medium';
+      return 'low';
+    }
+    
+    // Initialize task selector with checkboxes
+    function initializeTaskSelector() {
+      const taskCheckboxes = document.getElementById('taskCheckboxes');
+      taskCheckboxes.innerHTML = '';
+      
+      tasks.forEach((task, index) => {
+        const checkboxItem = document.createElement('div');
+        checkboxItem.className = 'task-checkbox-item';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `task-checkbox-${index}`;
+        checkbox.value = index;
+        checkbox.checked = true; // All tasks selected by default
+        
+        const label = document.createElement('label');
+        label.htmlFor = `task-checkbox-${index}`;
+        label.textContent = task;
+        
+        checkboxItem.appendChild(checkbox);
+        checkboxItem.appendChild(label);
+        taskCheckboxes.appendChild(checkboxItem);
+        
+        // Add click handler
+        checkbox.addEventListener('change', () => {
+          updateSelectedTasks();
+        });
+      });
+      
+      // Initialize with all tasks selected
+      selectedTaskIndices = tasks.map((_, i) => i);
+    }
+    
+    // Update selected tasks from checkboxes
+    function updateSelectedTasks() {
+      const checkboxes = document.querySelectorAll('#taskCheckboxes input[type="checkbox"]');
+      selectedTaskIndices = [];
+      checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+          selectedTaskIndices.push(index);
+        }
+      });
+      generateTableHeader();
+      setupSorting();
+      renderTable();
+    }
+    
+    // Update task selector display
+    function updateTaskSelectorDisplay() {
+      const checkboxes = document.querySelectorAll('#taskCheckboxes input[type="checkbox"]');
+      checkboxes.forEach((checkbox, index) => {
+        checkbox.checked = selectedTaskIndices.includes(index);
+      });
+    }
+    
+    // Render table
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+      
+      // Use selected task indices
+      let visibleTaskIndices = selectedTaskIndices.length > 0 ? selectedTaskIndices : tasks.map((_, i) => i);
+      
+      // Filter and sort data (no model filtering, show all models)
+      let filteredData = modelData.slice();
+      
+      // Sort data
+      if (currentSort.column) {
+        filteredData.sort((a, b) => {
+          let aVal, bVal;
+          
+          if (currentSort.column === 'model') {
+            aVal = a.model;
+            bVal = b.model;
+          } else if (currentSort.column === 'average') {
+            aVal = parseFloat(calculateAverage(a, visibleTaskIndices));
+            bVal = parseFloat(calculateAverage(b, visibleTaskIndices));
+          } else {
+            aVal = a[currentSort.column];
+            bVal = b[currentSort.column];
+          }
+          
+          if (typeof aVal === 'string') {
+            return currentSort.direction === 'asc' 
+              ? aVal.localeCompare(bVal)
+              : bVal.localeCompare(aVal);
+          } else {
+            return currentSort.direction === 'asc' 
+              ? aVal - bVal
+              : bVal - aVal;
+          }
+        });
+      }
+      
+      // Render rows (each row is a model)
+      filteredData.forEach(row => {
+        const tr = document.createElement('tr');
+        const avg = calculateAverage(row, visibleTaskIndices);
+        
+        // Check if this is one of our models
+        if (row.model === 'Single-Task Fine-Tuning' || row.model === 'Mixed-Task Fine-Tuning') {
+          tr.classList.add('ours-model');
+        }
+        
+        let cellsHTML = `<td class="task-name">${row.model}</td>`;
+        
+        // Add average cell first (after Model)
+        cellsHTML += `
+          <td class="success-rate-cell">
+            <span class="rate-value ${getRateClass(avg)}">${avg}%</span>
+          </td>
+        `;
+        
+        // Add task cells (only show selected tasks)
+        visibleTaskIndices.forEach(taskIndex => {
+          const value = row[`task_${taskIndex}`];
+          cellsHTML += `
+            <td class="success-rate-cell">
+              <span class="rate-value ${getRateClass(value)}">${value.toFixed(1)}%</span>
+            </td>
+          `;
+        });
+        
+        tr.innerHTML = cellsHTML;
+        tbody.appendChild(tr);
+      });
+      
+      // No need to update stats anymore
+    }
+    
+    // Sort functionality - needs to be called after header generation
+    function setupSorting() {
+      document.querySelectorAll('.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+          const column = th.dataset.sort;
+          
+          if (currentSort.column === column) {
+            currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+          } else {
+            currentSort.column = column;
+            currentSort.direction = 'asc';
+          }
+          
+          // Update sort indicators
+          document.querySelectorAll('.sortable').forEach(t => {
+            t.classList.remove('sort-asc', 'sort-desc');
+          });
+          th.classList.add(`sort-${currentSort.direction}`);
+          
+          renderTable();
+        });
+      });
+    }
+    
+    // Task selector functionality
+    function setupTaskSelector() {
+      // Select All button
+      document.getElementById('selectAllBtn').addEventListener('click', () => {
+        selectedTaskIndices = tasks.map((_, i) => i);
+        updateTaskSelectorDisplay();
+        generateTableHeader();
+        setupSorting();
+        renderTable();
+      });
+      
+      // Select Easy button
+      document.getElementById('selectEasyBtn').addEventListener('click', () => {
+        selectedTaskIndices = [];
+        for (let i = 0; i < tasks.length; i++) {
+          if (!tasks[i].includes('(E)') && !tasks[i].includes('(H)')) {
+            selectedTaskIndices.push(i);
+          } else if (tasks[i].includes('(E)')) {
+            selectedTaskIndices.push(i);
+          }
+        }
+        updateTaskSelectorDisplay();
+        generateTableHeader();
+        setupSorting();
+        renderTable();
+      });
+      
+      // Select Hard button
+      document.getElementById('selectHardBtn').addEventListener('click', () => {
+        selectedTaskIndices = [];
+        for (let i = 0; i < tasks.length; i++) {
+          if (tasks[i].includes('(H)')) {
+            selectedTaskIndices.push(i);
+          }
+        }
+        updateTaskSelectorDisplay();
+        generateTableHeader();
+        setupSorting();
+        renderTable();
+      });
+      
+    }
+    
+    // Toggle task selector collapse/expand
+    function setupTaskSelectorToggle() {
+      const header = document.getElementById('taskSelectorHeader');
+      const content = document.getElementById('taskSelectorContent');
+      const toggle = document.getElementById('taskSelectorToggle');
+      
+      header.addEventListener('click', () => {
+        const isHidden = content.style.display === 'none';
+        content.style.display = isHidden ? 'block' : 'none';
+        toggle.textContent = isHidden ? '▲' : '▼';
+      });
+    }
+    
+    // Initialize table
+    initializeTaskSelector();
+    setupTaskSelector();
+    setupTaskSelectorToggle();
+    generateTableHeader();
+    setupSorting();
+    renderTable();
+  </script>
+</body>
+</html>
+
