@@ -142,7 +142,71 @@
     </div>
   </div>
   
-  <div class="dashboard-container">
+  <!-- Mission Data Card and Goal - Between Navigation and Dashboard -->
+  <div class="mission-data-container" id="missionDataContainer">
+    <div class="info-card mission-data-card" id="environmentInfoCard">
+      <div class="mission-header">
+        <span class="mission-title">// LEVEL_CONFIG_LOADED</span>
+        <span class="cursor-blink">_</span>
+      </div>
+      <div class="mission-content">
+        <div class="mission-stats">
+          <div class="stat-item">
+            <div class="stat-icon">█</div>
+            <div class="stat-info">
+              <div class="stat-label">DOMAIN</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" id="statDomainBar"></div>
+                <span class="stat-value" id="infoDomain">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">█</div>
+            <div class="stat-info">
+              <div class="stat-label">OBSERVABILITY</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" id="statObsBar"></div>
+                <span class="stat-value" id="infoObs">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">█</div>
+            <div class="stat-info">
+              <div class="stat-label">DYNAMICS</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" id="statDynBar"></div>
+                <span class="stat-value" id="infoDyn">-</span>
+              </div>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">█</div>
+            <div class="stat-info">
+              <div class="stat-label">PARAMETERS</div>
+              <div class="stat-bar">
+                <div class="stat-bar-fill" id="statPBar"></div>
+                <span class="stat-value" id="infoP">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Goal Card - Parallel to Mission Data Card -->
+    <div class="info-card goal-card" id="goalCard">
+      <div class="goal-label">TARGET</div>
+      <div class="goal-content-wrapper">
+        <div class="goal-content design-context" id="designContext">
+          Select an environment to view the task context and goal.<span class="goal-cursor">█</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="dashboard-container" id="dashboardContainer">
     <!-- Left Panel: Visuals -->
     <div class="left-panel">
       <div class="image-container">
@@ -153,56 +217,41 @@
 
     <!-- Right Panel: Data & Logic -->
     <div class="right-panel">
-      <!-- Card 0: Environment Info -->
-      <div class="info-card" id="environmentInfoCard">
-        <div class="card-title">Environment Info</div>
-        <div class="card-content">
-          <div class="environment-info-table" id="environmentInfo">
-            <div class="info-row">
-              <span class="info-label">Domain:</span>
-              <span class="info-value" id="infoDomain">-</span>
+      <!-- Tri-Core Console -->
+      <div class="console-container">
+        <!-- Monitor 01: Feedback -->
+        <div class="monitor-wrapper" id="feedbackMonitor">
+          <div class="monitor-frame">
+            <div class="monitor-header">
+              <span class="monitor-label">MONITOR_01</span>
+              <span class="monitor-status">●</span>
             </div>
-            <div class="info-row">
-              <span class="info-label">Observability (Obs.):</span>
-              <span class="info-value" id="infoObs">-</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">Dynamics (Dyn.):</span>
-              <span class="info-value" id="infoDyn">-</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">Parameters (P.):</span>
-              <span class="info-value" id="infoP">-</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">Available Actions:</span>
-              <span class="info-value" id="infoActions">-</span>
+            <div class="monitor-screen">
+              <div class="monitor-title">FEEDBACK</div>
+              <div class="monitor-content">
+                <div class="feedback-text" id="promptText">Waiting for environment selection...</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Card 1: Goal -->
-      <div class="info-card">
-        <div class="card-title">Goal</div>
-        <div class="card-content design-context" id="designContext">
-          Select an environment to view the task context and goal.
-        </div>
-      </div>
-
-      <!-- Card 2: Feedback -->
-      <div class="info-card" id="feedbackCard">
-        <div class="card-title">Feedback</div>
-        <div class="card-content">
-          <pre class="prompt-text" id="promptText">Waiting for environment selection...</pre>
-        </div>
-      </div>
-
-      <!-- Card 3: Action -->
-      <div class="info-card">
-        <div class="card-title">Action</div>
-        <div class="card-content">
-          <div class="action-output" id="actionOutput">-</div>
+        
+        <!-- Console Cable -->
+        <div class="console-cable" id="consoleCable"></div>
+        
+        <!-- Monitor 02: Action -->
+        <div class="monitor-wrapper">
+          <div class="monitor-frame">
+            <div class="monitor-header">
+              <span class="monitor-label">MONITOR_02</span>
+              <span class="monitor-status">●</span>
+            </div>
+            <div class="monitor-screen">
+              <div class="monitor-title">ACTION</div>
+              <div class="monitor-content">
+                <div class="action-terminal" id="actionOutput">-</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -454,7 +503,7 @@
       updateEnvironmentSelection(envName);
 
       currentEnvironment = envName;
-      currentStepIndex = 0;
+      currentStepIndex = -1; // Start at briefing state (-1 means briefing, 0 means stepId 1)
       traceData = [];
       
       // Show loading state
@@ -464,7 +513,12 @@
       document.getElementById('agentViewImage').style.display = 'none';
       document.getElementById('promptText').textContent = 'Loading...';
       document.getElementById('actionOutput').textContent = 'Loading...';
-      document.getElementById('designContext').textContent = 'Loading environment data...';
+      const loadingText = highlightGoalContent('Loading environment data...');
+      document.getElementById('designContext').innerHTML = loadingText + '<span class="goal-cursor">█</span>';
+      
+      // Show mission briefing container
+      const missionDataContainer = document.getElementById('missionDataContainer');
+      if (missionDataContainer) missionDataContainer.style.display = 'flex';
 
       try {
         // Update environment info
@@ -483,19 +537,28 @@
         // Load all step data
         await loadAllSteps(envName, maxSteps);
         
-        // Update display
+        // Show briefing state (stepId === 0, which is currentStepIndex === -1)
+        // Display briefing with mission data and goal
         updateDisplay();
         updateNavigationButtons();
         
-        // Auto-start playing
-        startPlaying();
+        // Wait 8 seconds at briefing, then auto-start playing to stepId === 1
+        setTimeout(() => {
+          if (currentEnvironment === envName) {
+            currentStepIndex = 0; // Move to stepId === 1
+            updateDisplay();
+            updateNavigationButtons();
+            startPlaying();
+          }
+        }, 8000);
       } catch (error) {
         console.error('Error loading environment:', error);
         document.getElementById('imagePlaceholder').innerHTML = 
           `<div class="error-message">Error loading environment: ${error.message}</div>`;
         document.getElementById('promptText').textContent = 'Error loading data';
         document.getElementById('actionOutput').textContent = 'Error';
-        document.getElementById('designContext').textContent = 'Failed to load environment data.';
+        const errorText = highlightGoalContent('Failed to load environment data.');
+        document.getElementById('designContext').innerHTML = errorText + '<span class="goal-cursor">█</span>';
       }
     }
 
@@ -526,20 +589,64 @@
         if (response.ok) {
           const promptText = await response.text();
           designContext = extractContextFromPrompt(promptText);
-          // Update the design context display - use innerHTML to preserve formatting
+          // Update the design context display with highlighting
           const designContextElement = document.getElementById('designContext');
-          designContextElement.textContent = designContext;
+          const highlightedText = highlightGoalContent(designContext);
+          designContextElement.innerHTML = highlightedText + '<span class="goal-cursor">█</span>';
           // Debug: log the full text to console
           console.log('Full design context loaded:', designContext.length, 'characters');
         } else {
           designContext = 'No context available';
-          document.getElementById('designContext').textContent = designContext;
+          const highlightedText = highlightGoalContent(designContext);
+          document.getElementById('designContext').innerHTML = highlightedText + '<span class="goal-cursor">█</span>';
         }
       } catch (error) {
         console.warn('Error loading design context:', error);
         designContext = 'Failed to load context';
-        document.getElementById('designContext').textContent = designContext;
+        const highlightedText = highlightGoalContent(designContext);
+        document.getElementById('designContext').innerHTML = highlightedText + '<span class="goal-cursor">█</span>';
       }
+    }
+    
+    // Highlight important content in Goal section
+    function highlightGoalContent(text) {
+      if (!text) return text;
+      
+      // Escape HTML to prevent XSS
+      let highlighted = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      
+      // Highlight dimensions and numbers (e.g., 9x9, 3D, 102) - Yellow background
+      highlighted = highlighted.replace(/(\d+x\d+|\d+\s*x\s*\d+|\d+D|\d+)/g, '<span class="highlight-yellow">$1</span>');
+      
+      // Highlight colors (RED, BLUE, GREEN, etc.) - Yellow background
+      highlighted = highlighted.replace(/\b(RED|BLUE|GREEN|YELLOW|BLACK|WHITE|ORANGE|PURPLE|CYAN|MAGENTA)\b/gi, '<span class="highlight-yellow">$1</span>');
+      
+      // Highlight key objects and concepts - Blue background
+      highlighted = highlighted.replace(/\b(TARGET|GOAL|OBJECTIVE|SPHERE|CUBE|MAZE|BLOCK|PATCH|DOT|POINT|GRID|WALL|CORNER|EDGE|CENTER)\b/gi, '<span class="highlight-blue">$1</span>');
+      
+      // Highlight action functions - Code style (purple)
+      const actionFunctions = ['move', 'turn', 'stop', 'mark', 'rotate', 'swap', 'place', 'remove', 'saturate', 'undo', 'guess', 'reorder', 'gripper'];
+      actionFunctions.forEach(func => {
+        const regex = new RegExp(`\\b(${func})\\s*\\([^)]*\\)`, 'gi');
+        highlighted = highlighted.replace(regex, '<span class="highlight-code">$&</span>');
+      });
+      
+      // Highlight action function names without parentheses - Code style
+      actionFunctions.forEach(func => {
+        const regex = new RegExp(`\\b(${func})\\b(?![(])`, 'gi');
+        highlighted = highlighted.replace(regex, '<span class="highlight-code">$1</span>');
+      });
+      
+      // Highlight important keywords - Red background
+      highlighted = highlighted.replace(/\b(SUCCESS|FAILURE|ERROR|WARNING|IMPORTANT|NOTE|CONSTRAINT|LIMIT|MUST|CANNOT|AVOID)\b/gi, '<span class="highlight-red">$1</span>');
+      
+      // Highlight coordinates and positions - Yellow background
+      highlighted = highlighted.replace(/(\([^)]*\d+[^)]*\)|\[[^\]]*\d+[^\]]*\])/g, '<span class="highlight-yellow">$1</span>');
+      
+      return highlighted;
     }
 
     // Load all steps data
@@ -572,36 +679,100 @@
       return promptText.trim();
     }
 
-    // Update environment info display
+    // Update environment info display with Mission Data Card style
     function updateEnvironmentInfo(envName) {
+      // Helper function to calculate bar width based on value
+      function getBarWidth(value, type) {
+        if (!value || value === '-') return 0;
+        
+        // Map text values to percentages for visual bars
+        const valueMaps = {
+          domain: { 'Real': 60, 'Synthetic': 40 },
+          obs: { 'Full': 100, 'Partial': 50 },
+          dyn: { 'Known': 100, 'Unknown': 30 },
+          p: (val) => Math.min(parseInt(val) * 15, 100) // Parameters: scale by value
+        };
+        
+        if (type === 'p') {
+          return valueMaps.p(value);
+        }
+        
+        const map = valueMaps[type];
+        return map[value] || 50;
+      }
+      
       if (!envName) {
         document.getElementById('infoDomain').textContent = '-';
         document.getElementById('infoObs').textContent = '-';
         document.getElementById('infoDyn').textContent = '-';
         document.getElementById('infoP').textContent = '-';
-        document.getElementById('infoActions').textContent = '-';
+        
+        // Reset bars
+        document.getElementById('statDomainBar').style.width = '0%';
+        document.getElementById('statObsBar').style.width = '0%';
+        document.getElementById('statDynBar').style.width = '0%';
+        document.getElementById('statPBar').style.width = '0%';
         return;
       }
       
       const metadata = environmentMetadata[envName];
       if (metadata) {
+        // Update text values
         document.getElementById('infoDomain').textContent = metadata.domain;
         document.getElementById('infoObs').textContent = metadata.obs;
         document.getElementById('infoDyn').textContent = metadata.dyn;
         document.getElementById('infoP').textContent = metadata.p;
-        document.getElementById('infoActions').textContent = metadata.actions;
+        
+        // Update bar widths with animation
+        setTimeout(() => {
+          document.getElementById('statDomainBar').style.width = getBarWidth(metadata.domain, 'domain') + '%';
+          document.getElementById('statObsBar').style.width = getBarWidth(metadata.obs, 'obs') + '%';
+          document.getElementById('statDynBar').style.width = getBarWidth(metadata.dyn, 'dyn') + '%';
+          document.getElementById('statPBar').style.width = getBarWidth(metadata.p, 'p') + '%';
+        }, 100);
       } else {
         document.getElementById('infoDomain').textContent = '-';
         document.getElementById('infoObs').textContent = '-';
         document.getElementById('infoDyn').textContent = '-';
         document.getElementById('infoP').textContent = '-';
-        document.getElementById('infoActions').textContent = '-';
+        
+        // Reset bars
+        document.getElementById('statDomainBar').style.width = '0%';
+        document.getElementById('statObsBar').style.width = '0%';
+        document.getElementById('statDynBar').style.width = '0%';
+        document.getElementById('statPBar').style.width = '0%';
       }
     }
 
     // Update all display elements
     function updateDisplay() {
-      if (traceData.length === 0 || currentStepIndex >= traceData.length) {
+      const missionDataContainer = document.getElementById('missionDataContainer');
+      const dashboardContainer = document.getElementById('dashboardContainer');
+      
+      // Handle briefing state (currentStepIndex === -1)
+      if (currentStepIndex === -1) {
+        // Show mission briefing
+        if (missionDataContainer) missionDataContainer.style.display = 'flex';
+        // Hide dashboard content (image and monitors) during briefing
+        if (dashboardContainer) dashboardContainer.style.display = 'none';
+        document.getElementById('stepIndicator').textContent = 'Mission Briefing';
+        document.getElementById('progressFill').style.width = '0%';
+        
+        // Hide feedback and action monitors during briefing
+        const feedbackMonitor = document.getElementById('feedbackMonitor');
+        const consoleCable = document.getElementById('consoleCable');
+        if (feedbackMonitor) feedbackMonitor.style.display = 'none';
+        if (consoleCable) consoleCable.style.display = 'none';
+        return;
+      }
+      
+      // Show dashboard content when not in briefing
+      if (dashboardContainer) dashboardContainer.style.display = 'flex';
+      
+      // Hide mission briefing when stepId >= 1
+      if (missionDataContainer) missionDataContainer.style.display = 'none';
+      
+      if (traceData.length === 0 || currentStepIndex >= traceData.length || currentStepIndex < 0) {
         return;
       }
 
@@ -615,13 +786,18 @@
       const progressPercentage = (currentData.stepId / traceData.length) * 100;
       document.getElementById('progressFill').style.width = progressPercentage + '%';
       
-      // Update image
+      // Update image smoothly without flickering
       const imageElement = document.getElementById('agentViewImage');
       const placeholderElement = document.getElementById('imagePlaceholder');
       
-      imageElement.src = currentData.imageUrl;
-      imageElement.style.display = 'block';
-      placeholderElement.style.display = 'none';
+      // Preload image before switching
+      const newImage = new Image();
+      newImage.onload = function() {
+        imageElement.src = currentData.imageUrl;
+        imageElement.style.display = 'block';
+        placeholderElement.style.display = 'none';
+      };
+      newImage.src = currentData.imageUrl;
       
       // Handle image load error
       imageElement.onerror = function() {
@@ -631,37 +807,121 @@
       };
       
       // Update prompt text (design context stays the same, loaded from prompt_0)
-      // Don't show feedback card for step 0 (stepId === 1)
-      const feedbackCard = document.getElementById('feedbackCard');
+      // Don't show feedback monitor for step 0 (stepId === 1)
+      const feedbackMonitor = document.getElementById('feedbackMonitor');
+      const consoleCable = document.getElementById('consoleCable');
+      const promptTextElement = document.getElementById('promptText');
+      const actionOutputElement = document.getElementById('actionOutput');
+      
       if (currentData.stepId === 1) {
-        feedbackCard.style.display = 'none';
+        if (feedbackMonitor) {
+          feedbackMonitor.style.opacity = '0';
+          setTimeout(() => {
+            feedbackMonitor.style.display = 'none';
+          }, 300);
+        }
+        if (consoleCable) {
+          consoleCable.style.opacity = '0';
+          setTimeout(() => {
+            consoleCable.style.display = 'none';
+          }, 300);
+        }
       } else {
-        feedbackCard.style.display = 'block';
-        document.getElementById('promptText').textContent = currentData.promptText;
+        if (feedbackMonitor && feedbackMonitor.style.display === 'none') {
+          feedbackMonitor.style.display = 'block';
+          feedbackMonitor.style.opacity = '0';
+          setTimeout(() => {
+            feedbackMonitor.style.opacity = '1';
+          }, 50);
+        }
+        if (consoleCable && consoleCable.style.display === 'none') {
+          consoleCable.style.display = 'block';
+          consoleCable.style.opacity = '0';
+          setTimeout(() => {
+            consoleCable.style.opacity = '1';
+          }, 50);
+        }
+        
+        // Fade animation for text updates
+        promptTextElement.style.opacity = '0';
+        setTimeout(() => {
+          promptTextElement.textContent = currentData.promptText;
+          promptTextElement.style.opacity = '1';
+        }, 150);
       }
       
-      // Update action output
-      document.getElementById('actionOutput').textContent = currentData.actionOutput;
+      // Update action output with fade animation
+      actionOutputElement.style.opacity = '0';
+      setTimeout(() => {
+        actionOutputElement.textContent = currentData.actionOutput;
+        actionOutputElement.style.opacity = '1';
+      }, 150);
     }
 
     // Update navigation button states
     function updateNavigationButtons() {
+      const isBriefing = currentStepIndex === -1;
       const isFirst = currentStepIndex === 0;
       const isLast = currentStepIndex >= traceData.length - 1;
       
-      document.getElementById('firstButton').disabled = isFirst || traceData.length === 0;
-      document.getElementById('prevButton').disabled = isFirst || traceData.length === 0;
-      document.getElementById('nextButton').disabled = isLast || traceData.length === 0;
-      document.getElementById('lastButton').disabled = isLast || traceData.length === 0;
+      // During briefing, disable prev/first buttons, enable next/last
+      if (isBriefing) {
+        document.getElementById('firstButton').disabled = true;
+        document.getElementById('prevButton').disabled = true;
+        document.getElementById('nextButton').disabled = traceData.length === 0;
+        document.getElementById('lastButton').disabled = traceData.length === 0;
+      } else {
+        // At first step, prev button should go back to briefing
+        document.getElementById('firstButton').disabled = traceData.length === 0;
+        document.getElementById('prevButton').disabled = traceData.length === 0; // Can go back to briefing
+        document.getElementById('nextButton').disabled = isLast || traceData.length === 0;
+        document.getElementById('lastButton').disabled = isLast || traceData.length === 0;
+      }
     }
 
     // Navigate between steps
     function navigateStep(direction) {
       if (traceData.length === 0) return;
       
-      // If manually navigating while playing, pause
+      // Handle briefing state navigation (briefing can auto-play, don't pause here)
+      if (currentStepIndex === -1) {
+        if (direction > 0) {
+          // Move from briefing to first step
+          // If manually navigating away from briefing while playing, pause
+          if (isPlaying) {
+            stopPlaying();
+          }
+          currentStepIndex = 0;
+          updateDisplay();
+          updateNavigationButtons();
+        }
+        return;
+      }
+      
+      // If manually navigating while playing (non-briefing pages), pause
       if (isPlaying) {
         stopPlaying();
+      }
+      
+      // Allow going back to briefing from first step
+      if (currentStepIndex === 0 && direction < 0) {
+        // If manually navigating back to briefing while playing, pause
+        if (isPlaying) {
+          stopPlaying();
+        }
+        currentStepIndex = -1;
+        updateDisplay();
+        updateNavigationButtons();
+        // When going back to briefing, restart auto-play after 8 seconds
+        setTimeout(() => {
+          if (currentStepIndex === -1 && currentEnvironment && !isPlaying) {
+            currentStepIndex = 0;
+            updateDisplay();
+            updateNavigationButtons();
+            startPlaying();
+          }
+        }, 8000);
+        return;
       }
       
       const newIndex = currentStepIndex + direction;
@@ -678,17 +938,29 @@
     function navigateToStep(target, isAutoPlay = false) {
       if (traceData.length === 0) return;
       
-      // If manually navigating while playing, pause (unless it's auto-play loop)
-      if (isPlaying && !isAutoPlay) {
-        stopPlaying();
-      }
-      
       let newIndex;
       if (target === 0) {
-        // Go to first step
-        newIndex = 0;
+        // Go to briefing (first state)
+        newIndex = -1;
+        // If manually navigating to briefing while playing, pause
+        if (isPlaying && !isAutoPlay) {
+          stopPlaying();
+        }
+        // When going to briefing, restart auto-play after 8 seconds (only if not already playing)
+        setTimeout(() => {
+          if (currentStepIndex === -1 && currentEnvironment && !isPlaying) {
+            currentStepIndex = 0;
+            updateDisplay();
+            updateNavigationButtons();
+            startPlaying();
+          }
+        }, 8000);
       } else if (target === -1) {
         // Go to last step
+        // If manually navigating while playing (non-briefing), pause
+        if (isPlaying && !isAutoPlay) {
+          stopPlaying();
+        }
         newIndex = traceData.length - 1;
       } else {
         return;
@@ -710,14 +982,22 @@
       stepCycleCount = 0;
       
       playInterval = setInterval(() => {
+        // If at briefing state, move to first step
+        if (currentStepIndex === -1) {
+          currentStepIndex = 0;
+          updateDisplay();
+          updateNavigationButtons();
+          return;
+        }
+        
         if (currentStepIndex < traceData.length - 1) {
           // Auto-play: navigate to next step without pausing
           currentStepIndex++;
           updateDisplay();
           updateNavigationButtons();
         } else {
-          // Loop back to first step
-          currentStepIndex = 0;
+          // Loop back to briefing (not first step)
+          currentStepIndex = -1;
           stepCycleCount++;
           updateDisplay();
           updateNavigationButtons();
@@ -775,7 +1055,7 @@
     function resetDashboard() {
       stopPlaying();
       traceData = [];
-      currentStepIndex = 0;
+      currentStepIndex = -1; // Reset to briefing state
       designContext = '';
       document.getElementById('stepIndicator').textContent = 'Select an environment to start';
       document.getElementById('progressFill').style.width = '0%';
@@ -784,8 +1064,16 @@
       document.getElementById('agentViewImage').style.display = 'none';
       document.getElementById('promptText').textContent = 'Waiting for environment selection...';
       document.getElementById('actionOutput').textContent = '-';
-      document.getElementById('designContext').textContent = 'Select an environment to view the task context and goal.';
-      document.getElementById('feedbackCard').style.display = 'block';
+      const defaultText = highlightGoalContent('Select an environment to view the task context and goal.');
+      document.getElementById('designContext').innerHTML = defaultText + '<span class="goal-cursor">█</span>';
+      const feedbackMonitor = document.getElementById('feedbackMonitor');
+      const consoleCable = document.getElementById('consoleCable');
+      const missionDataContainer = document.getElementById('missionDataContainer');
+      const dashboardContainer = document.getElementById('dashboardContainer');
+      if (feedbackMonitor) feedbackMonitor.style.display = 'block';
+      if (consoleCable) consoleCable.style.display = 'block';
+      if (missionDataContainer) missionDataContainer.style.display = 'flex';
+      if (dashboardContainer) dashboardContainer.style.display = 'none'; // Hide dashboard when no environment
       updateEnvironmentInfo(null);
       updateNavigationButtons();
       updatePlayPauseButton();
