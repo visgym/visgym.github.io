@@ -4,334 +4,147 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Agent Replay Dashboard</title>
-  <style>
-    :root {
-      --bg-primary: #1e1e1e;
-      --bg-secondary: #252526;
-      --bg-tertiary: #2d2d30;
-      --text-primary: #e0e0e0;
-      --text-secondary: #cccccc;
-      --accent: #007acc;
-      --accent-hover: #0098ff;
-      --success: #4ec9b0;
-      --border: #3e3e42;
-      --shadow: rgba(0, 0, 0, 0.3);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .dashboard-container {
-      display: flex;
-      height: calc(100vh - 80px);
-      overflow: hidden;
-    }
-
-    /* Header */
-    .dashboard-header {
-      height: 80px;
-      background-color: var(--bg-tertiary);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-    }
-
-    .header-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .environment-selector {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .environment-selector label {
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
-
-    .environment-selector select {
-      background-color: var(--bg-primary);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 8px 12px;
-      font-size: 14px;
-      min-width: 300px;
-      cursor: pointer;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .environment-selector select:hover {
-      border-color: var(--accent);
-    }
-
-    .environment-selector select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
-    }
-
-    /* Left Panel - Visuals */
-    .left-panel {
-      width: 60%;
-      background-color: var(--bg-secondary);
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid var(--border);
-      padding: 20px;
-    }
-
-    .step-indicator {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 20px;
-      text-align: center;
-      padding: 10px;
-      background-color: var(--bg-tertiary);
-      border-radius: 4px;
-    }
-
-    .image-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--bg-primary);
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      position: relative;
-    }
-
-    .agent-view-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      transition: opacity 0.3s ease;
-    }
-
-    .image-placeholder {
-      color: var(--text-secondary);
-      font-size: 16px;
-      text-align: center;
-      padding: 40px;
-    }
-
-    .loading-spinner {
-      border: 3px solid var(--border);
-      border-top: 3px solid var(--accent);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Right Panel - Data & Logic */
-    .right-panel {
-      width: 40%;
-      background-color: var(--bg-secondary);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      padding: 20px;
-    }
-
-    .info-card {
-      background-color: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px var(--shadow);
-    }
-
-    .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .card-content {
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
-
-    /* Design Context Card */
-    .design-context {
-      font-size: 14px;
-    }
-
-    /* Input Prompt Card */
-    .prompt-text {
-      font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
-      font-size: 13px;
-      background-color: var(--bg-primary);
-      padding: 12px;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-      max-height: 200px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: var(--text-secondary);
-    }
-
-    /* Model Decision Card */
-    .action-output {
-      background-color: var(--bg-primary);
-      border: 2px solid var(--success);
-      border-radius: 4px;
-      padding: 16px;
-      font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--success);
-      text-align: center;
-      box-shadow: 0 0 12px rgba(78, 201, 176, 0.2);
-    }
-
-    /* Navigation Controls */
-    .navigation-controls {
-      margin-top: auto;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 12px;
-      position: sticky;
-      bottom: 0;
-      background-color: var(--bg-secondary);
-    }
-
-    .nav-button {
-      flex: 1;
-      padding: 12px 24px;
-      background-color: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    .nav-button:hover {
-      background-color: var(--accent-hover);
-    }
-
-    .nav-button:disabled {
-      background-color: var(--bg-tertiary);
-      color: var(--text-secondary);
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-
-    .nav-button:active {
-      transform: scale(0.98);
-    }
-
-    /* Scrollbar Styling */
-    .right-panel::-webkit-scrollbar,
-    .prompt-text::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .right-panel::-webkit-scrollbar-track,
-    .prompt-text::-webkit-scrollbar-track {
-      background: var(--bg-primary);
-    }
-
-    .right-panel::-webkit-scrollbar-thumb,
-    .prompt-text::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 4px;
-    }
-
-    .right-panel::-webkit-scrollbar-thumb:hover,
-    .prompt-text::-webkit-scrollbar-thumb:hover {
-      background: var(--accent);
-    }
-
-    /* Loading State */
-    .loading {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    .error-message {
-      color: #f48771;
-      background-color: rgba(244, 135, 113, 0.1);
-      border: 1px solid #f48771;
-      border-radius: 4px;
-      padding: 12px;
-      margin: 10px 0;
-      font-size: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="static/css/replay_dashboard.css">
 </head>
 <body>
   <div class="dashboard-header">
     <div class="header-title">AI Agent Replay Dashboard</div>
-    <div class="environment-selector">
-      <label for="envSelect">Environment:</label>
-      <select id="envSelect" onchange="loadEnvironment(this.value)">
-        <option value="">Select an environment...</option>
-        <option value="ToyMaze3DEnv-v0">ToyMaze3DEnv-v0</option>
-        <option value="sliding_block__SlidingBlockEnv-v0">SlidingBlockEnv-v0</option>
-        <option value="video_unshuffle__VideoUnshuffleEnv-v0">VideoUnshuffleEnv-v0</option>
-        <option value="FetchReachDiscrete-v4">FetchReachDiscrete-v4</option>
-        <option value="counting__LVISCountingEnv-v0">LVISCountingEnv-v0</option>
-        <option value="mental_rotation_3d__mental_rotation-3d">Mental Rotation 3D</option>
-        <option value="mental_rotation__mental_rotation-v0">Mental Rotation</option>
-        <option value="Jigsaw-v0">Jigsaw-v0</option>
-        <option value="ToyMaze2DEnv-v0">ToyMaze2DEnv-v0</option>
-        <option value="colorization__ColorizationEnv-v2">ColorizationEnv-v2</option>
-        <option value="match_equation__MatchEquation-v0">MatchEquation-v0</option>
-        <option value="FetchPickAndPlaceDiscrete-v4">FetchPickAndPlaceDiscrete-v4</option>
-        <option value="match_move__MatchRotation-v0">MatchRotation-v0</option>
-        <option value="mental_rotation-3d_objaverse-v0">Mental Rotation 3D Objaverse</option>
-        <option value="patch_reassembly__PatchReassemblyEnv-v0">PatchReassemblyEnv-v0</option>
-        <option value="ref_dot__RefCOCOPlusDotEnv-v0">RefCOCOPlusDotEnv-v0</option>
-        <option value="stringsight">StringSight</option>
-        <option value="zoom_in__ZoomInEnv-v0">ZoomInEnv-v0</option>
-      </select>
+  </div>
+  
+  <div class="environment-nav-container">
+    <div class="environment-nav-scroll" id="environmentNavScroll">
+      <div class="environment-card" data-env="ToyMaze3DEnv-v0" onclick="selectEnvironment('ToyMaze3DEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/ToyMaze3DEnv-v0/image_0.png" alt="ToyMaze3D" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EToyMaze3D%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">ToyMaze3D</div>
+      </div>
+      <div class="environment-card" data-env="sliding_block__SlidingBlockEnv-v0" onclick="selectEnvironment('sliding_block__SlidingBlockEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/sliding_block__SlidingBlockEnv-v0/image_0.png" alt="SlidingBlock" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3ESlidingBlock%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">SlidingBlock</div>
+      </div>
+      <div class="environment-card" data-env="video_unshuffle__VideoUnshuffleEnv-v0" onclick="selectEnvironment('video_unshuffle__VideoUnshuffleEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/video_unshuffle__VideoUnshuffleEnv-v0/image_0.png" alt="VideoUnshuffle" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EVideoUnshuffle%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">VideoUnshuffle</div>
+      </div>
+      <div class="environment-card" data-env="FetchReachDiscrete-v4" onclick="selectEnvironment('FetchReachDiscrete-v4')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/FetchReachDiscrete-v4/image_0.png" alt="FetchReach" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EFetchReach%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">FetchReach</div>
+      </div>
+      <div class="environment-card" data-env="counting__LVISCountingEnv-v0" onclick="selectEnvironment('counting__LVISCountingEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/counting__LVISCountingEnv-v0/image_0.png" alt="LVISCounting" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3ELVISCounting%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">LVISCounting</div>
+      </div>
+      <div class="environment-card" data-env="mental_rotation_3d__mental_rotation-3d" onclick="selectEnvironment('mental_rotation_3d__mental_rotation-3d')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/mental_rotation_3d__mental_rotation-3d/image_0.png" alt="Mental Rotation 3D" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EMental 3D%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">Mental Rotation 3D</div>
+      </div>
+      <div class="environment-card" data-env="mental_rotation__mental_rotation-v0" onclick="selectEnvironment('mental_rotation__mental_rotation-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/mental_rotation__mental_rotation-v0/image_0.png" alt="Mental Rotation" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EMental Rotation%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">Mental Rotation</div>
+      </div>
+      <div class="environment-card" data-env="Jigsaw-v0" onclick="selectEnvironment('Jigsaw-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/Jigsaw-v0/image_0.png" alt="Jigsaw" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EJigsaw%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">Jigsaw</div>
+      </div>
+      <div class="environment-card" data-env="ToyMaze2DEnv-v0" onclick="selectEnvironment('ToyMaze2DEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/ToyMaze2DEnv-v0/image_0.png" alt="ToyMaze2D" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EToyMaze2D%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">ToyMaze2D</div>
+      </div>
+      <div class="environment-card" data-env="colorization__ColorizationEnv-v2" onclick="selectEnvironment('colorization__ColorizationEnv-v2')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/colorization__ColorizationEnv-v2/image_0.png" alt="Colorization" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EColorization%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">Colorization</div>
+      </div>
+      <div class="environment-card" data-env="match_equation__MatchEquation-v0" onclick="selectEnvironment('match_equation__MatchEquation-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/match_equation__MatchEquation-v0/image_0.png" alt="MatchEquation" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EMatchEquation%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">MatchEquation</div>
+      </div>
+      <div class="environment-card" data-env="FetchPickAndPlaceDiscrete-v4" onclick="selectEnvironment('FetchPickAndPlaceDiscrete-v4')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/FetchPickAndPlaceDiscrete-v4/image_0.png" alt="FetchPickPlace" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EFetchPickPlace%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">FetchPickPlace</div>
+      </div>
+      <div class="environment-card" data-env="match_move__MatchRotation-v0" onclick="selectEnvironment('match_move__MatchRotation-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/match_move__MatchRotation-v0/image_0.png" alt="MatchRotation" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EMatchRotation%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">MatchRotation</div>
+      </div>
+      <div class="environment-card" data-env="mental_rotation-3d_objaverse-v0" onclick="selectEnvironment('mental_rotation-3d_objaverse-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/mental_rotation-3d_objaverse-v0/image_0.png" alt="Mental 3D Objaverse" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EMental 3D Objaverse%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">Mental 3D Objaverse</div>
+      </div>
+      <div class="environment-card" data-env="patch_reassembly__PatchReassemblyEnv-v0" onclick="selectEnvironment('patch_reassembly__PatchReassemblyEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/patch_reassembly__PatchReassemblyEnv-v0/image_0.png" alt="PatchReassembly" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EPatchReassembly%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">PatchReassembly</div>
+      </div>
+      <div class="environment-card" data-env="ref_dot__RefCOCOPlusDotEnv-v0" onclick="selectEnvironment('ref_dot__RefCOCOPlusDotEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/ref_dot__RefCOCOPlusDotEnv-v0/image_0.png" alt="RefCOCOPlus" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3ERefCOCOPlus%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">RefCOCOPlus</div>
+      </div>
+      <div class="environment-card" data-env="stringsight" onclick="selectEnvironment('stringsight')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/stringsight/image_0.png" alt="StringSight" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EStringSight%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">StringSight</div>
+      </div>
+      <div class="environment-card" data-env="zoom_in__ZoomInEnv-v0" onclick="selectEnvironment('zoom_in__ZoomInEnv-v0')">
+        <div class="card-image-wrapper">
+          <img class="card-image" src="static/appendix/zoom_in__ZoomInEnv-v0/image_0.png" alt="ZoomIn" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EZoomIn%3C/text%3E%3C/svg%3E'" />
+          <div class="card-status-bar"></div>
+        </div>
+        <div class="card-label">ZoomIn</div>
+      </div>
     </div>
   </div>
   
   <div class="dashboard-container">
     <!-- Left Panel: Visuals -->
     <div class="left-panel">
-      <div class="step-indicator" id="stepIndicator">Select an environment to start</div>
       <div class="image-container">
         <div id="imagePlaceholder" class="image-placeholder">No environment selected</div>
         <img id="agentViewImage" class="agent-view-image" style="display: none;" alt="Agent View" />
@@ -340,34 +153,89 @@
 
     <!-- Right Panel: Data & Logic -->
     <div class="right-panel">
-      <!-- Card 1: Design Context / Goal -->
+      <!-- Card 0: Environment Info -->
+      <div class="info-card" id="environmentInfoCard">
+        <div class="card-title">Environment Info</div>
+        <div class="card-content">
+          <div class="environment-info-table" id="environmentInfo">
+            <div class="info-row">
+              <span class="info-label">Domain:</span>
+              <span class="info-value" id="infoDomain">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Observability (Obs.):</span>
+              <span class="info-value" id="infoObs">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Dynamics (Dyn.):</span>
+              <span class="info-value" id="infoDyn">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Parameters (P.):</span>
+              <span class="info-value" id="infoP">-</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Available Actions:</span>
+              <span class="info-value" id="infoActions">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 1: Goal -->
       <div class="info-card">
-        <div class="card-title">Design Context / Goal</div>
+        <div class="card-title">Goal</div>
         <div class="card-content design-context" id="designContext">
           Select an environment to view the task context and goal.
         </div>
       </div>
 
-      <!-- Card 2: Input Prompt -->
-      <div class="info-card">
-        <div class="card-title">Input Prompt</div>
+      <!-- Card 2: Feedback -->
+      <div class="info-card" id="feedbackCard">
+        <div class="card-title">Feedback</div>
         <div class="card-content">
           <pre class="prompt-text" id="promptText">Waiting for environment selection...</pre>
         </div>
       </div>
 
-      <!-- Card 3: Model Decision (Action) -->
+      <!-- Card 3: Action -->
       <div class="info-card">
-        <div class="card-title">Model Decision (Action)</div>
+        <div class="card-title">Action</div>
         <div class="card-content">
           <div class="action-output" id="actionOutput">-</div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- Navigation Controls -->
-      <div class="navigation-controls">
-        <button class="nav-button" id="prevButton" onclick="navigateStep(-1)" disabled>← Previous</button>
-        <button class="nav-button" id="nextButton" onclick="navigateStep(1)" disabled>Next →</button>
+  <!-- Bottom Player Controls -->
+  <div class="bottom-player-controls">
+    <div class="player-controls-container">
+      <div class="player-progress-section">
+        <div class="step-indicator" id="stepIndicator">Select an environment to start</div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="player-buttons-group">
+        <button class="player-nav-button" id="firstButton" onclick="navigateToStep(0)" disabled>
+          <span class="player-button-icon">⏮</span>
+        </button>
+        <button class="player-nav-button" id="prevButton" onclick="navigateStep(-1)" disabled>
+          <span class="player-button-icon">◀</span>
+        </button>
+        <button class="player-nav-button player-play-button" id="playPauseButton" onclick="togglePlayPause()">
+          <span class="player-button-icon" id="playPauseIcon">⏸</span>
+        </button>
+        <button class="player-nav-button" id="nextButton" onclick="navigateStep(1)" disabled>
+          <span class="player-button-icon">▶</span>
+        </button>
+        <button class="player-nav-button" id="lastButton" onclick="navigateToStep(-1)" disabled>
+          <span class="player-button-icon">⏭</span>
+        </button>
       </div>
     </div>
   </div>
@@ -395,17 +263,195 @@
       'zoom_in__ZoomInEnv-v0'
     ];
 
+    // Environment metadata mapping
+    const environmentMetadata = {
+      'colorization__ColorizationEnv-v2': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '1',
+        actions: 'rotate(θ); saturate(δ); stop()'
+      },
+      'counting__LVISCountingEnv-v0': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '2',
+        actions: 'mark(x, y); undo(); guess(N); stop()'
+      },
+      'Jigsaw-v0': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '2',
+        actions: 'swap((r1, c1), (r2, c2)); reorder([...]); stop()'
+      },
+      'match_equation__MatchEquation-v0': {
+        domain: 'Synthetic',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '1',
+        actions: 'move([i, s, j, t]); undo(); stop()'
+      },
+      'match_move__MatchRotation-v0': {
+        domain: 'Synthetic',
+        obs: 'Full',
+        dyn: 'Unknown',
+        p: '3',
+        actions: 'move([dx, dy, dθ]); stop()'
+      },
+      'ToyMaze2DEnv-v0': {
+        domain: 'Synthetic',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '2',
+        actions: 'move(d); stop()'
+      },
+      'ToyMaze3DEnv-v0': {
+        domain: 'Synthetic',
+        obs: 'Partial',
+        dyn: 'Known',
+        p: '2',
+        actions: 'move(0); turn(d); stop()'
+      },
+      'mental_rotation__mental_rotation-v0': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '1',
+        actions: 'rotate(θ); stop()'
+      },
+      'mental_rotation_3d__mental_rotation-3d': {
+        domain: 'Synthetic',
+        obs: 'Partial',
+        dyn: 'Known',
+        p: '3',
+        actions: 'rotate([dy, dp, dr]); stop()'
+      },
+      'mental_rotation-3d_objaverse-v0': {
+        domain: 'Synthetic',
+        obs: 'Partial',
+        dyn: 'Known',
+        p: '1',
+        actions: 'rotate([dr, dp, dy]); stop()'
+      },
+      'FetchPickAndPlaceDiscrete-v4': {
+        domain: 'Synthetic',
+        obs: 'Partial',
+        dyn: 'Unknown',
+        p: '0',
+        actions: 'move([x, y, z]); gripper(g); stop()'
+      },
+      'FetchReachDiscrete-v4': {
+        domain: 'Synthetic',
+        obs: 'Partial',
+        dyn: 'Unknown',
+        p: '0',
+        actions: 'move([x, y, z]); stop()'
+      },
+      'patch_reassembly__PatchReassemblyEnv-v0': {
+        domain: 'Synthetic',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '2',
+        actions: 'place(p, r, c); remove(p); stop()'
+      },
+      'ref_dot__RefCOCOPlusDotEnv-v0': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '0',
+        actions: 'mark(x, y); stop()'
+      },
+      'sliding_block__SlidingBlockEnv-v0': {
+        domain: 'Synthetic',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '1',
+        actions: 'move(b, d); stop()'
+      },
+      'video_unshuffle__VideoUnshuffleEnv-v0': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '3',
+        actions: 'swap(i, j); reorder([...]); stop()'
+      },
+      'zoom_in__ZoomInEnv-v0': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '5',
+        actions: 'swap(i, j); reorder([...]); stop()'
+      },
+      'stringsight': {
+        domain: 'Real',
+        obs: 'Full',
+        dyn: 'Known',
+        p: '6',
+        actions: 'swap(i, j); reorder([...]); stop()'
+      }
+    };
+
     let currentEnvironment = null;
     let currentStepIndex = 0;
     let traceData = [];
     let maxSteps = 0;
+    let designContext = '';
+    let isPlaying = false;
+    let playInterval = null;
+    const playIntervalDelay = 2000; // 2 seconds per step
+    let isAutoCyclingEnvironments = false;
+    let currentEnvironmentIndex = 0;
+    let environmentCycleInterval = null;
+    const environmentCycleDelay = 5000; // 5 seconds per environment (adjust based on steps)
+    let stepCycleCount = 0;
+    const maxCyclesPerEnvironment = 1; // Play each environment 1 full cycle before switching
+
+    // Select environment from chip navigation
+    function selectEnvironment(envName) {
+      // Stop auto-cycling when user manually selects
+      stopAutoCyclingEnvironments();
+      loadEnvironment(envName);
+    }
+
+    // Start auto-cycling through all environments
+    function startAutoCyclingEnvironments() {
+      if (isAutoCyclingEnvironments || environments.length === 0) return;
+      
+      isAutoCyclingEnvironments = true;
+      currentEnvironmentIndex = 0;
+      
+      // Immediately load first environment (will auto-start playing)
+      if (environments.length > 0) {
+        loadEnvironment(environments[0]);
+      }
+    }
+
+    // Stop auto-cycling through environments
+    function stopAutoCyclingEnvironments() {
+      if (!isAutoCyclingEnvironments) return;
+      
+      isAutoCyclingEnvironments = false;
+      if (environmentCycleInterval) {
+        clearInterval(environmentCycleInterval);
+        environmentCycleInterval = null;
+      }
+    }
 
     // Load environment data
     async function loadEnvironment(envName) {
       if (!envName) {
         resetDashboard();
+        updateEnvironmentSelection(null);
         return;
       }
+      
+      // Reset step cycle count when loading new environment
+      stepCycleCount = 0;
+      
+      // Update chip selection
+      updateEnvironmentSelection(envName);
 
       currentEnvironment = envName;
       currentStepIndex = 0;
@@ -421,6 +467,9 @@
       document.getElementById('designContext').textContent = 'Loading environment data...';
 
       try {
+        // Update environment info
+        updateEnvironmentInfo(envName);
+        
         // Discover steps by trying to load files
         maxSteps = await discoverSteps(envName);
         
@@ -428,12 +477,18 @@
           throw new Error('No steps found for this environment');
         }
 
+        // Load design context from prompt_0 (task goal/description)
+        await loadDesignContext(envName);
+        
         // Load all step data
         await loadAllSteps(envName, maxSteps);
         
         // Update display
         updateDisplay();
         updateNavigationButtons();
+        
+        // Auto-start playing
+        startPlaying();
       } catch (error) {
         console.error('Error loading environment:', error);
         document.getElementById('imagePlaceholder').innerHTML = 
@@ -464,6 +519,29 @@
       return maxStep;
     }
 
+    // Load design context from prompt_0
+    async function loadDesignContext(envName) {
+      try {
+        const response = await fetch(`static/appendix/${envName}/prompt_0.txt`);
+        if (response.ok) {
+          const promptText = await response.text();
+          designContext = extractContextFromPrompt(promptText);
+          // Update the design context display - use innerHTML to preserve formatting
+          const designContextElement = document.getElementById('designContext');
+          designContextElement.textContent = designContext;
+          // Debug: log the full text to console
+          console.log('Full design context loaded:', designContext.length, 'characters');
+        } else {
+          designContext = 'No context available';
+          document.getElementById('designContext').textContent = designContext;
+        }
+      } catch (error) {
+        console.warn('Error loading design context:', error);
+        designContext = 'Failed to load context';
+        document.getElementById('designContext').textContent = designContext;
+      }
+    }
+
     // Load all steps data
     async function loadAllSteps(envName, maxSteps) {
       traceData = [];
@@ -479,8 +557,7 @@
             stepId: i + 1,
             imageUrl: `static/appendix/${envName}/image_${i}.png`,
             promptText: promptText.trim() || 'No prompt available',
-            actionOutput: actionText.trim() || '-',
-            designContext: extractContextFromPrompt(promptText)
+            actionOutput: actionText.trim() || '-'
           });
         } catch (error) {
           console.warn(`Error loading step ${i}:`, error);
@@ -488,13 +565,38 @@
       }
     }
 
-    // Extract context/goal from prompt (first few lines)
+    // Extract context/goal from prompt (return full text)
     function extractContextFromPrompt(promptText) {
       if (!promptText) return 'No context available';
-      const lines = promptText.split('\n').filter(line => line.trim());
-      // Get first meaningful paragraph (usually contains the goal)
-      const contextLines = lines.slice(0, 3).join(' ');
-      return contextLines.length > 200 ? contextLines.substring(0, 200) + '...' : contextLines;
+      // Return the complete prompt text
+      return promptText.trim();
+    }
+
+    // Update environment info display
+    function updateEnvironmentInfo(envName) {
+      if (!envName) {
+        document.getElementById('infoDomain').textContent = '-';
+        document.getElementById('infoObs').textContent = '-';
+        document.getElementById('infoDyn').textContent = '-';
+        document.getElementById('infoP').textContent = '-';
+        document.getElementById('infoActions').textContent = '-';
+        return;
+      }
+      
+      const metadata = environmentMetadata[envName];
+      if (metadata) {
+        document.getElementById('infoDomain').textContent = metadata.domain;
+        document.getElementById('infoObs').textContent = metadata.obs;
+        document.getElementById('infoDyn').textContent = metadata.dyn;
+        document.getElementById('infoP').textContent = metadata.p;
+        document.getElementById('infoActions').textContent = metadata.actions;
+      } else {
+        document.getElementById('infoDomain').textContent = '-';
+        document.getElementById('infoObs').textContent = '-';
+        document.getElementById('infoDyn').textContent = '-';
+        document.getElementById('infoP').textContent = '-';
+        document.getElementById('infoActions').textContent = '-';
+      }
     }
 
     // Update all display elements
@@ -508,6 +610,10 @@
       // Update step indicator
       document.getElementById('stepIndicator').textContent = 
         `Step ${currentData.stepId} of ${traceData.length}`;
+      
+      // Update progress bar
+      const progressPercentage = (currentData.stepId / traceData.length) * 100;
+      document.getElementById('progressFill').style.width = progressPercentage + '%';
       
       // Update image
       const imageElement = document.getElementById('agentViewImage');
@@ -524,11 +630,15 @@
         placeholderElement.style.display = 'block';
       };
       
-      // Update design context
-      document.getElementById('designContext').textContent = currentData.designContext;
-      
-      // Update prompt text
-      document.getElementById('promptText').textContent = currentData.promptText;
+      // Update prompt text (design context stays the same, loaded from prompt_0)
+      // Don't show feedback card for step 0 (stepId === 1)
+      const feedbackCard = document.getElementById('feedbackCard');
+      if (currentData.stepId === 1) {
+        feedbackCard.style.display = 'none';
+      } else {
+        feedbackCard.style.display = 'block';
+        document.getElementById('promptText').textContent = currentData.promptText;
+      }
       
       // Update action output
       document.getElementById('actionOutput').textContent = currentData.actionOutput;
@@ -536,13 +646,23 @@
 
     // Update navigation button states
     function updateNavigationButtons() {
-      document.getElementById('prevButton').disabled = currentStepIndex === 0;
-      document.getElementById('nextButton').disabled = currentStepIndex >= traceData.length - 1;
+      const isFirst = currentStepIndex === 0;
+      const isLast = currentStepIndex >= traceData.length - 1;
+      
+      document.getElementById('firstButton').disabled = isFirst || traceData.length === 0;
+      document.getElementById('prevButton').disabled = isFirst || traceData.length === 0;
+      document.getElementById('nextButton').disabled = isLast || traceData.length === 0;
+      document.getElementById('lastButton').disabled = isLast || traceData.length === 0;
     }
 
     // Navigate between steps
     function navigateStep(direction) {
       if (traceData.length === 0) return;
+      
+      // If manually navigating while playing, pause
+      if (isPlaying) {
+        stopPlaying();
+      }
       
       const newIndex = currentStepIndex + direction;
       
@@ -553,18 +673,123 @@
       }
     }
 
+    // Navigate to first or last step
+    // isAutoPlay: true if called from auto-play loop, false if manual
+    function navigateToStep(target, isAutoPlay = false) {
+      if (traceData.length === 0) return;
+      
+      // If manually navigating while playing, pause (unless it's auto-play loop)
+      if (isPlaying && !isAutoPlay) {
+        stopPlaying();
+      }
+      
+      let newIndex;
+      if (target === 0) {
+        // Go to first step
+        newIndex = 0;
+      } else if (target === -1) {
+        // Go to last step
+        newIndex = traceData.length - 1;
+      } else {
+        return;
+      }
+      
+      currentStepIndex = newIndex;
+      updateDisplay();
+      updateNavigationButtons();
+    }
+
+    // Start auto-playing
+    function startPlaying() {
+      if (isPlaying || traceData.length === 0) return;
+      
+      isPlaying = true;
+      updatePlayPauseButton();
+      
+      // Reset cycle count when starting to play
+      stepCycleCount = 0;
+      
+      playInterval = setInterval(() => {
+        if (currentStepIndex < traceData.length - 1) {
+          // Auto-play: navigate to next step without pausing
+          currentStepIndex++;
+          updateDisplay();
+          updateNavigationButtons();
+        } else {
+          // Loop back to first step
+          currentStepIndex = 0;
+          stepCycleCount++;
+          updateDisplay();
+          updateNavigationButtons();
+          
+          // If auto-cycling environments and completed cycles, switch to next environment
+          if (isAutoCyclingEnvironments && stepCycleCount >= maxCyclesPerEnvironment) {
+            stepCycleCount = 0;
+            // Wait a bit then switch to next environment
+            setTimeout(() => {
+              if (isAutoCyclingEnvironments) {
+                currentEnvironmentIndex = (currentEnvironmentIndex + 1) % environments.length;
+                loadEnvironment(environments[currentEnvironmentIndex]);
+              }
+            }, 1000);
+          }
+        }
+      }, playIntervalDelay);
+    }
+
+    // Stop auto-playing
+    function stopPlaying() {
+      if (!isPlaying) return;
+      
+      isPlaying = false;
+      if (playInterval) {
+        clearInterval(playInterval);
+        playInterval = null;
+      }
+      updatePlayPauseButton();
+    }
+
+    // Toggle play/pause
+    function togglePlayPause() {
+      if (traceData.length === 0) return;
+      
+      if (isPlaying) {
+        stopPlaying();
+      } else {
+        startPlaying();
+      }
+    }
+
+    // Update play/pause button appearance
+    function updatePlayPauseButton() {
+      const icon = document.getElementById('playPauseIcon');
+      
+      if (isPlaying) {
+        icon.textContent = '⏸';
+      } else {
+        icon.textContent = '▶';
+      }
+    }
+
     // Reset dashboard
     function resetDashboard() {
+      stopPlaying();
       traceData = [];
       currentStepIndex = 0;
+      designContext = '';
       document.getElementById('stepIndicator').textContent = 'Select an environment to start';
+      document.getElementById('progressFill').style.width = '0%';
       document.getElementById('imagePlaceholder').textContent = 'No environment selected';
       document.getElementById('imagePlaceholder').style.display = 'block';
       document.getElementById('agentViewImage').style.display = 'none';
       document.getElementById('promptText').textContent = 'Waiting for environment selection...';
       document.getElementById('actionOutput').textContent = '-';
       document.getElementById('designContext').textContent = 'Select an environment to view the task context and goal.';
+      document.getElementById('feedbackCard').style.display = 'block';
+      updateEnvironmentInfo(null);
       updateNavigationButtons();
+      updatePlayPauseButton();
+      updateEnvironmentSelection(null);
     }
 
     // Keyboard navigation support
@@ -583,11 +808,30 @@
       }
     });
 
+    // Update environment card selection
+    function updateEnvironmentSelection(envName) {
+      const cards = document.querySelectorAll('.environment-card');
+      cards.forEach(card => {
+        if (card.getAttribute('data-env') === envName) {
+          card.classList.add('active');
+          // Scroll into view
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          card.classList.remove('active');
+        }
+      });
+    }
+
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', function() {
-      // Optionally load first environment by default
-      // loadEnvironment('ToyMaze3DEnv-v0');
+      // Start auto-cycling through all environments immediately
+      startAutoCyclingEnvironments();
     });
+    
+    // Also try to start immediately if DOM is already loaded
+    if (document.readyState !== 'loading') {
+      startAutoCyclingEnvironments();
+    }
   </script>
 </body>
 </html>

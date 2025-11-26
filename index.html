@@ -324,24 +324,22 @@
   </div>
 </section>
 
-
-<!-- Teaser video-->
-<section class="hero teaser">
+<!-- Splash Image -->
+<section class="hero is-small">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <!-- TODO: Replace with your teaser video -->
-      <video poster="" id="tree" autoplay controls muted loop height="100%" preload="metadata">
-        <!-- TODO: Add your video file path here -->
-        <source src="static/videos/banner_video.mp4" type="video/mp4">
-      </video>
-      <!-- TODO: Replace with your video description -->
-      <h2 class="subtitle has-text-centered">
-        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
-      </h2>
+      <div class="content has-text-justified" style="margin-bottom: 2rem;">
+        <p>
+          VisGym consists of 17 diverse, long-horizon environments designed to systematically evaluate, diagnose, and train VLMs on visually interactive tasks. The agent must select each action conditioned on both its past actions and observation history.
+        </p>
+      </div>
+      <div class="splash-container" style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <img src="static/images/VLM-Gym-v3-splash.png" alt="VLM Gym Splash" style="width: 100%; height: auto; display: block; max-width: 100%;">
+      </div>
     </div>
   </div>
 </section>
-<!-- End teaser video -->
+<!-- End Splash Image -->
 
 <!-- Paper abstract -->
 <section class="section hero is-light">
@@ -361,142 +359,60 @@
 <!-- End paper abstract -->
 
 <!-- AI Agent Replay Dashboard -->
-<section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">Interactive Agent Replay Dashboard</h2>
-      <p class="subtitle has-text-centered">
-        Debug and visualize the step-by-step execution of a Vision-Language Model performing a task.
-      </p>
-      <div class="dashboard-embed-container" style="width: 100%; height: 800px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-        <iframe 
-          src="replay_dashboard.html" 
-          style="width: 100%; height: 100%; border: none;"
-          title="AI Agent Replay Dashboard"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </div>
-  </div>
-</section>
+<div class="dashboard-embed-container" style="width: 100%; height: 800px; overflow: hidden;">
+  <iframe 
+    src="replay_dashboard.html" 
+    style="width: 100%; height: 100%; border: none;"
+    title="AI Agent Replay Dashboard"
+    allowfullscreen>
+  </iframe>
+</div>
 <!-- End AI Agent Replay Dashboard -->
 
-<!-- Image carousel -->
+<!-- Leaderboard -->
 <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <!-- TODO: Replace with your research result images -->
-        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Leaderboard</h2>
+      <div class="content has-text-justified" style="margin-bottom: 2rem;">
+        <p>
+          Even the best-performing frontier model, GPT-5, achieves only 26.43% on VisGym (Easy) and 12.57% on VisGym (Hard), indicating that VisGym poses a significant challenge for existing models.
+        </p>
+        <p class="has-text-centered" style="margin-top: 1rem;">
+          Success rates across different models on VisGym environments.
+        </p>
       </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
-    </div>
-  </div>
-</div>
-</div>
-</section>
-<!-- End image carousel -->
-
-
-
-
-<!-- Youtube video -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <!-- Paper video. -->
-      <h2 class="title is-3">Video Presentation</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          
-          <div class="publication-video">
-            <!-- TODO: Replace with your YouTube video ID -->
-            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          </div>
-        </div>
+      <div class="leaderboard-container" style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <img src="static/images/success_rate_per_model.png" alt="Success Rate per Model Leaderboard" style="width: 100%; height: auto; display: block; max-width: 100%;">
       </div>
     </div>
   </div>
 </section>
-<!-- End youtube video -->
+<!-- End Leaderboard -->
 
-
-<!-- Video carousel -->
+<!-- Number of Steps Density Curves -->
 <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">Another Carousel</h2>
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video2">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <!-- TODO: Add poster image for better preview -->
-          <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
-            <!-- Your video file here -->
-            <source src="static/videos/carousel3.mp4" type="video/mp4">
-          </video>
-        </div>
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3 has-text-centered">Number of Steps Density Curves</h2>
+      <div class="content has-text-justified" style="margin-bottom: 2rem;">
+        <p class="has-text-centered">
+          Distribution of number of steps and reward curves across different environments.
+        </p>
+      </div>
+      <div class="density-curves-container" style="width: 100%; display: flex; justify-content: center; align-items: center;">
+        <img src="static/images/num_steps_density_curves_reward.png" alt="Number of Steps Density Curves and Reward" style="width: 100%; height: auto; display: block; max-width: 100%;">
       </div>
     </div>
   </div>
 </section>
-<!-- End video carousel -->
+<!-- End Number of Steps Density Curves -->
 
 
 
 
 
 
-<!-- Paper poster -->
-<section class="hero is-small is-light">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title">Poster</h2>
-
-      <!-- TODO: Replace with your poster PDF -->
-      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
-          </iframe>
-        
-      </div>
-    </div>
-  </section>
-<!--End paper poster -->
 
 
 
