@@ -870,7 +870,6 @@ section.hero.is-light .title.is-3::after {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  margin-top: 3rem;
   align-items: start;
 }
 
@@ -944,7 +943,6 @@ section.hero.is-light .title.is-3::after {
   .frontier-fail-images-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
-    margin-top: 2rem;
   }
 }
 
@@ -1876,6 +1874,40 @@ section.hero.is-light .title.is-3::after {
 
 .comparison-table td {
   color: #424245;
+}
+
+.comparison-table td:not(.text-left) {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Style for ✗ and ✓ symbols with circle background */
+.comparison-table .cross-cell {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #ffebee;
+  color: #c62828;
+  font-weight: 700;
+  font-size: 0.85em;
+  vertical-align: middle;
+}
+
+.comparison-table .check-cell {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 700;
+  font-size: 0.85em;
+  vertical-align: middle;
 }
 
 /* Comparison Table Responsive */

@@ -306,7 +306,7 @@
   <!-- End Apple-style Hero -->
 
 <!-- Paper abstract -->
-<section class="section hero is-light">
+<section class="section hero is-light" style="padding: 3rem 0;">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
@@ -323,7 +323,7 @@
 <!-- End paper abstract -->
 
 <!-- AI Agent Replay Dashboard -->
-<div class="dashboard-embed-container" style="width: 100%; height: 900px; overflow: hidden;">
+<div class="dashboard-embed-container" style="width: 100%; height: 900px; overflow: hidden; margin: 0;">
   <iframe 
     src="replay_dashboard.html" 
     style="width: 100%; height: 100%; border: none;"
@@ -334,37 +334,26 @@
 <!-- End AI Agent Replay Dashboard -->
 
 <!-- Frontier VLMs Fail Section -->
-<section class="frontier-fail-section" style="padding: 2rem 0 1rem 0; background-color: #ffffff;">
+<section class="frontier-fail-section" style="padding: 3rem 0; background-color: #ffffff;">
   <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
     <div class="frontier-fail-content">
       <h2 class="frontier-fail-title">Frontier VLMs Fail on VisGym</h2>
-      <p class="frontier-fail-description">
+      <p class="frontier-fail-description" style="margin-bottom: 2rem;">
         Even the best-performing frontier model, GPT-5, achieves only <strong class="stat-easy">26.43%</strong> on VisGym (Easy) and <strong class="stat-hard">12.57%</strong> on VisGym (Hard), indicating that VisGym poses a significant challenge for existing models.
       </p>
       
-      <div class="frontier-fail-images-grid">
-        <div class="frontier-fail-image-item">
-          <div class="frontier-fail-image-container" style="width: 100%; height: 400px; display: flex; align-items: center; justify-content: center;">
-            <img src="static/images/avg_performance.png" alt="Average Performance" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none;" loading="lazy">
-          </div>
-        </div>
-        
-        <div class="frontier-fail-image-item">
-          <div class="frontier-fail-image-container" style="width: 100%; height: 400px; display: flex; align-items: center; justify-content: center;">
-            <img src="static/images/num_steps_density_curves_reward.png" alt="Number of Steps Density Curves and Reward" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none;" loading="lazy">
-          </div>
+      <div class="frontier-fail-image-single" style="margin-top: 2rem;">
+        <div class="frontier-fail-image-container" style="width: 100%; max-width: 800px; margin: 0 auto; height: 400px; display: flex; align-items: center; justify-content: center;">
+          <img src="static/images/avg_performance.png" alt="Average Performance" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none;" loading="lazy">
         </div>
       </div>
-      <p class="frontier-fail-description" style="margin-top: 2rem;">
-        Successful trajectories cluster around 3–5 steps for most models, with success rates dropping sharply beyond that range, suggesting difficulty in maintaining reliable performance over longer multi-step visual interactions.
-      </p>
     </div>
   </div>
 </section>
 <!-- End Frontier VLMs Fail Section -->
 
 <!-- Task Success Rate Table -->
-<section class="task-success-rate-section" style="padding: 1rem 0 3rem 0; background-color: #fafafa; width: 100%;">
+<section class="task-success-rate-section" style="padding: 3rem 0 1.5rem 0; background-color: #fafafa; width: 100%;">
   <iframe 
     src="task_success_rate.html" 
     style="width: calc(100% - 40px); min-height: 1000px; height: auto; border: none; display: block; margin: 0 auto; padding: 0;"
@@ -374,7 +363,7 @@
   </iframe>
 </section>
 <!-- Understanding How Multimodal Agents Fail Section -->
-<section class="understanding-failures-section" style="padding: 2rem 0 1rem 0; background-color: #ffffff;">
+<section class="understanding-failures-section" style="padding: 3rem 0; background-color: #ffffff;">
   <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
     <div class="understanding-failures-content">
       <h2 class="understanding-failures-title">Understanding How Multimodal Agents Fail</h2>
@@ -384,7 +373,7 @@
 <!-- End Understanding How Multimodal Agents Fail Section -->
 
 <!-- Key Insights Section -->
-<section class="key-insights-section" style="padding: 0; background-color: #ffffff; width: 100%;">
+<section class="key-insights-section" style="padding: 3rem 0; background-color: #ffffff; width: 100%;">
   <iframe 
     src="key_insights.html" 
     style="width: 100%; min-height: 2000px; height: auto; border: none; display: block; margin: 0; padding: 0;"
@@ -396,7 +385,7 @@
 <!-- End Key Insights Section -->
 
 <!-- Failure Analysis Section -->
-<section class="failure-analysis-section" style="padding: 0; background-color: #ffffff; width: 100%;">
+<section class="failure-analysis-section" style="padding: 3rem 0; background-color: #ffffff; width: 100%;">
   <iframe 
     src="failure_analysis.html" 
     style="width: 100%; min-height: 2000px; height: auto; border: none; display: block; margin: 0; padding: 0;"
@@ -408,8 +397,8 @@
 <!-- End Failure Analysis Section -->
 
 <!-- Radar Chart Comparison Section -->
-<section class="radar-chart-section">
-  <div class="container is-max-desktop">
+<section class="radar-chart-section" style="padding: 3rem 0;">
+  <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
     <div class="radar-chart-wrapper">
       <div class="radar-chart-header">
         <h2 class="radar-chart-why-title">Why VisGym</h2>
@@ -433,117 +422,114 @@
           <tbody>
             <tr class="highlight-row">
               <td class="text-left"><strong>VisGym (Ours)</strong></td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
             </tr>
             <tr class="group-header">
               <td colspan="8">Eval & Training</td>
             </tr>
             <tr>
               <td class="text-left">VLABench</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
             </tr>
             <tr>
               <td class="text-left">VLM-Gym</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
             </tr>
             <tr>
               <td class="text-left">KORGym</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
             </tr>
             <tr>
               <td class="text-left">VisualAgentBench</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✓</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
             </tr>
             <tr>
               <td class="text-left">VAGEN</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
             </tr>
             <tr class="group-header">
               <td colspan="8">Eval-only</td>
             </tr>
             <tr>
               <td class="text-left">OSWorld</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
             </tr>
             <tr>
               <td class="text-left">LIBERO</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✗</td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
             </tr>
             <tr>
               <td class="text-left">VideoGameBench</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
             </tr>
             <tr>
               <td class="text-left">LMGame-Bench</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✓</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
-              <td>✗</td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="check-cell">✓</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
+              <td><span class="cross-cell">✗</span></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="radar-chart-explanation" style="margin-top: 2rem;">
-        <p class="radar-chart-explanation-text">
-          <strong>Comparison among frameworks for visually interactive decision-making.</strong>
-        </p>
         <ul class="radar-chart-explanation-list">
           <li><strong>Struct. Obs.</strong> and <strong>Non-struct. Obs.</strong> indicate whether visual inputs can be parsed into structured text.</li>
           <li><strong>POMDP</strong> denotes partial observability with hidden states.</li>
