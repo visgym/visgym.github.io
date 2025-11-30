@@ -109,47 +109,71 @@
         <div class="text-center mb-12">
             <div class="flex justify-center gap-3 mb-4 text-4xl">💡</div>
             <h3 class="text-3xl font-bold text-white mb-4">Teaching Agents to "Look Before Leaping"</h3>
-            <p class="text-gray-400 max-w-2xl mx-auto">
-                Standard training data isn't enough. [cite_start]We found that <b>Information-Revealing</b> demonstrations—where agents actively probe the environment—are essential for solving tasks with unknown dynamics[cite: 524].
+        </div>
+
+        <!-- Core Thesis -->
+        <div class="mb-12">
+            <h4 class="text-2xl font-bold text-white mb-4">Core Thesis</h4>
+            <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                We found that standard supervised imitation learning data is insufficient.
+            </p>
+            <ol class="list-decimal list-inside space-y-2 text-gray-300 text-lg">
+                <li>Models require learning not just the optimal path, but how to explore the environment</li>
+                <li>This work aims to verify the value of inducing information-revealing behaviors during fine-tuning</li>
+            </ol>
+        </div>
+
+        <!-- Comparative Experiment -->
+        <div class="mb-12">
+            <h4 class="text-2xl font-bold text-white mb-4">Comparative Experiment: Matchstick Rotation Analysis</h4>
+            <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                This analysis compares two demonstration strategies in the Matchstick Rotation task, which features unknown environment scale and dynamics.
+            </p>
+
+            <!-- Comparison Table -->
+            <div class="overflow-x-auto mb-8">
+                <table class="w-full border-collapse bg-gray-800 rounded-lg overflow-hidden">
+                    <thead>
+                        <tr class="bg-gray-700">
+                            <th class="px-4 py-3 text-left text-white font-bold">Comparison Dimension</th>
+                            <th class="px-4 py-3 text-center text-red-400 font-bold">❌ Baseline Demonstrations (Stochastic)</th>
+                            <th class="px-4 py-3 text-center text-green-400 font-bold">✅ Information-Revealing (Structured)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-t border-gray-700">
+                            <td class="px-4 py-3 font-semibold">Strategy</td>
+                            <td class="px-4 py-3 text-center">Baseline trajectories perform three stochastic moves toward the target<sup>4</sup>.</td>
+                            <td class="px-4 py-3 text-center">The model first performs two unit-scale steps<sup>5</sup>.</td>
+                        </tr>
+                        <tr class="border-t border-gray-700 bg-gray-800/50">
+                            <td class="px-4 py-3 font-semibold">Intrinsic Goal</td>
+                            <td class="px-4 py-3 text-center">To reach the target position quickly.</td>
+                            <td class="px-4 py-3 text-center">To expose the correspondence between action magnitude and perceptual effect<sup>6</sup>.</td>
+                        </tr>
+                        <tr class="border-t border-gray-700 bg-gray-800/50">
+                            <td class="px-4 py-3 font-semibold">Final Result</td>
+                            <td class="px-4 py-3 text-center text-red-400 font-bold text-xl">32.9% Success Rate<sup>8</sup></td>
+                            <td class="px-4 py-3 text-center text-green-400 font-bold text-xl">70.0% Success Rate (over 2x increase)<sup>9</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Rigorous Validation -->
+        <div class="mb-8">
+            <h4 class="text-2xl font-bold text-white mb-4">Rigorous Validation (Mental Rotation 3D)</h4>
+            <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                The study further demonstrated that gains are not simply due to longer trajectories<sup>10</sup>. When continued training was performed on baseline demonstrations after the model was fine-tuned with information-revealing data, performance deteriorated<sup>11</sup>.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                <div class="relative bg-gray-800 rounded-lg p-2 ring-1 ring-white/10">
-                    <div class="aspect-video bg-black rounded overflow-hidden relative">
-                        <img src="assets/insights/demo_baseline.gif" class="w-full h-full object-cover opacity-80" alt="Baseline Demo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400\'><p>Baseline Demo GIF</p></div>';">
-                        <div class="absolute top-3 left-3 bg-red-500/90 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur">
-                            Standard SFT (Optimal Path)
-                        </div>
-                        <div class="absolute bottom-3 left-3 text-xs font-mono text-red-300">
-                            Result: Fails (Assumes wrong scale)
-                        </div>
-                    </div>
-                    <p class="mt-3 text-sm text-gray-400 px-2">
-                        [cite_start]The model mimics the optimal path but fails because it doesn't "know" the hidden scale parameter[cite: 523].
-                    </p>
-                </div>
-            </div>
-
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-green-400 rounded-lg blur opacity-40 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                <div class="relative bg-gray-800 rounded-lg p-2 ring-1 ring-white/10">
-                    <div class="aspect-video bg-black rounded overflow-hidden relative">
-                        <img src="assets/insights/demo_ours.gif" class="w-full h-full object-cover" alt="Ours Demo" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400\'><p>Ours Demo GIF</p></div>';">
-                        <div class="absolute top-3 left-3 bg-green-500/90 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur">
-                            Info-Revealing SFT (Ours)
-                        </div>
-                        <div class="absolute bottom-3 left-3 text-xs font-mono text-green-300">
-                            Result: Success (Probes first)
-                        </div>
-                    </div>
-                    <p class="mt-3 text-sm text-gray-300 px-2">
-                        [cite_start]The agent performs <span class="text-green-400 font-bold">probing moves</span> first to calibrate its internal model, then executes the solution [cite: 524-525].
-                    </p>
-                </div>
-            </div>
+        <!-- Final Insight -->
+        <div class="mt-8 p-4 border-l-4 border-green-600 bg-green-50 rounded-lg">
+            <p class="text-sm font-medium text-green-900">
+                <strong>Final Insight:</strong> The observed improvements stem from the informative structure of the demonstrations rather than quantity or length<sup>12</sup>. This confirms that inducing state-disambiguating behaviors is essential for effective supervised fine-tuning<sup>13</sup>.
+            </p>
         </div>
     </div>
 </section>
