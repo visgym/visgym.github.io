@@ -26,7 +26,7 @@
       background: transparent;
       border-radius: 0;
       box-shadow: none;
-      padding: 1rem 0;
+      padding: 0.5rem 0 0 0;
       margin: 0;
       max-width: 100%;
       width: 100%;
@@ -36,10 +36,12 @@
       width: 100%;
       max-width: 100%;
       overflow-x: auto;
+      padding-bottom: 0;
+      margin-bottom: 0;
     }
     
     .table-header {
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
     }
     
     .table-title {
@@ -47,7 +49,7 @@
       font-size: 2.5rem;
       font-weight: 700;
       color: #003262;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0;
     }
     
     .table-subtitle {
@@ -228,7 +230,7 @@
       user-select: none;
       white-space: nowrap;
       position: relative;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
     
     .success-rate-table th:last-child {
@@ -272,8 +274,30 @@
       transition: background-color 0.2s;
     }
     
+    /* Zebra striping - alternate rows */
+    .success-rate-table tbody tr:nth-child(odd) {
+      background-color: #e6f2ff; /* Light blue */
+    }
+    
+    .success-rate-table tbody tr:nth-child(even) {
+      background-color: #ffffff; /* White */
+    }
+    
     .success-rate-table tbody tr:hover {
-      background-color: #f8f9fa;
+      background-color: #cce5ff; /* Darker blue on hover */
+    }
+    
+    /* Ensure cells inherit row background */
+    .success-rate-table tbody tr:nth-child(odd) td {
+      background-color: #e6f2ff;
+    }
+    
+    .success-rate-table tbody tr:nth-child(even) td {
+      background-color: #ffffff;
+    }
+    
+    .success-rate-table tbody tr:hover td {
+      background-color: #cce5ff;
     }
     
     .success-rate-table tbody tr.hidden {
@@ -308,20 +332,21 @@
       box-shadow: 2px 0 4px rgba(0,0,0,0.1);
     }
     
+    /* Override zebra striping for our models - light Berkeley gold (not transparent) */
     .success-rate-table tbody tr.ours-model {
-      background-color: rgba(0, 50, 98, 0.04);
+      background-color: #FEF5E7 !important; /* Light Berkeley gold - not transparent */
     }
     
     .success-rate-table tbody tr.ours-model:hover {
-      background-color: rgba(0, 50, 98, 0.06);
+      background-color: #FDE8C8 !important; /* Slightly darker gold on hover */
     }
     
     .success-rate-table tbody tr.ours-model td {
-      background-color: rgba(0, 50, 98, 0.04);
+      background-color: #FEF5E7 !important; /* Light Berkeley gold */
     }
     
     .success-rate-table tbody tr.ours-model td:first-child {
-      background-color: rgba(0, 50, 98, 0.04);
+      background-color: #FEF5E7 !important; /* Light Berkeley gold */
     }
     
     .success-rate-cell {
@@ -381,13 +406,25 @@
     
     @media (max-width: 768px) {
       .table-container {
-        padding: 1rem;
+        padding: 0.5rem 1rem 0 1rem;
         max-width: 100%;
+      }
+      
+      .table-title {
+        font-size: 1.75rem !important;
+        margin-bottom: 0.5rem !important;
+      }
+      
+      .table-subtitle {
+        font-size: 1rem !important;
+        margin-bottom: 1rem !important;
       }
       
       .table-controls {
         flex-direction: column;
         align-items: stretch;
+        margin-bottom: 1rem;
+        gap: 0.75rem;
       }
       
       .task-selector {
@@ -399,27 +436,66 @@
       }
       
       .success-rate-table {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        min-width: 2000px;
+      }
+      
+      .success-rate-table th {
+        font-size: 0.7rem !important;
+        padding: 0.4rem 0.3rem !important;
+      }
+      
+      .success-rate-table td {
+        padding: 0.4rem 0.3rem !important;
+        font-size: 0.75rem !important;
+      }
+      
+      .filter-btn {
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.8rem !important;
+      }
+      
+      .task-selector-header label {
+        font-size: 0.7rem !important;
+      }
+      
+      .taskSelectorToggle {
+        font-size: 0.75rem !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .table-title {
+        font-size: 1.5rem !important;
+      }
+      
+      .table-subtitle {
+        font-size: 0.9rem !important;
+      }
+      
+      .success-rate-table {
+        font-size: 0.7rem;
       }
       
       .success-rate-table th,
       .success-rate-table td {
-        padding: 0.5rem;
+        padding: 0.3rem 0.25rem !important;
+        font-size: 0.7rem !important;
       }
     }
   </style>
 </head>
 <body>
-  <div style="width: 100%; padding: 0 20px; margin: 0; max-width: 100%;">
-    <div class="table-container" style="width: 100%; max-width: 100%;">
+  <div style="width: 100%; padding: 0; margin: 0; max-width: 100%; border: none; overflow: visible;">
+    <div class="table-container" style="width: 100%; max-width: 100%; padding: 0.5rem 20px 0 20px; border: none;">
       <div class="table-header">
         <h1 class="table-title">Leaderboard</h1>
         
         <div class="table-controls">
           <div class="task-selector">
             <div class="task-selector-header" id="taskSelectorHeader" style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 0.5rem; border: 2px solid #e0e0e0; border-radius: 6px; background-color: #f8f9fa; margin-bottom: 0.5rem;">
-              <label style="font-family: 'Space Mono', monospace; font-size: 0.85rem; color: #666; margin: 0;">Select Tasks</label>
-              <span id="taskSelectorToggle" style="font-size: 0.9rem; color: #003262;">▼</span>
+              <label style="font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #666; margin: 0;">Select Tasks</label>
+              <span id="taskSelectorToggle" style="font-size: 0.8rem; color: #003262;">▼</span>
             </div>
             <div id="taskSelectorContent" class="task-selector-content" style="display: none;">
               <div id="taskCheckboxes" class="task-checkboxes-container">

@@ -6,13 +6,16 @@
     <title>Deep Insights & Discoveries - VisGym</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { 
-            font-family: 'Inter', sans-serif;
+            font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: transparent;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
         .berkeley-blue { color: #003262; }
         .berkeley-bg { background-color: #003262; }
@@ -20,16 +23,53 @@
         .golden-gate { color: #ED4E33; }
         /* ASCII 效果模拟 */
         .ascii-art { font-family: monospace; line-height: 10px; letter-spacing: -1px; white-space: pre; overflow: hidden; }
+        
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .max-w-6xl { max-width: 100%; }
+            h2 { font-size: 1.5rem !important; margin-bottom: 1rem !important; }
+            h3 { font-size: 1.25rem !important; }
+            .text-xl { font-size: 1.125rem !important; }
+            .text-2xl { font-size: 1.5rem !important; }
+            .py-8 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+            .py-6 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+            .py-4 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+            .py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+            .px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .gap-8 { gap: 1.5rem !important; }
+            .gap-12 { gap: 1.5rem !important; }
+            .space-y-4 > * + * { margin-top: 0.75rem !important; }
+            .space-y-5 > * + * { margin-top: 1rem !important; }
+            .mb-4 { margin-bottom: 0.75rem !important; }
+            .mb-3 { margin-bottom: 0.5rem !important; }
+            .h-96 { height: 16rem !important; }
+            .text-base { font-size: 0.9rem !important; }
+            .text-lg { font-size: 1rem !important; }
+            .text-sm { font-size: 0.8rem !important; }
+            .p-4 { padding: 0.75rem !important; }
+            .px-3 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+            .py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+        }
+        
+        @media screen and (max-width: 480px) {
+            h2 { font-size: 1.25rem !important; }
+            h3 { font-size: 1.125rem !important; }
+            .text-xl { font-size: 1rem !important; }
+            .text-2xl { font-size: 1.25rem !important; }
+            .px-4 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .text-base { font-size: 0.85rem !important; }
+            .h-96 { height: 12rem !important; }
+        }
     </style>
 </head>
 <body class="bg-white">
-<div class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold berkeley-blue mb-4">Quantitative Insights (Why Models Fail)</h2>
+<div class="max-w-6xl mx-auto px-4 py-4">
+    <h2 class="text-2xl font-bold berkeley-blue mb-4" style="font-family: 'Space Grotesk', sans-serif;">Quantitative Insights (Why Models Fail)</h2>
 </div>
 
-<section class="w-full py-16 bg-gray-50 border-y border-gray-200">
+<section class="w-full py-8 bg-gray-50 border-y border-gray-200">
     <div class="max-w-6xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row gap-12 items-center">
+        <div class="flex flex-col md:flex-row gap-8 items-center">
             <div class="w-full md:w-1/2">
                 <!-- Example Selector -->
                 <div class="mb-4 flex gap-2 justify-center flex-wrap">
@@ -57,20 +97,20 @@
                 </div>
             </div>
 
-            <div class="w-full md:w-1/2 space-y-6">
+            <div class="w-full md:w-1/2 space-y-5">
                 <div class="flex items-center gap-3">
-                    <h3 class="text-2xl font-bold berkeley-blue">The Visual Grounding Paradox</h3>
+                    <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">The Visual Grounding Paradox</h3>
                 </div>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     Frontier VLMs such as GPT-5 achieve <b>3–4× higher accuracy</b> on symbolic tasks when the same inputs are rendered as ASCII characters rather than as images.
                 </p>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     This striking gap highlights a fundamental limitation: the difficulty lies <b>not in reasoning, but in seeing</b>.
                 </p>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     The model already knows how to solve the problem—it simply cannot reliably <b>perceive the matchsticks</b> when they are presented in pixel form.
                 </p>
-                <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-600 text-lg text-green-900 italic">
+                <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-600 text-base text-green-900 italic" style="font-size: 1rem; line-height: 1.625;">
                     "Visual grounding, rather than algorithmic reasoning, remains the dominant bottleneck."
                 </div>
             </div>
@@ -78,29 +118,29 @@
     </div>
 </section>
 
-<section class="w-full py-16 bg-white">
+<section class="w-full py-8 bg-white">
     <div class="max-w-6xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row-reverse gap-12 items-center">
+        <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
             <div class="w-full md:w-1/2">
                 <div class="bg-white p-4 rounded-2xl shadow-xl border border-gray-200">
                     <img src="static/images/sft_ablations.png" alt="SFT Ablations: Vision vs LLM Gains" class="w-full h-auto object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
                 </div>
             </div>
 
-            <div class="w-full md:w-1/2 space-y-6">
+            <div class="w-full md:w-1/2 space-y-4">
                 <div class="flex items-center gap-3">
-                    <h3 class="text-2xl font-bold berkeley-blue">The Reasoning Bottleneck</h3>
+                    <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">The Reasoning Bottleneck</h3>
                 </div>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     We decoupled the architecture to ask a simple question: does performance come from <b>better eyes</b> (the vision encoder) or a <b>better brain</b> (the LLM)?
                 </p>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     Our analysis shows that, for most interactive tasks, <b>temporal reasoning</b> is the dominant factor.
                 </p>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     While visual perception is necessary, the ability to <b>integrate history and plan over time</b> is what truly differentiates model performance.
                 </p>
-                <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-600 text-lg text-blue-900 italic">
+                <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-600 text-base text-blue-900 italic" style="font-size: 1rem; line-height: 1.625;">
                     "Temporal reasoning and history integration remain the primary bottlenecks for current VLMs."
                 </div>
             </div>
@@ -108,23 +148,23 @@
     </div>
 </section>
 
-<section class="w-full py-20 bg-gray-900 text-white">
+<section class="w-full py-8 bg-gray-900 text-white">
     <div class="max-w-6xl mx-auto px-4">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-white mb-4">Teaching Agents to "Look Before Leaping"</h3>
+        <div class="text-center mb-6">
+            <h3 class="text-2xl font-bold text-white mb-3" style="font-family: 'Space Grotesk', sans-serif;">Teaching Agents to "Look Before Leaping"</h3>
         </div>
 
         <!-- Core Thesis -->
-        <div class="mb-12">
-            <p class="text-gray-300 text-2xl leading-relaxed mb-4">
+        <div class="mb-6">
+            <p class="text-gray-300 text-xl leading-relaxed mb-3" style="font-size: 1.25rem; line-height: 1.625;">
                 Standard imitation learning provides optimal paths—but not the exploratory behaviors required to understand hidden state.
             </p>
         </div>
 
         <!-- Comparative Experiment -->
-        <div class="mb-12">
+        <div class="mb-6">
             <!-- Comparison Table -->
-            <div class="overflow-x-auto mb-8">
+            <div class="overflow-x-auto mb-6">
                 <table class="w-full border-collapse bg-gray-800 rounded-lg overflow-hidden">
                     <thead>
                         <tr class="bg-gray-700">
@@ -155,8 +195,8 @@
         </div>
 
         <!-- Final Insight -->
-        <div class="mt-8 p-4 border-l-4 border-green-600 bg-green-50 rounded-lg">
-            <p class="text-lg font-medium text-green-900">
+        <div class="mt-4 p-4 border-l-4 border-green-600 bg-green-50 rounded-lg">
+            <p class="text-base font-medium text-green-900" style="font-size: 1rem; line-height: 1.625;">
                 Structured demonstrations, not trajectory length or quantity, drive these gains. Teaching agents to disambiguate hidden state is essential for effective supervised fine-tuning.
             </p>
         </div>

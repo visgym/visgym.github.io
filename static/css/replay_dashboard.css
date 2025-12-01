@@ -1195,3 +1195,308 @@ body {
   font-size: 13px;
   box-shadow: 4px 4px 0px var(--black);
 }
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  /* Header adjustments */
+  .dashboard-header {
+    height: 50px;
+    padding: 0 12px;
+  }
+  
+  .header-title {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Environment navigation adjustments */
+  .environment-nav-container {
+    min-height: auto;
+    padding: 12px 0;
+  }
+  
+  .environment-cards-wrapper {
+    padding: 0 12px;
+    gap: 8px;
+  }
+  
+  .environment-card {
+    width: 140px !important;
+  }
+  
+  .card-image-wrapper {
+    width: 140px !important;
+    height: 84px !important;
+  }
+  
+  .card-label {
+    font-size: 10px !important;
+    padding: 4px 6px !important;
+    margin-top: 6px !important;
+  }
+  
+  /* Mission data container - stack vertically */
+  .mission-data-container {
+    flex-direction: column;
+    padding: 12px;
+    gap: 12px;
+    min-height: auto;
+  }
+  
+  .mission-data-container .mission-data-card {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    min-height: 150px;
+  }
+  
+  .mission-data-container .goal-card {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+  }
+  
+  .mission-data-container .mission-header {
+    font-size: 9px;
+    padding: 6px 12px;
+    margin: -12px -12px 8px -12px;
+  }
+  
+  .mission-data-container .goal-label {
+    font-size: 9px;
+    padding: 6px 12px;
+  }
+  
+  .mission-data-container .goal-content {
+    font-size: 10px;
+    padding: 12px;
+  }
+  
+  .mission-data-container .goal-cursor {
+    font-size: 10px;
+  }
+  
+  .mission-data-container .stat-item {
+    gap: 8px;
+  }
+  
+  .mission-data-container .stat-label {
+    font-size: 8px;
+  }
+  
+  .mission-data-container .stat-value {
+    font-size: 9px;
+  }
+  
+  /* Dashboard container - stack vertically */
+  .dashboard-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+  
+  .left-panel {
+    width: 100%;
+    padding: 12px;
+    order: 1;
+  }
+  
+  .right-panel {
+    width: 100%;
+    padding: 12px;
+    order: 2;
+    overflow-y: visible;
+  }
+  
+  .step-indicator {
+    font-size: 7px;
+    margin-bottom: 4px;
+  }
+  
+  .image-container {
+    min-height: 250px;
+    border-width: 4px;
+  }
+  
+  .image-placeholder {
+    font-size: 12px;
+    padding: 20px;
+  }
+  
+  /* Console and monitors */
+  .console-container {
+    gap: 12px;
+  }
+  
+  .monitor-frame {
+    padding: 8px;
+  }
+  
+  .monitor-header {
+    padding: 6px 8px;
+  }
+  
+  .monitor-label {
+    font-size: 7px;
+  }
+  
+  .monitor-title {
+    font-size: 8px;
+    padding: 6px;
+  }
+  
+  .monitor-content {
+    padding: 8px;
+    font-size: 10px;
+  }
+  
+  .feedback-text,
+  .action-terminal {
+    font-size: 9px;
+    line-height: 1.4;
+  }
+  
+  .card-title {
+    font-size: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .card-content {
+    font-size: 11px;
+  }
+  
+  /* Bottom player controls */
+  .bottom-player-controls {
+    padding: 12px;
+  }
+  
+  .player-controls-container {
+    gap: 12px;
+  }
+  
+  .step-indicator {
+    font-size: 8px;
+  }
+  
+  .progress-bar-container {
+    max-width: 100%;
+  }
+  
+  .progress-bar {
+    height: 6px;
+  }
+  
+  .player-nav-button {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+  
+  .player-button-icon {
+    font-size: 14px;
+  }
+  
+  .player-play-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dashboard-header {
+    height: 45px;
+    padding: 0 10px;
+  }
+  
+  .header-title {
+    font-size: 7px;
+  }
+  
+  .environment-card {
+    width: 110px !important;
+  }
+  
+  .card-image-wrapper {
+    width: 110px !important;
+    height: 66px !important;
+  }
+  
+  .card-label {
+    font-size: 9px !important;
+    padding: 3px 5px !important;
+  }
+  
+  .mission-data-container {
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  .mission-data-container .mission-header {
+    font-size: 8px;
+    padding: 5px 10px;
+  }
+  
+  .mission-data-container .goal-label {
+    font-size: 8px;
+    padding: 5px 10px;
+  }
+  
+  .mission-data-container .goal-content {
+    font-size: 9px;
+    padding: 10px;
+  }
+  
+  .left-panel,
+  .right-panel {
+    padding: 10px;
+  }
+  
+  .image-container {
+    min-height: 200px;
+    border-width: 3px;
+  }
+  
+  .step-indicator {
+    font-size: 6px;
+  }
+  
+  .monitor-label {
+    font-size: 6px;
+  }
+  
+  .monitor-title {
+    font-size: 7px;
+  }
+  
+  .monitor-content {
+    font-size: 9px;
+    padding: 6px;
+  }
+  
+  .feedback-text,
+  .action-terminal {
+    font-size: 8px;
+  }
+  
+  .card-title {
+    font-size: 7px;
+  }
+  
+  .card-content {
+    font-size: 10px;
+  }
+  
+  .player-nav-button {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .player-play-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .player-button-icon {
+    font-size: 12px;
+  }
+}

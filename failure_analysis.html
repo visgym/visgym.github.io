@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Qualitative Failure Analysis - VisGym</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { 
-            font-family: 'Inter', sans-serif;
+            font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: transparent;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .font-mono { font-family: 'Space Mono', monospace; }
         .berkeley-blue { color: #003262; }
         .bg-berkeley-blue { background-color: #003262; }
         @keyframes spin-slow {
@@ -58,39 +61,76 @@
                 image-rendering: auto;
             }
         }
+        
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .max-w-6xl { max-width: 100%; }
+            h2 { font-size: 1.5rem !important; margin-bottom: 1rem !important; }
+            h3 { font-size: 1.25rem !important; }
+            .text-xl { font-size: 1.125rem !important; }
+            .text-2xl { font-size: 1.5rem !important; }
+            .py-8 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+            .py-6 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+            .py-4 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+            .py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+            .px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .gap-8 { gap: 1.5rem !important; }
+            .gap-12 { gap: 1.5rem !important; }
+            .space-y-4 > * + * { margin-top: 0.75rem !important; }
+            .mb-4 { margin-bottom: 0.75rem !important; }
+            .mb-3 { margin-bottom: 0.5rem !important; }
+            .text-base { font-size: 0.9rem !important; }
+            .text-lg { font-size: 1rem !important; }
+            .text-sm { font-size: 0.8rem !important; }
+            .p-4 { padding: 0.75rem !important; }
+            .px-3 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+            .py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+            [class*="md:w-3/5"] { width: 100% !important; }
+            [class*="md:w-2/5"] { width: 100% !important; }
+            [class*="md:flex-row"] { flex-direction: column !important; }
+            [class*="md:flex-row-reverse"] { flex-direction: column !important; }
+        }
+        
+        @media screen and (max-width: 480px) {
+            h2 { font-size: 1.25rem !important; }
+            h3 { font-size: 1.125rem !important; }
+            .text-xl { font-size: 1rem !important; }
+            .text-2xl { font-size: 1.25rem !important; }
+            .px-4 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+            .text-base { font-size: 0.85rem !important; }
+        }
     </style>
 </head>
 <body class="bg-white text-gray-800">
-<div class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold berkeley-blue mb-4">Qualitative Failure Modes (How They Fail)</h2>
+<div class="max-w-6xl mx-auto px-4 py-2">
+    <h2 class="text-2xl font-bold berkeley-blue mb-3" style="font-family: 'Space Grotesk', sans-serif;">Qualitative Failure Modes (How They Fail)</h2>
 </div>
 
-<section class="w-full py-20 border-t border-gray-100">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+<section class="w-full py-6 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
         <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel">
                 <!-- StringSight images will be displayed here -->
                 <img id="stringsightImage" src="static/stringsight_visualizations/traj_0/image_0.png" class="transition-opacity duration-500" alt="StringSight Action Looping" style="display: block; width: 100%; height: 100%; object-fit: contain;">
                 <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="opacity-50">> Action: ('swap', ((0, 0), (0, 1)))</div>
-                    <div class="opacity-75">> Action: ('swap', ((0, 0), (0, 1)))</div>
-                    <div class="font-bold text-white">> Action: ('swap', ((0, 0), (0, 1))) <span class="animate-pulse">_</span></div>
+                    <div class="opacity-50" id="actionLine1">> Action: loading...</div>
+                    <div class="opacity-75" id="actionLine2">> Action: loading...</div>
+                    <div class="font-bold text-white" id="actionLine3">> Action: loading... <span class="animate-pulse">_</span></div>
                     <div class="text-xs text-gray-400 mt-2">Step: <span id="stepCounter">1</span> / 7</div>
                 </div>
             </div>
         </div>
         
-        <div class="w-full md:w-2/5 space-y-6">
+        <div class="w-full md:w-2/5 space-y-4">
             <div class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-bold tracking-wide">
                 Action Looping
             </div>
-            <h3 class="text-3xl font-bold berkeley-blue">The "Infinite Looper"</h3>
-            <p class="text-lg text-gray-600 leading-relaxed">
-                Models often get stuck in a repetitive cycle, acting like a broken record.
-                In this <span class="font-bold">StringSight</span> task, the model repeatedly swaps the same two pieces endlessly, failing to update its strategy despite zero visual progress.
+            <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">The "Infinite Looper"</h3>
+            <p class="text-base text-gray-600 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
+                Models often get stuck in a repetitive cycle, acting like a broken record. In this StringSight task, the model repeatedly issues the same swap command between the same two pieces without making any progress towards solving the puzzle, as evidenced by identical actions over multiple consecutive steps.
             </p>
             <div class="border-l-4 border-blue-600 pl-4 py-1">
-                <p class="text-lg italic text-gray-500">
+                <p class="text-base italic text-gray-500" style="font-size: 1rem; line-height: 1.625;">
                     "Why do models fail with long context? They get stuck in Action Loops, repeating the same mistake despite new observations."
                 </p>
             </div>
@@ -137,6 +177,33 @@
                 adjustContainerSize();
             }
             
+            async function loadAction(index) {
+                try {
+                    const response = await fetch(`static/stringsight_visualizations/traj_0/vlm_output_${index}.txt`);
+                    if (response.ok) {
+                        const outputText = await response.text();
+                        const output = outputText.trim();
+                        // Display full output, split into lines if needed
+                        const lines = output.split('\n');
+                        if (lines.length >= 3) {
+                            document.getElementById('actionLine1').textContent = '> ' + lines[lines.length - 3];
+                            document.getElementById('actionLine2').textContent = '> ' + lines[lines.length - 2];
+                            document.getElementById('actionLine3').innerHTML = '> ' + lines[lines.length - 1] + ' <span class="animate-pulse">_</span>';
+                        } else if (lines.length === 2) {
+                            document.getElementById('actionLine1').textContent = '> ' + lines[0];
+                            document.getElementById('actionLine2').textContent = '> ' + lines[1];
+                            document.getElementById('actionLine3').innerHTML = '> ' + lines[1] + ' <span class="animate-pulse">_</span>';
+                        } else {
+                            document.getElementById('actionLine1').textContent = '> ' + output;
+                            document.getElementById('actionLine2').textContent = '> ' + output;
+                            document.getElementById('actionLine3').innerHTML = '> ' + output + ' <span class="animate-pulse">_</span>';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading vlm_output:', error);
+                }
+            }
+            
             function updateImage() {
                 // Fade out
                 imgElement.style.opacity = '0';
@@ -145,6 +212,7 @@
                     // Change image
                     imgElement.src = images[currentIndex];
                     stepCounter.textContent = (currentIndex + 1);
+                    loadAction(currentIndex);
                     currentIndex = (currentIndex + 1) % images.length;
                     
                     // Fade in
@@ -152,37 +220,39 @@
                 }, 250);
             }
             
+            // Load initial action
+            loadAction(0);
+            
             // Auto-rotate every 1.5 seconds to show the looping behavior
             setInterval(updateImage, 1500);
         }
     })();
 </script>
 
-<section class="w-full py-20 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-12">
+<section class="w-full py-8 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-8">
         <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel2">
                 <!-- StringSight traj_1 images will be displayed here -->
                 <img id="stringsightImage2" src="static/stringsight_visualizations/traj_1/image_0.png" class="transition-opacity duration-500" alt="StringSight State Mismanagement" style="display: block; width: 100%; height: 100%; object-fit: contain;">
                 <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter2">1</span> / 14</div>
-                    <div class="opacity-50">> Action: ('rotate', [0.0, 60.0, 0.0])</div>
-                    <div class="opacity-75">> Action: ('rotate', [0.0, 60.0, 0.0])</div>
-                    <div class="font-bold text-white">> Action: ('rotate', [0.0, 60.0, 0.0]) <span class="animate-pulse">_</span></div>
+                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter2">1</span> / 13</div>
+                    <div class="opacity-50" id="actionLine2_1">> Action: loading...</div>
+                    <div class="opacity-75" id="actionLine2_2">> Action: loading...</div>
+                    <div class="font-bold text-white" id="actionLine2_3">> Action: loading... <span class="animate-pulse">_</span></div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/5 space-y-6">
+        <div class="w-full md:w-2/5 space-y-4">
             <div class="inline-block px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-bold tracking-wide">
                 State Mismanagement
             </div>
-            <h3 class="text-3xl font-bold berkeley-blue">The "Stubborn Explorer"</h3>
-            <p class="text-lg text-gray-600 leading-relaxed">
-                Without explicit state tracking, models act like they have amnesia. 
-                Here, the model misjudges the effect of its rotations, applying large corrections that result in the object being further from the target orientation, indicating it is not fully utilizing the visual feedback provided after each step.
+            <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">The "Stubborn Explorer"</h3>
+            <p class="text-base text-gray-600 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
+                Without explicit state tracking, models act like they have amnesia. The model frequently misjudges the effect of its rotations, such as applying large yaw or roll corrections that result in the object being further from the target, indicating it is not fully utilizing the visual feedback.
             </p>
             <div class="border-l-4 border-orange-500 pl-4 py-1">
-                <p class="text-lg italic text-gray-500">
+                <p class="text-base italic text-gray-500" style="font-size: 1rem; line-height: 1.625;">
                     "Without explicit state tracking, models suffer from State Mismanagement, ignoring critical environmental feedback."
                 </p>
             </div>
@@ -206,8 +276,7 @@
             'static/stringsight_visualizations/traj_1/image_9.png',
             'static/stringsight_visualizations/traj_1/image_10.png',
             'static/stringsight_visualizations/traj_1/image_11.png',
-            'static/stringsight_visualizations/traj_1/image_12.png',
-            'static/stringsight_visualizations/traj_1/image_13.png'
+            'static/stringsight_visualizations/traj_1/image_12.png'
         ];
         
         let currentIndex2 = 0;
@@ -236,6 +305,33 @@
                 adjustContainerSize2();
             }
             
+            async function loadAction2(index) {
+                try {
+                    const response = await fetch(`static/stringsight_visualizations/traj_1/vlm_output_${index}.txt`);
+                    if (response.ok) {
+                        const outputText = await response.text();
+                        const output = outputText.trim();
+                        // Display full output, split into lines if needed
+                        const lines = output.split('\n');
+                        if (lines.length >= 3) {
+                            document.getElementById('actionLine2_1').textContent = '> ' + lines[lines.length - 3];
+                            document.getElementById('actionLine2_2').textContent = '> ' + lines[lines.length - 2];
+                            document.getElementById('actionLine2_3').innerHTML = '> ' + lines[lines.length - 1] + ' <span class="animate-pulse">_</span>';
+                        } else if (lines.length === 2) {
+                            document.getElementById('actionLine2_1').textContent = '> ' + lines[0];
+                            document.getElementById('actionLine2_2').textContent = '> ' + lines[1];
+                            document.getElementById('actionLine2_3').innerHTML = '> ' + lines[1] + ' <span class="animate-pulse">_</span>';
+                        } else {
+                            document.getElementById('actionLine2_1').textContent = '> ' + output;
+                            document.getElementById('actionLine2_2').textContent = '> ' + output;
+                            document.getElementById('actionLine2_3').innerHTML = '> ' + output + ' <span class="animate-pulse">_</span>';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading vlm_output:', error);
+                }
+            }
+            
             function updateImage2() {
                 // Fade out
                 imgElement2.style.opacity = '0';
@@ -244,6 +340,7 @@
                     // Change image
                     imgElement2.src = images2[currentIndex2];
                     stepCounter2.textContent = (currentIndex2 + 1);
+                    loadAction2(currentIndex2);
                     currentIndex2 = (currentIndex2 + 1) % images2.length;
                     
                     // Fade in
@@ -251,38 +348,41 @@
                 }, 250);
             }
             
+            // Load initial action
+            loadAction2(0);
+            
             // Auto-rotate every 1.5 seconds to show the state mismanagement behavior
             setInterval(updateImage2, 1500);
         }
     })();
 </script>
 
-<section class="w-full py-20 border-t border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+<section class="w-full py-8 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
         <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel3">
                 <!-- StringSight traj_2 images will be displayed here -->
                 <img id="stringsightImage3" src="static/stringsight_visualizations/traj_2/image_0.png" class="transition-opacity duration-500" alt="StringSight Early Termination" style="display: block; width: 100%; height: 100%; object-fit: contain;">
                 <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
                     <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter3">1</span> / 20</div>
-                    <div class="opacity-50">> Action: ('move', 2)</div>
-                    <div class="opacity-75">> Action: ('move', 2)</div>
-                    <div class="font-bold text-white">> Action: ('move', 2) <span class="animate-pulse">_</span></div>
+                    <div class="opacity-50" id="actionLine3_1">> Action: loading...</div>
+                    <div class="opacity-75" id="actionLine3_2">> Action: loading...</div>
+                    <div class="font-bold text-white" id="actionLine3_3">> Action: loading... <span class="animate-pulse">_</span></div>
                     <div class="text-xs text-red-400 mt-2">⚠ Cannot move into a wall.</div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/5 space-y-6">
+        <div class="w-full md:w-2/5 space-y-4">
             <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-bold tracking-wide">
                 Early Termination
             </div>
-            <h3 class="text-3xl font-bold berkeley-blue">The "Rage Quitter"</h3>
-            <p class="text-lg text-gray-600 leading-relaxed">
+            <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">The "Rage Quitter"</h3>
+            <p class="text-base text-gray-600 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                 Perception errors lead to false confidence. 
                 The model revisits previously blocked directions and fails to remember which moves have already been proven impossible, leading to repeated failed actions instead of seeking new routes.
             </p>
             <div class="border-l-4 border-purple-500 pl-4 py-1">
-                <p class="text-lg italic text-gray-500">
+                <p class="text-base italic text-gray-500" style="font-size: 1rem; line-height: 1.625;">
                     "Models often hallucinate that a task is unsolvable and trigger Early Termination."
                 </p>
             </div>
@@ -342,6 +442,33 @@
                 adjustContainerSize3();
             }
             
+            async function loadAction3(index) {
+                try {
+                    const response = await fetch(`static/stringsight_visualizations/traj_2/vlm_output_${index}.txt`);
+                    if (response.ok) {
+                        const outputText = await response.text();
+                        const output = outputText.trim();
+                        // Display full output, split into lines if needed
+                        const lines = output.split('\n');
+                        if (lines.length >= 3) {
+                            document.getElementById('actionLine3_1').textContent = '> ' + lines[lines.length - 3];
+                            document.getElementById('actionLine3_2').textContent = '> ' + lines[lines.length - 2];
+                            document.getElementById('actionLine3_3').innerHTML = '> ' + lines[lines.length - 1] + ' <span class="animate-pulse">_</span>';
+                        } else if (lines.length === 2) {
+                            document.getElementById('actionLine3_1').textContent = '> ' + lines[0];
+                            document.getElementById('actionLine3_2').textContent = '> ' + lines[1];
+                            document.getElementById('actionLine3_3').innerHTML = '> ' + lines[1] + ' <span class="animate-pulse">_</span>';
+                        } else {
+                            document.getElementById('actionLine3_1').textContent = '> ' + output;
+                            document.getElementById('actionLine3_2').textContent = '> ' + output;
+                            document.getElementById('actionLine3_3').innerHTML = '> ' + output + ' <span class="animate-pulse">_</span>';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading vlm_output:', error);
+                }
+            }
+            
             function updateImage3() {
                 // Fade out
                 imgElement3.style.opacity = '0';
@@ -350,6 +477,7 @@
                     // Change image
                     imgElement3.src = images3[currentIndex3];
                     stepCounter3.textContent = (currentIndex3 + 1);
+                    loadAction3(currentIndex3);
                     currentIndex3 = (currentIndex3 + 1) % images3.length;
                     
                     // Fade in
@@ -357,38 +485,41 @@
                 }, 250);
             }
             
+            // Load initial action
+            loadAction3(0);
+            
             // Auto-rotate every 1.5 seconds to show the early termination behavior
             setInterval(updateImage3, 1500);
         }
     })();
 </script>
 
-<section class="w-full py-20 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-12">
+<section class="w-full py-8 bg-gray-50 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-8">
         <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel4">
                 <!-- StringSight traj_3 images will be displayed here -->
                 <img id="stringsightImage4" src="static/stringsight_visualizations/traj_3/image_0.png" class="transition-opacity duration-500" alt="StringSight Visual Misjudgment" style="display: block; width: 100%; height: 100%; object-fit: contain;">
                 <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter4">1</span> / 13</div>
-                    <div class="opacity-50">> Action: ('move', [0, 0, 2, 0])</div>
-                    <div class="opacity-75">> Action: ('move', [0, 0, 2, 0])</div>
-                    <div class="font-bold text-white">> Action: ('move', [0, 0, 2, 0]) <span class="animate-pulse">_</span></div>
+                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter4">1</span> / 14</div>
+                    <div class="opacity-50" id="actionLine4_1">> Action: loading...</div>
+                    <div class="opacity-75" id="actionLine4_2">> Action: loading...</div>
+                    <div class="font-bold text-white" id="actionLine4_3">> Action: loading... <span class="animate-pulse">_</span></div>
                     <div class="text-xs text-yellow-400 mt-2 italic">"I give up."</div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/5 space-y-6">
+        <div class="w-full md:w-2/5 space-y-4">
             <div class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-bold tracking-wide">
                 Visual Misjudgment
             </div>
-            <h3 class="text-3xl font-bold berkeley-blue">"Optimistic Rotator"</h3>
-            <p class="text-lg text-gray-600 leading-relaxed">
+            <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">"Optimistic Rotator"</h3>
+            <p class="text-base text-gray-600 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                 After a long sequence of failed moves, the model explicitly gives up and submits the equation as final, stating 'I give up.'
                 The model misinterprets the visual feedback and repeatedly makes incorrect moves, eventually giving up despite the task being solvable.
             </p>
             <div class="border-l-4 border-green-500 pl-4 py-1">
-                <p class="text-lg italic text-gray-500">
+                <p class="text-base italic text-gray-500" style="font-size: 1rem; line-height: 1.625;">
                     "Confirming that Visual Perception remains a distinct bottleneck from reasoning."
                 </p>
             </div>
@@ -412,7 +543,8 @@
             'static/stringsight_visualizations/traj_3/image_9.png',
             'static/stringsight_visualizations/traj_3/image_10.png',
             'static/stringsight_visualizations/traj_3/image_11.png',
-            'static/stringsight_visualizations/traj_3/image_12.png'
+            'static/stringsight_visualizations/traj_3/image_12.png',
+            'static/stringsight_visualizations/traj_3/image_13.png'
         ];
         
         let currentIndex4 = 0;
@@ -441,6 +573,33 @@
                 adjustContainerSize4();
             }
             
+            async function loadAction4(index) {
+                try {
+                    const response = await fetch(`static/stringsight_visualizations/traj_3/vlm_output_${index}.txt`);
+                    if (response.ok) {
+                        const outputText = await response.text();
+                        const output = outputText.trim();
+                        // Display full output, split into lines if needed
+                        const lines = output.split('\n');
+                        if (lines.length >= 3) {
+                            document.getElementById('actionLine4_1').textContent = '> ' + lines[lines.length - 3];
+                            document.getElementById('actionLine4_2').textContent = '> ' + lines[lines.length - 2];
+                            document.getElementById('actionLine4_3').innerHTML = '> ' + lines[lines.length - 1] + ' <span class="animate-pulse">_</span>';
+                        } else if (lines.length === 2) {
+                            document.getElementById('actionLine4_1').textContent = '> ' + lines[0];
+                            document.getElementById('actionLine4_2').textContent = '> ' + lines[1];
+                            document.getElementById('actionLine4_3').innerHTML = '> ' + lines[1] + ' <span class="animate-pulse">_</span>';
+                        } else {
+                            document.getElementById('actionLine4_1').textContent = '> ' + output;
+                            document.getElementById('actionLine4_2').textContent = '> ' + output;
+                            document.getElementById('actionLine4_3').innerHTML = '> ' + output + ' <span class="animate-pulse">_</span>';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading vlm_output:', error);
+                }
+            }
+            
             function updateImage4() {
                 // Fade out
                 imgElement4.style.opacity = '0';
@@ -449,12 +608,16 @@
                     // Change image
                     imgElement4.src = images4[currentIndex4];
                     stepCounter4.textContent = (currentIndex4 + 1);
+                    loadAction4(currentIndex4);
                     currentIndex4 = (currentIndex4 + 1) % images4.length;
                     
                     // Fade in
                     imgElement4.style.opacity = '1';
                 }, 250);
             }
+            
+            // Load initial action
+            loadAction4(0);
             
             // Auto-rotate every 1.5 seconds to show the visual misjudgment behavior
             setInterval(updateImage4, 1500);

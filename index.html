@@ -190,7 +190,13 @@
   <section class="hero apple-hero">
     <!-- Full-width Title -->
     <div class="apple-title-container">
-      <h1 class="publication-title apple-title"><span class="title-main">VisGym</span><br><span class="title-subtitle">Diverse, Customizable, Scalable Environments for Multimodal Agents</span></h1>
+      <h1 class="publication-title apple-title">
+        <span class="title-main" style="display: inline-flex; align-items: center; gap: 1rem;">
+          <img src="static/images/icon.png" alt="VisGym Logo" style="height: 1.2em; width: auto; vertical-align: middle;">
+          VisGym
+        </span>
+        <br><span class="title-subtitle">Diverse, Customizable, Scalable Environments for Multimodal Agents</span>
+      </h1>
     </div>
     
     <div class="hero-split-container">
@@ -264,21 +270,23 @@
 
           <span class="link-block">
           <a href="#" onclick="return false;"
-          class="external-link button is-normal is-rounded is-dark apple-button">
+          class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Coming Soon - 还没更新">
           <span class="icon">
             <i class="fab fa-github"></i>
           </span>
           <span>Code</span>
+          <span class="coming-soon-text" style="font-size: 0.7rem; opacity: 0.7; margin-left: 0.25rem;">(Coming Soon)</span>
         </a>
       </span>
 
       <span class="link-block">
         <a href="#" onclick="return false;"
-        class="external-link button is-normal is-rounded is-dark apple-button">
+        class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Coming Soon - 还没更新">
         <span class="icon">
           <i class="ai ai-arxiv"></i>
         </span>
         <span>arXiv</span>
+        <span class="coming-soon-text" style="font-size: 0.7rem; opacity: 0.7; margin-left: 0.25rem;">(Coming Soon)</span>
       </a>
     </span>
           </div>
@@ -296,7 +304,7 @@
   <!-- End Apple-style Hero -->
 
 <!-- Paper abstract -->
-<section class="section hero is-light" style="padding: 3rem 0;">
+<section class="section hero is-light" style="padding: 2rem 0;">
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
@@ -313,26 +321,28 @@
 <!-- End paper abstract -->
 
 <!-- AI Agent Replay Dashboard -->
-<div class="dashboard-embed-container" style="width: 100%; height: 900px; overflow: hidden; margin: 0;">
+<div class="dashboard-embed-container" style="width: 100%; margin: 0; padding: 0; border: none; overflow: visible;">
   <iframe 
     src="replay_dashboard.html" 
-    style="width: 100%; height: 100%; border: none;"
+    style="width: 100%; min-height: 900px; height: auto; border: none; display: block; margin: 0; padding: 0;"
     title="AI Agent Replay Dashboard"
-    allowfullscreen>
+    allowfullscreen
+    onload="this.style.height = Math.max(900, this.contentWindow.document.body.scrollHeight + 20) + 'px';"
+    class="dashboard-iframe">
   </iframe>
 </div>
 <!-- End AI Agent Replay Dashboard -->
 
 <!-- Frontier VLMs Fail Section -->
-<section class="frontier-fail-section" style="padding: 3rem 0; background-color: #ffffff;">
+<section class="frontier-fail-section" style="padding: 2rem 0; background-color: #ffffff;">
   <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
     <div class="frontier-fail-content">
       <h2 class="frontier-fail-title">Frontier VLMs Fail on VisGym</h2>
-      <p class="frontier-fail-description" style="margin-bottom: 2rem;">
+      <p class="frontier-fail-description" style="margin-bottom: 1.5rem;">
         Even the best-performing frontier model, GPT-5, achieves only <strong class="stat-easy">26.43%</strong> on VisGym (Easy) and <strong class="stat-hard">12.57%</strong> on VisGym (Hard), indicating that VisGym poses a significant challenge for existing models.
       </p>
       
-      <div class="frontier-fail-image-single" style="margin-top: 2rem;">
+      <div class="frontier-fail-image-single" style="margin-top: 1.5rem;">
         <div class="frontier-fail-image-container" style="width: 100%; max-width: 800px; margin: 0 auto; height: 400px; display: flex; align-items: center; justify-content: center;">
           <img src="static/images/avg_performance.png" alt="Average Performance" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none;" loading="lazy">
         </div>
@@ -343,17 +353,17 @@
 <!-- End Frontier VLMs Fail Section -->
 
 <!-- Task Success Rate Table -->
-<section class="task-success-rate-section" style="padding: 3rem 0 1.5rem 0; background-color: #fafafa; width: 100%;">
+<section class="task-success-rate-section" style="padding: 2rem 0 0.5rem 0; background-color: #fafafa; width: 100%; border: none; margin: 0;">
   <iframe 
     src="task_success_rate.html" 
-    style="width: calc(100% - 40px); min-height: 1000px; height: auto; border: none; display: block; margin: 0 auto; padding: 0;"
+    style="width: 100%; min-height: 800px; height: auto; border: none; display: block; margin: 0; padding: 0;"
     title="Task Success Rate Table"
     allowfullscreen
-    onload="this.style.height = this.contentWindow.document.body.scrollHeight + 'px';">
+    onload="this.style.height = Math.max(800, this.contentWindow.document.body.scrollHeight + 20) + 'px';">
   </iframe>
 </section>
 <!-- Understanding How Multimodal Agents Fail Section -->
-<section class="understanding-failures-section" style="padding: 3rem 0; background-color: #ffffff;">
+<section class="understanding-failures-section" style="padding: 1rem 0; background-color: #ffffff;">
   <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
     <div class="understanding-failures-content">
       <h2 class="understanding-failures-title">Understanding How Multimodal Agents Fail</h2>
@@ -363,31 +373,31 @@
 <!-- End Understanding How Multimodal Agents Fail Section -->
 
 <!-- Key Insights Section -->
-<section class="key-insights-section" style="padding: 3rem 0; background-color: #ffffff; width: 100%;">
+<section class="key-insights-section" style="padding: 1rem 0; background-color: #ffffff; width: 100%;">
   <iframe 
     src="key_insights.html" 
-    style="width: 100%; min-height: 2000px; height: auto; border: none; display: block; margin: 0; padding: 0;"
+    style="width: 100%; min-height: 1500px; height: auto; border: none; display: block; margin: 0; padding: 0;"
     title="Deep Insights & Discoveries"
     allowfullscreen
-    onload="this.style.height = this.contentWindow.document.body.scrollHeight + 'px';">
+    onload="this.style.height = Math.max(1500, this.contentWindow.document.body.scrollHeight + 20) + 'px';">
   </iframe>
 </section>
 <!-- End Key Insights Section -->
 
 <!-- Failure Analysis Section -->
-<section class="failure-analysis-section" style="padding: 3rem 0; background-color: #ffffff; width: 100%;">
+<section class="failure-analysis-section" style="padding: 0.5rem 0; background-color: #ffffff; width: 100%;">
   <iframe 
     src="failure_analysis.html" 
-    style="width: 100%; min-height: 2000px; height: auto; border: none; display: block; margin: 0; padding: 0;"
+    style="width: 100%; min-height: 1500px; height: auto; border: none; display: block; margin: 0; padding: 0;"
     title="Qualitative Failure Analysis"
     allowfullscreen
-    onload="this.style.height = this.contentWindow.document.body.scrollHeight + 'px';">
+    onload="this.style.height = Math.max(1500, this.contentWindow.document.body.scrollHeight + 20) + 'px';">
   </iframe>
 </section>
 <!-- End Failure Analysis Section -->
 
 <!-- Radar Chart Comparison Section -->
-<section class="radar-chart-section" style="padding: 3rem 0;">
+<section class="radar-chart-section" style="padding: 2rem 0;">
   <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
     <div class="radar-chart-wrapper">
       <div class="radar-chart-header">

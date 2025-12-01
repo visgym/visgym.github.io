@@ -131,6 +131,40 @@ body {
     0 2px 8px rgba(26, 26, 46, 0.3) !important;
 }
 
+/* Coming Soon Buttons (Code and arXiv) */
+.coming-soon-button {
+  background: rgba(0, 26, 51, 0.3) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(0, 26, 51, 0.3) !important;
+  cursor: not-allowed !important;
+  opacity: 0.6 !important;
+}
+
+.coming-soon-button:hover {
+  background: rgba(0, 26, 51, 0.35) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(0, 26, 51, 0.4) !important;
+  transform: none !important;
+}
+
+.coming-soon-button:active {
+  background: rgba(0, 26, 51, 0.3) !important;
+  transform: none !important;
+}
+
+.coming-soon-button .icon {
+  opacity: 0.6;
+}
+
+.coming-soon-text {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-left: 0.25rem;
+  font-weight: 400;
+}
+
 .apple-links {
   display: flex;
   flex-wrap: wrap;
@@ -819,16 +853,86 @@ section.hero.is-light .title.is-3::after {
 
 @media screen and (max-width: 768px) {
   .understanding-failures-section {
-    padding: 2rem 0 0 0;
+    padding: 1rem 0 0 0;
   }
   
   .understanding-failures-content {
-    padding: 0 12px;
+    padding: 0 1rem;
   }
   
   .understanding-failures-title {
-    font-size: clamp(1.75rem, 5vw + 0.5rem, 2.5rem);
-    margin-bottom: 1.5rem;
+    font-size: clamp(1.5rem, 5vw + 0.5rem, 2rem);
+    margin-bottom: 1rem;
+  }
+  
+  /* Mobile iframe adjustments */
+  .dashboard-iframe,
+  iframe[src*="task_success_rate"],
+  iframe[src*="key_insights"],
+  iframe[src*="failure_analysis"] {
+    min-height: 600px !important;
+    width: 100% !important;
+  }
+  
+  /* Section padding adjustments */
+  .frontier-fail-section,
+  .task-success-rate-section,
+  .key-insights-section,
+  .failure-analysis-section,
+  .radar-chart-section {
+    padding: 1rem 0 !important;
+  }
+  
+  .frontier-fail-section .container,
+  .understanding-failures-section .container,
+  .radar-chart-section .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .frontier-fail-title {
+    font-size: clamp(1.5rem, 5vw + 0.5rem, 2rem) !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .frontier-fail-description {
+    font-size: 0.9rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .frontier-fail-image-container {
+    height: 250px !important;
+    max-width: 100% !important;
+  }
+  
+  .responsive-container,
+  .container.is-max-desktop {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .understanding-failures-title,
+  .frontier-fail-title {
+    font-size: clamp(1.25rem, 6vw + 0.5rem, 1.75rem) !important;
+  }
+  
+  .dashboard-iframe,
+  iframe[src*="task_success_rate"],
+  iframe[src*="key_insights"],
+  iframe[src*="failure_analysis"] {
+    min-height: 500px !important;
+  }
+  
+  .frontier-fail-image-container {
+    height: 200px !important;
+  }
+  
+  .responsive-container,
+  .container.is-max-desktop {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
   }
 }
 
