@@ -36,6 +36,7 @@
             /* Limit maximum scale to avoid excessive blur */
             transform: scale(1);
             transform-origin: center center;
+            transition: opacity 0.6s ease-in-out;
         }
         /* Container optimization */
         #stringsightCarousel, #stringsightCarousel2, #stringsightCarousel3, #stringsightCarousel4 {
@@ -157,20 +158,20 @@
 
 <section class="w-full py-6 border-t border-gray-100">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-        <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
+        <div class="w-full md:w-1/2 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel">
                 <!-- StringSight images will be displayed here -->
                 <img id="stringsightImage" src="static/stringsight_visualizations/traj_0/image_0.png" class="transition-opacity duration-500" alt="StringSight Action Looping" style="display: block; width: 100%; height: 100%; object-fit: contain;">
-                <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="opacity-50" id="actionLine1">> Action: loading...</div>
-                    <div class="opacity-75" id="actionLine2">> Action: loading...</div>
-                    <div class="font-bold text-white" id="actionLine3">> Action: loading... <span class="animate-pulse">_</span></div>
-                    <div class="text-xs text-gray-400 mt-2">Step: <span id="stepCounter">1</span> / 7</div>
+                <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-green-400 border border-gray-700 shadow-lg">
+                    <div class="opacity-50 text-[10px]" id="actionLine1">> Action: loading...</div>
+                    <div class="opacity-75 text-[10px]" id="actionLine2">> Action: loading...</div>
+                    <div class="font-bold text-white text-[10px]" id="actionLine3">> Action: loading... <span class="animate-pulse">_</span></div>
+                    <div class="text-[9px] text-gray-400 mt-1">Step: <span id="stepCounter">1</span> / 7</div>
                 </div>
             </div>
         </div>
         
-        <div class="w-full md:w-2/5 space-y-4">
+        <div class="w-full md:w-1/2 space-y-4">
             <div class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-bold tracking-wide">
                 Action Looping
             </div>
@@ -254,7 +255,7 @@
             }
             
             function updateImage() {
-                // Fade out
+                // Smooth fade out
                 imgElement.style.opacity = '0';
                 
                 setTimeout(() => {
@@ -264,35 +265,41 @@
                     loadAction(currentIndex);
                     currentIndex = (currentIndex + 1) % images.length;
                     
-                    // Fade in
-                    imgElement.style.opacity = '1';
-                }, 250);
+                    // Smooth fade in after image loads
+                    imgElement.onload = function() {
+                        imgElement.style.opacity = '1';
+                    };
+                    // If image is already cached, fade in immediately
+                    if (imgElement.complete) {
+                        imgElement.style.opacity = '1';
+                    }
+                }, 300);
             }
             
             // Load initial action
             loadAction(0);
             
-            // Auto-rotate every 1.5 seconds to show the looping behavior
-            setInterval(updateImage, 1500);
+            // Auto-rotate every 2 seconds for smoother transitions
+            setInterval(updateImage, 2000);
         }
     })();
 </script>
 
 <section class="w-full py-8 bg-gray-50 border-t border-gray-200">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-8">
-        <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
+        <div class="w-full md:w-1/2 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel2">
                 <!-- StringSight traj_1 images will be displayed here -->
                 <img id="stringsightImage2" src="static/stringsight_visualizations/traj_1/image_0.png" class="transition-opacity duration-500" alt="StringSight State Mismanagement" style="display: block; width: 100%; height: 100%; object-fit: contain;">
-                <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter2">1</span> / 13</div>
-                    <div class="opacity-50" id="actionLine2_1">> Action: loading...</div>
-                    <div class="opacity-75" id="actionLine2_2">> Action: loading...</div>
-                    <div class="font-bold text-white" id="actionLine2_3">> Action: loading... <span class="animate-pulse">_</span></div>
+                <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-green-400 border border-gray-700 shadow-lg">
+                    <div class="text-[9px] text-gray-400 mb-1">Step: <span id="stepCounter2">1</span> / 13</div>
+                    <div class="opacity-50 text-[10px]" id="actionLine2_1">> Action: loading...</div>
+                    <div class="opacity-75 text-[10px]" id="actionLine2_2">> Action: loading...</div>
+                    <div class="font-bold text-white text-[10px]" id="actionLine2_3">> Action: loading... <span class="animate-pulse">_</span></div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/5 space-y-4">
+        <div class="w-full md:w-1/2 space-y-4">
             <div class="inline-block px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-bold tracking-wide">
                 State Mismanagement
             </div>
@@ -382,7 +389,7 @@
             }
             
             function updateImage2() {
-                // Fade out
+                // Smooth fade out
                 imgElement2.style.opacity = '0';
                 
                 setTimeout(() => {
@@ -392,36 +399,42 @@
                     loadAction2(currentIndex2);
                     currentIndex2 = (currentIndex2 + 1) % images2.length;
                     
-                    // Fade in
-                    imgElement2.style.opacity = '1';
-                }, 250);
+                    // Smooth fade in after image loads
+                    imgElement2.onload = function() {
+                        imgElement2.style.opacity = '1';
+                    };
+                    // If image is already cached, fade in immediately
+                    if (imgElement2.complete) {
+                        imgElement2.style.opacity = '1';
+                    }
+                }, 300);
             }
             
             // Load initial action
             loadAction2(0);
             
-            // Auto-rotate every 1.5 seconds to show the state mismanagement behavior
-            setInterval(updateImage2, 1500);
+            // Auto-rotate every 2 seconds for smoother transitions
+            setInterval(updateImage2, 2000);
         }
     })();
 </script>
 
 <section class="w-full py-8 border-t border-gray-200">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-8">
-        <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
+        <div class="w-full md:w-1/2 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel3">
                 <!-- StringSight traj_2 images will be displayed here -->
                 <img id="stringsightImage3" src="static/stringsight_visualizations/traj_2/image_0.png" class="transition-opacity duration-500" alt="StringSight Early Termination" style="display: block; width: 100%; height: 100%; object-fit: contain;">
-                <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter3">1</span> / 20</div>
-                    <div class="opacity-50" id="actionLine3_1">> Action: loading...</div>
-                    <div class="opacity-75" id="actionLine3_2">> Action: loading...</div>
-                    <div class="font-bold text-white" id="actionLine3_3">> Action: loading... <span class="animate-pulse">_</span></div>
-                    <div class="text-xs text-red-400 mt-2">⚠ Cannot move into a wall.</div>
+                <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-green-400 border border-gray-700 shadow-lg">
+                    <div class="text-[9px] text-gray-400 mb-1">Step: <span id="stepCounter3">1</span> / 20</div>
+                    <div class="opacity-50 text-[10px]" id="actionLine3_1">> Action: loading...</div>
+                    <div class="opacity-75 text-[10px]" id="actionLine3_2">> Action: loading...</div>
+                    <div class="font-bold text-white text-[10px]" id="actionLine3_3">> Action: loading... <span class="animate-pulse">_</span></div>
+                    <div class="text-[9px] text-red-400 mt-1">⚠ Cannot move into a wall.</div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/5 space-y-4">
+        <div class="w-full md:w-1/2 space-y-4">
             <div class="inline-block px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-bold tracking-wide">
                 Early Termination
             </div>
@@ -519,7 +532,7 @@
             }
             
             function updateImage3() {
-                // Fade out
+                // Smooth fade out
                 imgElement3.style.opacity = '0';
                 
                 setTimeout(() => {
@@ -529,36 +542,42 @@
                     loadAction3(currentIndex3);
                     currentIndex3 = (currentIndex3 + 1) % images3.length;
                     
-                    // Fade in
-                    imgElement3.style.opacity = '1';
-                }, 250);
+                    // Smooth fade in after image loads
+                    imgElement3.onload = function() {
+                        imgElement3.style.opacity = '1';
+                    };
+                    // If image is already cached, fade in immediately
+                    if (imgElement3.complete) {
+                        imgElement3.style.opacity = '1';
+                    }
+                }, 300);
             }
             
             // Load initial action
             loadAction3(0);
             
-            // Auto-rotate every 1.5 seconds to show the early termination behavior
-            setInterval(updateImage3, 1500);
+            // Auto-rotate every 2 seconds for smoother transitions
+            setInterval(updateImage3, 2000);
         }
     })();
 </script>
 
 <section class="w-full py-8 bg-gray-50 border-t border-gray-200">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row-reverse items-center gap-8">
-        <div class="w-full md:w-3/5 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
+        <div class="w-full md:w-1/2 shadow-2xl rounded-xl overflow-hidden border border-gray-200 relative bg-black">
             <div class="bg-gray-800 relative opacity-90" id="stringsightCarousel4">
                 <!-- StringSight traj_3 images will be displayed here -->
                 <img id="stringsightImage4" src="static/stringsight_visualizations/traj_3/image_0.png" class="transition-opacity duration-500" alt="StringSight Visual Misjudgment" style="display: block; width: 100%; height: 100%; object-fit: contain;">
-                <div class="absolute bottom-4 left-4 right-4 bg-black/80 backdrop-blur-sm p-3 rounded text-xs font-mono text-green-400 border border-gray-700 shadow-lg">
-                    <div class="text-xs text-gray-400 mb-1">Step: <span id="stepCounter4">1</span> / 14</div>
-                    <div class="opacity-50" id="actionLine4_1">> Action: loading...</div>
-                    <div class="opacity-75" id="actionLine4_2">> Action: loading...</div>
-                    <div class="font-bold text-white" id="actionLine4_3">> Action: loading... <span class="animate-pulse">_</span></div>
-                    <div class="text-xs text-yellow-400 mt-2 italic">"I give up."</div>
+                <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-green-400 border border-gray-700 shadow-lg">
+                    <div class="text-[9px] text-gray-400 mb-1">Step: <span id="stepCounter4">1</span> / 14</div>
+                    <div class="opacity-50 text-[10px]" id="actionLine4_1">> Action: loading...</div>
+                    <div class="opacity-75 text-[10px]" id="actionLine4_2">> Action: loading...</div>
+                    <div class="font-bold text-white text-[10px]" id="actionLine4_3">> Action: loading... <span class="animate-pulse">_</span></div>
+                    <div class="text-[9px] text-yellow-400 mt-1 italic">"I give up."</div>
                 </div>
             </div>
         </div>
-        <div class="w-full md:w-2/5 space-y-4">
+        <div class="w-full md:w-1/2 space-y-4">
             <div class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-bold tracking-wide">
                 Visual Misjudgment
             </div>
@@ -650,7 +669,7 @@
             }
             
             function updateImage4() {
-                // Fade out
+                // Smooth fade out
                 imgElement4.style.opacity = '0';
                 
                 setTimeout(() => {
@@ -660,16 +679,22 @@
                     loadAction4(currentIndex4);
                     currentIndex4 = (currentIndex4 + 1) % images4.length;
                     
-                    // Fade in
-                    imgElement4.style.opacity = '1';
-                }, 250);
+                    // Smooth fade in after image loads
+                    imgElement4.onload = function() {
+                        imgElement4.style.opacity = '1';
+                    };
+                    // If image is already cached, fade in immediately
+                    if (imgElement4.complete) {
+                        imgElement4.style.opacity = '1';
+                    }
+                }, 300);
             }
             
             // Load initial action
             loadAction4(0);
             
-            // Auto-rotate every 1.5 seconds to show the visual misjudgment behavior
-            setInterval(updateImage4, 1500);
+            // Auto-rotate every 2 seconds for smoother transitions
+            setInterval(updateImage4, 2000);
         }
     })();
 </script>

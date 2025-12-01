@@ -5,6 +5,7 @@
   --secondary-color: #64748b;
   --accent-color: #0ea5e9;
   --text-primary: #1e293b;
+  --text-body: #374151;
   --text-secondary: #64748b;
   --text-light: #94a3b8;
   --background-primary: #ffffff;
@@ -23,8 +24,8 @@
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --page-max-width: 1200px;
   --page-max-width-wide: 1400px;
-  --page-padding-desktop: 32px;
-  --page-padding-tablet: 24px;
+  --page-padding-desktop: 20px;
+  --page-padding-tablet: 20px;
   --page-padding-mobile: 18px;
 }
 
@@ -216,8 +217,8 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-abstract p {
   font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(0.98rem, 1vw + 0.45rem, 1.15rem) !important; /* Slightly smaller */
-  line-height: 1.55; /* Tighter line spacing */
-  color: #4b5563; /* Darker gray for readability */
+  line-height: 1.65; /* Improved readability */
+  color: var(--text-body); /* Unified body text color */
   font-weight: 400; /* Regular weight */
   margin: 0;
   letter-spacing: normal;
@@ -247,13 +248,14 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-hero {
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   background-color: #f5f5f7;
   /* Prevent flex from stretching content vertically */
   align-content: flex-start;
   justify-content: flex-start;
+  padding-bottom: 0;
 }
 
 /* Full-width Title Container */
@@ -261,7 +263,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 60px 20px 40px; /* Added: 10px→20px left/right for slight margin */
+  padding: 40px var(--page-padding-desktop) 30px;
   text-align: left;
   /* Prevent flex layout from stretching the container */
   flex-shrink: 0;
@@ -289,7 +291,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  flex: 1;
+  flex: 0 0 auto;
   align-items: flex-start; /* Align to top instead of stretching */
   align-content: flex-start; /* Compact vertical alignment */
 }
@@ -301,7 +303,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   display: flex;
   align-items: flex-start; /* Align to top to match image */
   justify-content: flex-start;
-  padding: 50px 20px 50px 20px;
+  padding: 40px var(--page-padding-desktop) 20px;
   background-color: #f5f5f7;
 }
 
@@ -325,7 +327,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   display: flex;
   align-items: flex-start; /* Align to top to match authors */
   justify-content: center;
-  padding: 50px 20px;
+  padding: 40px var(--page-padding-desktop) 20px;
   background-color: #f5f5f7;
   position: relative;
   overflow: hidden;
@@ -345,7 +347,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-teaser-image {
   width: 100%;
   height: auto;
-  max-height: 85vh;
+  max-height: 95vh;
   max-width: 100%;
   object-fit: contain;
   border-radius: 0;
@@ -434,7 +436,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
     display: inline-flex;
     align-items: center;
     gap: 1rem;
-    line-height: 1 !important; /* No extra line height */
+    line-height: 1.1 !important; /* Improved readability */
     margin: 0 !important; /* Reset all margins */
     margin-bottom: -0.15em !important; /* More negative margin to pull subtitle closer */
     padding: 0; /* Reset all padding */
@@ -848,8 +850,8 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 section.hero.is-light .container.is-max-desktop {
   max-width: 100% !important;
   width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: var(--page-padding-desktop);
+  padding-right: var(--page-padding-desktop);
 }
 
 section.hero.is-light .columns.is-centered {
@@ -876,7 +878,7 @@ section.hero.is-light .title.is-3::after {
 /* Understanding How Multimodal Agents Fail Section */
 .understanding-failures-section {
   background-color: #ffffff;
-  padding: 3rem 0 0 0;
+  padding: 4rem 0;
   position: relative;
 }
 
@@ -940,19 +942,19 @@ section.hero.is-light .title.is-3::after {
   }
   
   .hero-left-panel {
-    padding: 20px 16px 12px !important;
+    padding: 32px var(--page-padding-mobile) 16px !important;
     order: 1;
     width: 100% !important;
   }
-  
+
   /* Mobile: Hide buttons inside left panel */
   .hero-left-panel .apple-links {
     display: none !important;
   }
-  
+
   /* Mobile: Show teaser image after abstract, before buttons */
   .hero-right-panel {
-    padding: 0 16px 12px !important;
+    padding: 0 var(--page-padding-mobile) 16px !important;
     order: 2;
     width: 100% !important;
   }
@@ -1048,7 +1050,7 @@ section.hero.is-light .title.is-3::after {
   }
   
   .apple-teaser-image {
-    max-height: 50vh !important;
+    max-height: 60vh !important;
     width: 100% !important;
   }
   
@@ -1059,7 +1061,7 @@ section.hero.is-light .title.is-3::after {
   
   /* Understanding failures section */
   .understanding-failures-section {
-    padding: 1rem 0 0 0;
+    padding: 2rem 0;
   }
   
   .understanding-failures-content {
@@ -1091,7 +1093,7 @@ section.hero.is-light .title.is-3::after {
   .task-success-rate-section,
   .key-insights-section,
   .failure-analysis-section {
-    padding: 0 !important;
+    padding: 1rem 0 !important;
     margin: 0 !important;
     width: 100% !important;
     overflow: visible !important;
@@ -1107,8 +1109,7 @@ section.hero.is-light .title.is-3::after {
   iframe[src*="failure_analysis"],
   .embed-frame {
     width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
+    min-height: 400px !important; /* Reasonable minimum height for mobile */
     max-height: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -1233,23 +1234,23 @@ section.hero.is-light .title.is-3::after {
 @media screen and (max-width: 480px) {
   /* Hero section small mobile */
   .apple-title-container {
-    padding: 16px 12px 12px !important;
+    padding: 24px 12px 12px !important;
   }
-  
+
   .apple-title .title-main {
     font-size: clamp(1.3rem, 7vw + 0.4rem, 1.8rem) !important;
   }
-  
+
   .apple-title .title-main img {
     height: 1em !important;
   }
-  
+
   .apple-title .title-subtitle {
     font-size: clamp(0.85rem, 3vw + 0.4rem, 1rem) !important;
   }
-  
+
   .hero-left-panel {
-    padding: 16px 12px !important;
+    padding: 24px 12px !important;
     width: 100% !important;
   }
   
@@ -1290,7 +1291,7 @@ section.hero.is-light .title.is-3::after {
   }
   
   .apple-teaser-image {
-    max-height: 40vh !important;
+    max-height: 50vh !important;
     width: 100% !important;
   }
   
@@ -1321,15 +1322,14 @@ section.hero.is-light .title.is-3::after {
     min-height: 0 !important;
     max-height: none !important;
   }
-  
+
   .dashboard-iframe,
   iframe[src*="task_success_rate"],
   iframe[src*="key_insights"],
   iframe[src*="failure_analysis"],
   .embed-frame {
     width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
+    min-height: 350px !important; /* Reasonable minimum height for small mobile */
     max-height: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -1431,7 +1431,7 @@ section.hero.is-light .title.is-3::after {
 /* Frontier VLMs Fail Section */
 .frontier-fail-section {
   background-color: #ffffff;
-  padding: 2rem 0 1rem 0;
+  padding: 4rem 0;
   position: relative;
 }
 
@@ -1535,7 +1535,7 @@ section.hero.is-light .title.is-3::after {
     gap: 1.5rem;
   }
   .frontier-fail-section {
-    padding: 3rem 0;
+    padding: 4rem 0;
   }
   
   .frontier-fail-content {
@@ -1554,7 +1554,7 @@ section.hero.is-light .title.is-3::after {
 
 @media screen and (max-width: 768px) {
   .frontier-fail-section {
-    padding: 1.25rem 0 0.5rem 0;
+    padding: 2rem 0;
   }
   
   .frontier-fail-content {
@@ -1598,7 +1598,7 @@ section.hero.is-light .title.is-3::after {
 .leaderboard-wrapper {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--page-padding-desktop);
 }
 
 .leaderboard-header {
@@ -1632,7 +1632,7 @@ section.hero.is-light .title.is-3::after {
 .leaderboard-description {
   max-width: 100%;
   margin: 0;
-  padding: 0 20px;
+  padding: 0 var(--page-padding-desktop);
 }
 
 .leaderboard-intro {
@@ -1914,10 +1914,6 @@ section.hero.is-light .title.is-3::after {
 }
 
 @media screen and (max-width: 1024px) {
-  .key-insights-section {
-    padding: 3rem 0;
-  }
-  
   .insights-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
@@ -1929,11 +1925,6 @@ section.hero.is-light .title.is-3::after {
     grid-template-columns: 1fr;
   }
 }
-
-@media screen and (max-width: 768px) {
-  .key-insights-section {
-    padding: 2.5rem 0;
-  }
   
   .key-insights-content {
     padding: 0 12px;
@@ -2206,15 +2197,15 @@ section.hero.is-light .title.is-3::after {
 /* Radar Chart Comparison Section (for comparison.html) */
 .radar-chart-section {
   background: #ffffff;
-  padding: 5rem 0;
+  padding: 4rem 0;
   border-top: 1px solid #e2e8f0;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .radar-chart-section .container.is-max-desktop {
   max-width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: var(--page-padding-desktop);
+  padding-right: var(--page-padding-desktop);
 }
 
 .radar-chart-wrapper {
@@ -2354,7 +2345,7 @@ section.hero.is-light .title.is-3::after {
 
 @media screen and (max-width: 768px) {
   .radar-chart-section {
-    padding: 3rem 0;
+    padding: 2rem 0;
   }
   
   .radar-chart-subtitle {
@@ -2393,7 +2384,7 @@ section.hero.is-light .title.is-3::after {
 
 @media screen and (max-width: 480px) {
   .radar-chart-section {
-    padding: 2.5rem 0;
+    padding: 2rem 0;
   }
   
   .radar-chart-header {
@@ -2958,7 +2949,7 @@ code {
   }
   
   .apple-teaser-image {
-    max-height: 70vh;
+    max-height: 85vh;
   }
   
   .authors-block-module {
@@ -3059,10 +3050,10 @@ code {
   }
   
   /* Authors use clamp() so responsive automatically - no override needed */
-  
+
   .authors-block-module {
     padding-left: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
   
   .authors-block-module::before {
@@ -3098,7 +3089,7 @@ code {
   }
   
   .apple-teaser-image {
-    max-height: 60vh;
+    max-height: 75vh;
   }
   
   .more-works-container {
@@ -3182,7 +3173,7 @@ code {
   
   .authors-block-module {
     padding-left: 16px;
-    margin-bottom: 20px; /* Reduced: 32px→20px */
+    margin-bottom: 16px;
   }
   
   .authors-block-module::before {
@@ -3225,7 +3216,7 @@ code {
   }
   
   .apple-teaser-image {
-    max-height: 50vh;
+    max-height: 60vh;
   }
   
   .more-works-container {
@@ -3310,7 +3301,7 @@ a:focus {
 .task-success-rate-section,
 .key-insights-section,
 .failure-analysis-section {
-  padding: 0;
+  padding: 2rem 0;
   margin: 0;
   background-color: transparent;
   width: 100%;
@@ -3390,17 +3381,18 @@ section.hero.is-light .container.is-max-desktop.page-shell {
 
 .apple-abstract p {
   font-size: 1.05rem !important;
-  line-height: 1.55 !important;
+  line-height: 1.65 !important;
   letter-spacing: normal !important;
-  color: #4b5563 !important;
+  color: var(--text-body) !important;
 }
 
 .content.has-text-justified {
   font-size: 1.05rem !important;
-  line-height: 1.55 !important;
+  line-height: 1.7 !important;
   text-align: left !important;
   letter-spacing: normal !important;
   word-spacing: normal !important;
+  color: var(--text-body) !important;
 }
 
 .content.has-text-justified p {
