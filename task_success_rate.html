@@ -449,14 +449,14 @@
         gap: 0.75rem;
       }
       
-      /* 移动端 Select 浮层化修复 */
+      /* Task Selector - Mobile overlay fix */
       .task-selector {
         width: 100%;
         position: relative !important;
         overflow: visible !important;
       }
       
-      /* Select 头部保持紧凑高度 */
+      /* Task selector header - Keep compact height */
       .task-selector-header {
         height: auto !important;
         min-height: 40px !important;
@@ -465,7 +465,7 @@
         padding-bottom: 0 !important;
       }
       
-      /* 下拉内容浮层化 - 不占据文档流 */
+      /* Task selector content - Overlay positioning, not in document flow */
       .task-selector-content {
         position: absolute !important;
         top: 100% !important;
@@ -483,7 +483,7 @@
         border-radius: 6px !important;
       }
       
-      /* 移除可能导致预留空间的样式 */
+      /* Remove styles that may cause reserved space */
       .task-selector-content[style*="display: none"] {
         display: none !important;
       }
@@ -522,26 +522,94 @@
         font-size: 0.75rem !important;
       }
       
-      /* 移除所有底部预留空间 - 最终强制覆盖 */
-      body {
-        padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
-        height: auto !important;
-        min-height: auto !important;
-      }
+      /* ============================================
+       * MOBILE LEADERBOARD BOTTOM SPACING FIX
+       * ============================================
+       * Goal: Remove excessive bottom spacing on mobile
+       * Keep only minimal 12-16px bottom padding for normal spacing
+       * ============================================ */
       
+      /* --------------------------------------------
+       * 1. Root Elements - Remove viewport height constraints
+       * -------------------------------------------- */
       html {
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
         height: auto !important;
         min-height: auto !important;
+        overflow-y: auto !important; /* Override index.css overflow-y: scroll */
       }
       
-      .table-container {
+      body {
+        padding-bottom: 16px !important; /* Keep minimal normal spacing */
+        margin-bottom: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+        display: block !important; /* Prevent flex + space-between layout */
+        overflow-y: auto !important; /* Allow scrolling without reserved space */
+      }
+      
+      /* --------------------------------------------
+       * 2. Wrapper Elements - Remove bottom spacing
+       * -------------------------------------------- */
+      /* Outermost wrapper div */
+      body > div {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+        display: block !important;
+      }
+      
+      /* Override inline styles on wrapper */
+      body > div[style*="width: 100%"] {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+      }
+      
+      /* Override index.css section padding */
+      .task-success-rate-section {
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
       }
       
+      /* --------------------------------------------
+       * 3. Table Container - Remove all bottom spacing
+       * -------------------------------------------- */
+      .table-container {
+        padding: 0.5rem 1rem 0 1rem !important; /* Override inline styles, ensure bottom is 0 */
+        margin-bottom: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+      }
+      
+      /* Force override inline padding styles */
+      .table-container[style*="padding"] {
+        padding-bottom: 0 !important;
+      }
+      
+      /* Table container children - remove bottom spacing */
+      .table-container > div:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .table-container > div[style*="overflow-x"] {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        height: auto !important;
+      }
+      
+      .table-container *:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      /* --------------------------------------------
+       * 4. Table Header & Controls - Remove bottom spacing
+       * -------------------------------------------- */
       .table-header {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
@@ -552,11 +620,22 @@
         padding-bottom: 0 !important;
       }
       
+      /* --------------------------------------------
+       * 5. Table Elements - Remove all bottom spacing
+       * -------------------------------------------- */
       .success-rate-table {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        height: auto !important;
+        max-height: none !important;
+      }
+      
+      .success-rate-table tbody {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
       }
       
+      /* Last table row - remove bottom spacing */
       .success-rate-table tbody tr:last-child {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
@@ -568,14 +647,42 @@
         border-bottom: none !important;
       }
       
-      /* 确保所有容器都没有底部空间 */
-      .table-container > *:last-child {
+      /* Remove pseudo-element spacing */
+      .success-rate-table tbody tr:last-child::after {
+        content: none !important;
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
       }
       
-      /* 确保包装 div 也没有底部空间 */
-      body > div:last-child {
+      /* --------------------------------------------
+       * 6. Overflow Containers - Remove bottom spacing
+       * -------------------------------------------- */
+      div[style*="overflow-x: auto"] {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      /* --------------------------------------------
+       * 7. Pseudo-elements - Remove all spacing
+       * -------------------------------------------- */
+      .table-container::after,
+      .table-container::before,
+      .success-rate-table::after,
+      .success-rate-table::before {
+        content: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      /* --------------------------------------------
+       * 8. Final Override - Ensure all last children have no bottom spacing
+       * -------------------------------------------- */
+      body > *:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      body > div > *:last-child {
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
       }
