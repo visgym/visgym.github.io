@@ -186,17 +186,17 @@
   <!-- Apple-style Split Layout Hero Section -->
   <section class="hero apple-hero">
     <!-- Full-width Title -->
-    <div class="apple-title-container">
+    <div class="apple-title-container page-shell">
       <h1 class="publication-title apple-title">
-        <span class="title-main" style="display: inline-flex; align-items: center; gap: 1rem;">
-          <img src="static/images/icon.png" alt="VisGym Logo" style="height: 1.2em; width: auto; vertical-align: middle;">
+        <span class="title-main">
+          <img src="static/images/icon.png" alt="VisGym Logo">
           VisGym
         </span>
         <br><span class="title-subtitle">Diverse, Customizable, Scalable Environments for Multimodal Agents</span>
       </h1>
     </div>
     
-    <div class="hero-split-container">
+    <div class="hero-split-container page-shell">
       <!-- Left Panel: Information Console -->
       <div class="hero-left-panel">
         <div class="hero-content-wrapper">
@@ -267,23 +267,21 @@
 
           <span class="link-block">
           <a href="#" onclick="return false;"
-          class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Coming Soon - 还没更新">
+          class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Code">
           <span class="icon">
             <i class="fab fa-github"></i>
           </span>
           <span>Code</span>
-          <span class="coming-soon-text" style="font-size: 0.7rem; opacity: 0.7; margin-left: 0.25rem;">(Coming Soon)</span>
         </a>
       </span>
 
       <span class="link-block">
         <a href="#" onclick="return false;"
-        class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Coming Soon - 还没更新">
+        class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="arXiv">
         <span class="icon">
           <i class="ai ai-arxiv"></i>
         </span>
         <span>arXiv</span>
-        <span class="coming-soon-text" style="font-size: 0.7rem; opacity: 0.7; margin-left: 0.25rem;">(Coming Soon)</span>
       </a>
     </span>
           </div>
@@ -299,8 +297,8 @@
     </div>
     
     <!-- Mobile: Buttons container (shown after teaser image) -->
-    <div class="hero-buttons-mobile-container" style="display: none;">
-      <div class="hero-content-wrapper" style="padding: 0 16px 20px;">
+    <div class="hero-buttons-mobile-container">
+      <div class="hero-content-wrapper">
         <div class="publication-links apple-links">
           <span class="link-block">
             <a href="static/pdfs/visgym.pdf" target="_blank"
@@ -313,26 +311,24 @@
         </span>
 
         <span class="link-block">
+          <a href="#" onclick="return false;"
+          class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Code">
+          <span class="icon">
+            <i class="fab fa-github"></i>
+          </span>
+          <span>Code</span>
+        </a>
+      </span>
+
+      <span class="link-block">
         <a href="#" onclick="return false;"
-        class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Coming Soon - 还没更新">
+        class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="arXiv">
         <span class="icon">
-          <i class="fab fa-github"></i>
+          <i class="ai ai-arxiv"></i>
         </span>
-        <span>Code</span>
-        <span class="coming-soon-text" style="font-size: 0.7rem; opacity: 0.7; margin-left: 0.25rem;">(Coming Soon)</span>
+        <span>arXiv</span>
       </a>
     </span>
-
-    <span class="link-block">
-      <a href="#" onclick="return false;"
-      class="external-link button is-normal is-rounded is-dark apple-button coming-soon-button" title="Coming Soon - 还没更新">
-      <span class="icon">
-        <i class="ai ai-arxiv"></i>
-      </span>
-      <span>arXiv</span>
-      <span class="coming-soon-text" style="font-size: 0.7rem; opacity: 0.7; margin-left: 0.25rem;">(Coming Soon)</span>
-    </a>
-  </span>
         </div>
       </div>
     </div>
@@ -340,15 +336,16 @@
   <!-- End Apple-style Hero -->
 
 <!-- Paper abstract -->
-<section class="section hero is-light" style="padding: 2rem 0;">
-  <div class="container is-max-desktop">
+<section class="section hero is-light">
+  <div class="container is-max-desktop page-shell">
     <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths" style="padding: 0;">
+      <div class="column is-four-fifths abstract-column">
         <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified" style="margin-top: 0.5rem;">
-          <p>
-            Modern Vision–Language Models (VLMs) remain poorly characterized in multi-step visual interactions, particularly in how they integrate perception, memory, and action over long horizons. We introduce <span class="highlight-contribution">VisGym</span>, a comprehensive gymnasium of <span class="highlight-contribution">17 diverse environments</span> designed to <span class="highlight-contribution">systematically evaluate and train VLMs</span> on visually interactive tasks. The suite spans multiple domains—including symbolic puzzles, real-image understanding, navigation, and manipulation—and provides flexible controls over difficulty, input representation, planning horizon, and feedback mechanisms. We also provide multi-step solvers that generate structured demonstrations, enabling supervised finetuning approaches. Our comprehensive evaluations reveal that all frontier models struggle significantly in interactive settings, achieving low success rates in both easy (<span class="stat-easy">26.8%</span>) and hard (<span class="stat-hard">12.6%</span>) configurations. Through detailed experiments, we identify several critical limitations: models <span class="highlight-negative">fail to effectively leverage long context</span>, performing worse with unbounded history than with truncated windows. Additionally, we find that several text-based symbolic tasks become substantially harder once rendered visually, highlighting the unique challenges of visual reasoning. However, we demonstrate that explicit goal observations, textual feedback, and exploratory demonstrations in partially observable or unknown-dynamics settings yield <span class="highlight-negative">consistent improvements through supervised finetuning</span>, revealing concrete failure modes and actionable pathways for advancing multi-step visual decision-making. All code, data, and models will be publicly released.
-          </p>
+        <div class="content has-text-justified abstract-content">
+          <p>Modern Vision–Language Models (VLMs) remain poorly characterized in multi-step visual interactions, particularly in how they integrate perception, memory, and action over long horizons.</p>
+          <p>We introduce <span class="highlight-contribution">VisGym</span>, a comprehensive gymnasium of <span class="highlight-contribution">17 diverse environments</span> designed to <span class="highlight-contribution">systematically evaluate and train VLMs</span> on visually interactive tasks. The suite spans multiple domains—including symbolic puzzles, real-image understanding, navigation, and manipulation—and provides flexible controls over difficulty, input representation, planning horizon, and feedback mechanisms. We also provide multi-step solvers that generate structured demonstrations, enabling supervised finetuning approaches.</p>
+          <p>Our comprehensive evaluations reveal that all frontier models struggle significantly in interactive settings, achieving low success rates in both easy (<span class="stat-easy">26.8%</span>) and hard (<span class="stat-hard">12.6%</span>) configurations. Through detailed experiments, we identify several critical limitations: models <span class="highlight-negative">fail to effectively leverage long context</span>, performing worse with unbounded history than with truncated windows. Additionally, we find that several text-based symbolic tasks become substantially harder once rendered visually, highlighting the unique challenges of visual reasoning.</p>
+          <p>However, we demonstrate that explicit goal observations, textual feedback, and exploratory demonstrations in partially observable or unknown-dynamics settings yield <span class="highlight-negative">consistent improvements through supervised finetuning</span>, revealing concrete failure modes and actionable pathways for advancing multi-step visual decision-making. All code, data, and models will be publicly released.</p>
         </div>
       </div>
     </div>
@@ -357,30 +354,29 @@
 <!-- End paper abstract -->
 
 <!-- AI Agent Replay Dashboard -->
-<div class="dashboard-embed-container" style="width: 100%; margin: 0; padding: 0; border: none; overflow: visible;">
+<div class="dashboard-embed-container embed-shell">
   <iframe 
     src="replay_dashboard.html" 
-    style="width: 100%; min-height: 900px; height: auto; border: none; display: block; margin: 0; padding: 0;"
     title="AI Agent Replay Dashboard"
     allowfullscreen
-    onload="this.style.height = Math.max(900, this.contentWindow.document.body.scrollHeight + 20) + 'px';"
-    class="dashboard-iframe">
+    onload="this.style.height = Math.max(900, this.contentWindow.document.body.scrollHeight) + 'px';"
+    class="dashboard-iframe embed-frame embed-900">
   </iframe>
 </div>
 <!-- End AI Agent Replay Dashboard -->
 
 <!-- Frontier VLMs Fail Section -->
-<section class="frontier-fail-section" style="padding: 2rem 0; background-color: #ffffff;">
-  <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
+<section class="frontier-fail-section">
+  <div class="container is-max-desktop page-shell">
     <div class="frontier-fail-content">
       <h2 class="frontier-fail-title">Frontier VLMs Fail on VisGym</h2>
-      <p class="frontier-fail-description" style="margin-bottom: 1.5rem;">
+      <p class="frontier-fail-description">
         Even the best-performing frontier model, GPT-5, achieves only <strong class="stat-easy">26.43%</strong> on VisGym (Easy) and <strong class="stat-hard">12.57%</strong> on VisGym (Hard), indicating that VisGym poses a significant challenge for existing models.
       </p>
       
-      <div class="frontier-fail-image-single" style="margin-top: 1.5rem;">
-        <div class="frontier-fail-image-container" style="width: 100%; max-width: 800px; margin: 0 auto; height: 400px; display: flex; align-items: center; justify-content: center;">
-          <img src="static/images/avg_performance.png" alt="Average Performance" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none;" loading="lazy">
+      <div class="frontier-fail-image-single">
+        <div class="frontier-fail-image-container">
+          <img src="static/images/avg_performance.png" alt="Average Performance" loading="lazy">
         </div>
       </div>
     </div>
@@ -389,18 +385,20 @@
 <!-- End Frontier VLMs Fail Section -->
 
 <!-- Task Success Rate Table -->
-<section class="task-success-rate-section" style="padding: 2rem 0 0.5rem 0; background-color: #fafafa; width: 100%; border: none; margin: 0;">
-  <iframe 
-    src="task_success_rate.html" 
-    style="width: 100%; min-height: 800px; height: auto; border: none; display: block; margin: 0; padding: 0;"
-    title="Task Success Rate Table"
-    allowfullscreen
-    onload="this.style.height = Math.max(800, this.contentWindow.document.body.scrollHeight + 20) + 'px';">
-  </iframe>
+<section class="task-success-rate-section">
+  <div class="embed-shell">
+    <iframe 
+      src="task_success_rate.html" 
+      title="Task Success Rate Table"
+      allowfullscreen
+      onload="this.style.height = Math.max(800, this.contentWindow.document.body.scrollHeight) + 'px';"
+      class="embed-frame embed-800">
+    </iframe>
+  </div>
 </section>
 <!-- Understanding How Multimodal Agents Fail Section -->
-<section class="understanding-failures-section" style="padding: 1rem 0; background-color: #ffffff;">
-  <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
+<section class="understanding-failures-section">
+  <div class="container is-max-desktop page-shell">
     <div class="understanding-failures-content">
       <h2 class="understanding-failures-title">Understanding How Multimodal Agents Fail</h2>
     </div>
@@ -409,32 +407,36 @@
 <!-- End Understanding How Multimodal Agents Fail Section -->
 
 <!-- Key Insights Section -->
-<section class="key-insights-section" style="padding: 1rem 0; background-color: #ffffff; width: 100%;">
-  <iframe 
-    src="key_insights.html" 
-    style="width: 100%; min-height: 1500px; height: auto; border: none; display: block; margin: 0; padding: 0;"
-    title="Deep Insights & Discoveries"
-    allowfullscreen
-    onload="this.style.height = Math.max(1500, this.contentWindow.document.body.scrollHeight + 20) + 'px';">
-  </iframe>
+<section class="key-insights-section">
+  <div class="embed-shell">
+    <iframe 
+      src="key_insights.html" 
+      title="Deep Insights & Discoveries"
+      allowfullscreen
+      onload="this.style.height = Math.max(1500, this.contentWindow.document.body.scrollHeight) + 'px';"
+      class="embed-frame embed-1500">
+    </iframe>
+  </div>
 </section>
 <!-- End Key Insights Section -->
 
 <!-- Failure Analysis Section -->
-<section class="failure-analysis-section" style="padding: 0.5rem 0; background-color: #ffffff; width: 100%;">
-  <iframe 
-    src="failure_analysis.html" 
-    style="width: 100%; min-height: 1500px; height: auto; border: none; display: block; margin: 0; padding: 0;"
-    title="Qualitative Failure Analysis"
-    allowfullscreen
-    onload="this.style.height = Math.max(1500, this.contentWindow.document.body.scrollHeight + 20) + 'px';">
-  </iframe>
+<section class="failure-analysis-section">
+  <div class="embed-shell">
+    <iframe 
+      src="failure_analysis.html" 
+      title="Qualitative Failure Analysis"
+      allowfullscreen
+      onload="this.style.height = Math.max(1500, this.contentWindow.document.body.scrollHeight) + 'px';"
+      class="embed-frame embed-1500">
+    </iframe>
+  </div>
 </section>
 <!-- End Failure Analysis Section -->
 
 <!-- Radar Chart Comparison Section -->
-<section class="radar-chart-section" style="padding: 2rem 0;">
-  <div class="container is-max-desktop" style="max-width: 100%; padding-left: 20px; padding-right: 20px;">
+<section class="radar-chart-section">
+  <div class="container is-max-desktop page-shell">
     <div class="radar-chart-wrapper">
       <div class="radar-chart-header">
         <h2 class="radar-chart-why-title">Why VisGym</h2>
@@ -565,7 +567,7 @@
           </tbody>
         </table>
       </div>
-      <div class="radar-chart-explanation" style="margin-top: 2rem;">
+      <div class="radar-chart-explanation">
         <ul class="radar-chart-explanation-list">
           <li><strong>Struct. Obs.</strong> and <strong>Non-struct. Obs.</strong> indicate whether visual inputs can be parsed into structured text.</li>
           <li><strong>POMDP</strong> denotes partial observability with hidden states.</li>
@@ -586,7 +588,7 @@
 
 <!--BibTex citation -->
   <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
+    <div class="container is-max-desktop content page-shell">
       <div class="bibtex-header">
         <h2 class="title">BibTeX</h2>
         <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">

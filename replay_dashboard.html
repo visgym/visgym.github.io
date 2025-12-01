@@ -7,13 +7,15 @@
   <link rel="stylesheet" href="static/css/replay_dashboard.css">
 </head>
 <body>
-  <div class="dashboard-header">
-    <div class="header-title">AI Agent Replay Dashboard</div>
-  </div>
-  
-  <div class="environment-nav-container">
-    <div class="environment-nav-scroll" id="environmentNavScroll">
-      <div class="environment-cards-wrapper" id="environmentCardsWrapper">
+  <div class="dashboard-shell">
+    <div class="dashboard-header">
+      <div class="header-title">AI Agent Replay Dashboard</div>
+    </div>
+    
+    <!-- All Envs Marquee / Grid -->
+    <div class="environment-nav-container">
+      <div class="environment-nav-scroll" id="environmentNavScroll">
+        <div class="environment-cards-wrapper" id="environmentCardsWrapper" translate="no">
       <div class="environment-card" data-env="ToyMaze3DEnv-v0" onclick="selectEnvironment('ToyMaze3DEnv-v0')">
         <div class="card-image-wrapper">
           <img class="card-image" src="static/appendix/ToyMaze3DEnv-v0/image_0.png" alt="ToyMaze3D" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EToyMaze3D%3C/text%3E%3C/svg%3E'" />
@@ -126,162 +128,164 @@
         </div>
         <div class="card-label">RefCOCOPlus</div>
       </div>
-      <div class="environment-card" data-env="zoom_in__ZoomInEnv-v0" onclick="selectEnvironment('zoom_in__ZoomInEnv-v0')">
+      <div class="environment-card" data-env="zoom_in__ZoomInEnv-v0" onclick="selectEnvironment('zoom_in__ZoomInEnv-v0')" translate="no">
         <div class="card-image-wrapper">
           <img class="card-image" src="static/appendix/zoom_in__ZoomInEnv-v0/image_0.png" alt="ZoomIn" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Crect fill=%22%23e0e0e0%22 width=%22100%22 height=%2260%22/%3E%3Ctext x=%2250%22 y=%2230%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22%3EZoomIn%3C/text%3E%3C/svg%3E'" />
           <div class="card-status-bar"></div>
         </div>
         <div class="card-label">ZoomIn</div>
       </div>
+        </div>
       </div>
     </div>
-  </div>
   
-  <!-- Mission Data Card and Goal - Between Navigation and Dashboard -->
-  <div class="mission-data-container" id="missionDataContainer">
-    <div class="info-card mission-data-card" id="environmentInfoCard">
-      <div class="mission-header">
-        <span class="mission-title">// LEVEL_CONFIG_LOADED</span>
-        <span class="cursor-blink">_</span>
-      </div>
-      <div class="mission-content">
-        <div class="mission-stats">
-          <div class="stat-item">
-            <div class="stat-icon">█</div>
-            <div class="stat-info">
-              <div class="stat-label">DOMAIN</div>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" id="statDomainBar"></div>
-                <span class="stat-value" id="infoDomain">-</span>
-              </div>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">█</div>
-            <div class="stat-info">
-              <div class="stat-label">OBSERVABILITY</div>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" id="statObsBar"></div>
-                <span class="stat-value" id="infoObs">-</span>
-              </div>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">█</div>
-            <div class="stat-info">
-              <div class="stat-label">DYNAMICS</div>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" id="statDynBar"></div>
-                <span class="stat-value" id="infoDyn">-</span>
-              </div>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon">█</div>
-            <div class="stat-info">
-              <div class="stat-label">PARAMETERS</div>
-              <div class="stat-bar">
-                <div class="stat-bar-fill" id="statPBar"></div>
-                <span class="stat-value" id="infoP">-</span>
-              </div>
-            </div>
-          </div>
+    <!-- Mission Data Card and Goal - Between Navigation and Dashboard -->
+    <div class="mission-data-container" id="missionDataContainer">
+      <div class="info-card mission-data-card" id="environmentInfoCard">
+        <div class="mission-header">
+          <span class="mission-title">// LEVEL_CONFIG_LOADED</span>
+          <span class="cursor-blink">_</span>
         </div>
-      </div>
-    </div>
-    
-    <!-- Goal Card - Parallel to Mission Data Card -->
-    <div class="info-card goal-card" id="goalCard">
-      <div class="goal-label">TARGET</div>
-      <div class="goal-content-wrapper">
-        <div class="goal-content design-context" id="designContext">
-          Select an environment to view the task context and goal.<span class="goal-cursor">█</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="dashboard-container" id="dashboardContainer">
-    <!-- Left Panel: Visuals -->
-    <div class="left-panel">
-      <div class="image-container">
-        <div id="imagePlaceholder" class="image-placeholder">No environment selected</div>
-        <img id="agentViewImage" class="agent-view-image" style="display: none;" alt="Agent View" />
-      </div>
-    </div>
-
-    <!-- Right Panel: Data & Logic -->
-    <div class="right-panel">
-      <!-- Tri-Core Console -->
-      <div class="console-container">
-        <!-- Monitor 01: Feedback -->
-        <div class="monitor-wrapper" id="feedbackMonitor">
-          <div class="monitor-frame">
-            <div class="monitor-header">
-              <span class="monitor-label">MONITOR_01</span>
-              <span class="monitor-status">●</span>
-            </div>
-            <div class="monitor-screen">
-              <div class="monitor-title">FEEDBACK</div>
-              <div class="monitor-content">
-                <div class="feedback-text" id="promptText">Waiting for environment selection...</div>
+        <div class="mission-content">
+          <div class="mission-stats">
+            <div class="stat-item">
+              <div class="stat-icon">█</div>
+              <div class="stat-info">
+                <div class="stat-label">DOMAIN</div>
+                <div class="stat-bar">
+                  <div class="stat-bar-fill" id="statDomainBar"></div>
+                  <span class="stat-value" id="infoDomain">-</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        
-        <!-- Console Cable -->
-        <div class="console-cable" id="consoleCable"></div>
-        
-        <!-- Monitor 02: Action -->
-        <div class="monitor-wrapper">
-          <div class="monitor-frame">
-            <div class="monitor-header">
-              <span class="monitor-label">MONITOR_02</span>
-              <span class="monitor-status">●</span>
-            </div>
-            <div class="monitor-screen">
-              <div class="monitor-title">ACTION</div>
-              <div class="monitor-content">
-                <div class="action-terminal" id="actionOutput">-</div>
+            <div class="stat-item">
+              <div class="stat-icon">█</div>
+              <div class="stat-info">
+                <div class="stat-label">OBSERVABILITY</div>
+                <div class="stat-bar">
+                  <div class="stat-bar-fill" id="statObsBar"></div>
+                  <span class="stat-value" id="infoObs">-</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Player Controls -->
-  <div class="bottom-player-controls">
-    <div class="player-controls-container">
-      <div class="player-progress-section">
-        <div class="step-indicator" id="stepIndicator">Select an environment to start</div>
-        <div class="progress-bar-container">
-          <div class="progress-bar" id="progressBar">
-            <div class="progress-fill" id="progressFill"></div>
+            <div class="stat-item">
+              <div class="stat-icon">█</div>
+              <div class="stat-info">
+                <div class="stat-label">DYNAMICS</div>
+                <div class="stat-bar">
+                  <div class="stat-bar-fill" id="statDynBar"></div>
+                  <span class="stat-value" id="infoDyn">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-icon">█</div>
+              <div class="stat-info">
+                <div class="stat-label">PARAMETERS</div>
+                <div class="stat-bar">
+                  <div class="stat-bar-fill" id="statPBar"></div>
+                  <span class="stat-value" id="infoP">-</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="player-buttons-group">
-        <button class="player-nav-button" id="firstButton" onclick="navigateToStep(0)" disabled>
-          <span class="player-button-icon">⏮</span>
-        </button>
-        <button class="player-nav-button" id="prevButton" onclick="navigateStep(-1)" disabled>
-          <span class="player-button-icon">◀</span>
-        </button>
-        <button class="player-nav-button player-play-button" id="playPauseButton" onclick="togglePlayPause()">
-          <span class="player-button-icon" id="playPauseIcon">⏸</span>
-        </button>
-        <button class="player-nav-button" id="nextButton" onclick="navigateStep(1)" disabled>
-          <span class="player-button-icon">▶</span>
-        </button>
-        <button class="player-nav-button" id="lastButton" onclick="navigateToStep(-1)" disabled>
-          <span class="player-button-icon">⏭</span>
-        </button>
+      <!-- Goal Card - Parallel to Mission Data Card -->
+      <div class="info-card goal-card" id="goalCard">
+        <div class="goal-label">TARGET</div>
+        <div class="goal-content-wrapper">
+          <div class="goal-content design-context" id="designContext">
+            Select an environment to view the task context and goal.<span class="goal-cursor">█</span>
+          </div>
+        </div>
       </div>
     </div>
+  
+    <div class="dashboard-container" id="dashboardContainer">
+      <!-- Left Panel: Visuals -->
+      <div class="left-panel">
+        <div class="image-container">
+          <div id="imagePlaceholder" class="image-placeholder">No environment selected</div>
+          <img id="agentViewImage" class="agent-view-image" style="display: none;" alt="Agent View" />
+        </div>
+      </div>
+
+      <!-- Right Panel: Data & Logic -->
+      <div class="right-panel">
+        <!-- Tri-Core Console -->
+        <div class="console-container">
+          <!-- Monitor 01: Feedback -->
+          <div class="monitor-wrapper" id="feedbackMonitor">
+            <div class="monitor-frame">
+              <div class="monitor-header">
+                <span class="monitor-label">MONITOR_01</span>
+                <span class="monitor-status">●</span>
+              </div>
+              <div class="monitor-screen">
+                <div class="monitor-title">FEEDBACK</div>
+                <div class="monitor-content">
+                  <div class="feedback-text" id="promptText">Waiting for environment selection...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Console Cable -->
+          <div class="console-cable" id="consoleCable"></div>
+          
+          <!-- Monitor 02: Action -->
+          <div class="monitor-wrapper">
+            <div class="monitor-frame">
+              <div class="monitor-header">
+                <span class="monitor-label">MONITOR_02</span>
+                <span class="monitor-status">●</span>
+              </div>
+              <div class="monitor-screen">
+                <div class="monitor-title">ACTION</div>
+                <div class="monitor-content">
+                  <div class="action-terminal" id="actionOutput">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Player Controls -->
+    <div class="bottom-player-controls">
+      <div class="player-controls-container">
+        <div class="player-progress-section">
+          <div class="step-indicator" id="stepIndicator">Select an environment to start</div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="player-buttons-group">
+          <button class="player-nav-button" id="firstButton" onclick="navigateToStep(0)" disabled>
+            <span class="player-button-icon">⏮</span>
+          </button>
+          <button class="player-nav-button" id="prevButton" onclick="navigateStep(-1)" disabled>
+            <span class="player-button-icon">◀</span>
+          </button>
+          <button class="player-nav-button player-play-button" id="playPauseButton" onclick="togglePlayPause()">
+            <span class="player-button-icon" id="playPauseIcon">⏸</span>
+          </button>
+          <button class="player-nav-button" id="nextButton" onclick="navigateStep(1)" disabled>
+            <span class="player-button-icon">▶</span>
+          </button>
+          <button class="player-nav-button" id="lastButton" onclick="navigateToStep(-1)" disabled>
+            <span class="player-button-icon">⏭</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -1178,6 +1182,10 @@
       initEnvironmentCardsScroll();
       startAutoCyclingEnvironments();
     }
+  </script>
+
+  <script>
+    // No marquee duplication needed; mobile grid shows all envs
   </script>
 </body>
 </html>

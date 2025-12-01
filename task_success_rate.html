@@ -27,7 +27,7 @@
       border-radius: 0;
       box-shadow: none;
       padding: 0.5rem 0 0 0;
-      margin: 0;
+      margin: 0 0 0 0;
       max-width: 100%;
       width: 100%;
     }
@@ -42,6 +42,8 @@
     
     .table-header {
       margin-bottom: 0;
+      position: relative;
+      overflow: visible;
     }
     
     .table-title {
@@ -77,6 +79,8 @@
       margin-bottom: 1.5rem;
       flex-wrap: wrap;
       align-items: center;
+      position: relative;
+      overflow: visible;
     }
     
     .task-selector {
@@ -99,11 +103,29 @@
     @keyframes slideDown {
       from {
         opacity: 0;
-        max-height: 0;
+        transform: translateY(-8px);
       }
       to {
         opacity: 1;
-        max-height: none;
+        transform: translateY(0);
+      }
+    }
+    
+    /* 移动端：禁用可能导致预留空间的动画 */
+    @media (max-width: 768px) {
+      .task-selector-content {
+        animation: slideDownMobile 0.3s ease-out;
+      }
+      
+      @keyframes slideDownMobile {
+        from {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
     }
     
@@ -427,12 +449,49 @@
         gap: 0.75rem;
       }
       
+      /* 移动端 Select 浮层化修复 */
       .task-selector {
         width: 100%;
+        position: relative !important;
+        overflow: visible !important;
+      }
+      
+      /* Select 头部保持紧凑高度 */
+      .task-selector-header {
+        height: auto !important;
+        min-height: 40px !important;
+        max-height: 48px !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      /* 下拉内容浮层化 - 不占据文档流 */
+      .task-selector-content {
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 9999 !important;
+        margin-top: 4px !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        min-height: auto !important;
+        height: auto !important;
+        background-color: white !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        border: 2px solid #e0e0e0 !important;
+        border-radius: 6px !important;
+      }
+      
+      /* 移除可能导致预留空间的样式 */
+      .task-selector-content[style*="display: none"] {
+        display: none !important;
       }
       
       .task-checkboxes-container {
         max-height: 200px;
+        margin: 0 !important;
+        padding-bottom: 0 !important;
       }
       
       .success-rate-table {
@@ -461,6 +520,64 @@
       
       .taskSelectorToggle {
         font-size: 0.75rem !important;
+      }
+      
+      /* 移除所有底部预留空间 - 最终强制覆盖 */
+      body {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+      }
+      
+      html {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
+      }
+      
+      .table-container {
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+      }
+      
+      .table-header {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .table-controls {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .success-rate-table {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .success-rate-table tbody tr:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      .success-rate-table tbody tr:last-child td {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom: none !important;
+      }
+      
+      /* 确保所有容器都没有底部空间 */
+      .table-container > *:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      
+      /* 确保包装 div 也没有底部空间 */
+      body > div:last-child {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
       }
     }
     
