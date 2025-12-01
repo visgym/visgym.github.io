@@ -1,0 +1,10 @@
+# robots.txt for VisGym Project Page
+# Allow all search engines to crawl all content
+# Domain: https://visgym.github.io/
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://visgym.github.io/sitemap.xml
+
