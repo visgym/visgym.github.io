@@ -749,6 +749,12 @@
         </table>
       </div>
       
+      <div style="display: flex; justify-content: center; margin-top: 1.5rem; padding: 0 20px;">
+        <button id="expandLeaderboardBtn" onclick="toggleLeaderboard()" style="font-family: 'Space Mono', monospace; font-size: 0.75rem; padding: 0.5rem 1rem; border: 2px solid #003262; border-radius: 6px; background-color: #f8f9fa; color: #003262; cursor: pointer; transition: all 0.3s;">
+          <span id="expandLeaderboardText">Show All Models</span> <span id="expandLeaderboardIcon">▼</span>
+        </button>
+      </div>
+      
     </div>
   </div>
   
@@ -863,6 +869,7 @@
     
     let currentSort = { column: null, direction: 'asc' };
     let selectedTaskIndices = []; // Array of selected task indices
+    let isLeaderboardExpanded = false; // Default: collapsed, only show Single-Task and Mixed-Task
     
     // Calculate average for each model across selected tasks
     function calculateAverage(row, taskIndices) {
@@ -1007,8 +1014,14 @@
         const avg = calculateAverage(row, visibleTaskIndices);
         
         // Check if this is one of our models
-        if (row.model === 'Single-Task Fine-Tuning' || row.model === 'Mixed-Task Fine-Tuning') {
+        const isOurModel = row.model === 'Single-Task Fine-Tuning' || row.model === 'Mixed-Task Fine-Tuning';
+        if (isOurModel) {
           tr.classList.add('ours-model');
+        }
+        
+        // Default: hide rows that are not Single-Task or Mixed-Task
+        if (!isLeaderboardExpanded && !isOurModel) {
+          tr.classList.add('hidden');
         }
         
         let cellsHTML = `<td class="task-name">${row.model}</td>`;
@@ -1116,6 +1129,36 @@
         toggle.textContent = isHidden ? '▲' : '▼';
       });
     }
+    
+    // Toggle leaderboard expand/collapse
+    window.toggleLeaderboard = function() {
+      isLeaderboardExpanded = !isLeaderboardExpanded;
+      const tbody = document.getElementById('tableBody');
+      const rows = tbody.querySelectorAll('tr');
+      const expandBtn = document.getElementById('expandLeaderboardBtn');
+      const expandText = document.getElementById('expandLeaderboardText');
+      const expandIcon = document.getElementById('expandLeaderboardIcon');
+      
+      rows.forEach(row => {
+        const isOurModel = row.classList.contains('ours-model');
+        if (!isOurModel) {
+          if (isLeaderboardExpanded) {
+            row.classList.remove('hidden');
+          } else {
+            row.classList.add('hidden');
+          }
+        }
+      });
+      
+      // Update button text and icon
+      if (isLeaderboardExpanded) {
+        expandText.textContent = 'Hide Other Models';
+        expandIcon.textContent = '▲';
+      } else {
+        expandText.textContent = 'Show All Models';
+        expandIcon.textContent = '▼';
+      }
+    };
     
     // Initialize table
     initializeTaskSelector();

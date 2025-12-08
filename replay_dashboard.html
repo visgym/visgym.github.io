@@ -575,11 +575,14 @@
         // Wait shorter time at briefing if auto-cycling (3 seconds), otherwise 8 seconds
         const briefingDelay = isAutoCyclingEnvironments ? 3000 : 8000;
         setTimeout(() => {
-          if (currentEnvironment === envName) {
+          if (currentEnvironment === envName && traceData.length > 0) {
             currentStepIndex = 0; // Move to stepId === 1
             updateDisplay();
             updateNavigationButtons();
+            // Ensure we're not already playing before starting
+            if (!isPlaying) {
             startPlaying();
+            }
           }
         }, briefingDelay);
       } catch (error) {
@@ -1081,13 +1084,24 @@
 
     // Start auto-playing
     function startPlaying() {
-      if (isPlaying || traceData.length === 0) return;
+      if (isPlaying) return;
+      
+      // Check if traceData is loaded
+      if (traceData.length === 0) {
+        console.warn('Cannot start playing: traceData is empty');
+        return;
+      }
       
       isPlaying = true;
       updatePlayPauseButton();
       
       // Reset cycle count when starting to play
       stepCycleCount = 0;
+      
+      // Clear any existing interval
+      if (playInterval) {
+        clearInterval(playInterval);
+      }
       
       playInterval = setInterval(() => {
         // If at briefing state, move to first step
