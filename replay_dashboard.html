@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
-  <title>AI Agent Replay Dashboard</title>
+  <title>Environment Episode Progression</title>
   <link rel="stylesheet" href="static/css/replay_dashboard.css">
 </head>
 <body>
   <div class="dashboard-shell">
     <div class="dashboard-header">
-      <div class="header-title">AI Agent Replay Dashboard</div>
+      <div class="header-title">Environment Episode Progression</div>
     </div>
     
     <!-- All Envs Marquee / Grid -->
@@ -139,60 +139,8 @@
       </div>
     </div>
   
-    <!-- Mission Data Card and Goal - Between Navigation and Dashboard -->
+    <!-- Goal Card - Between Navigation and Dashboard -->
     <div class="mission-data-container" id="missionDataContainer">
-      <div class="info-card mission-data-card" id="environmentInfoCard">
-        <div class="mission-header">
-          <span class="mission-title">// LEVEL_CONFIG_LOADED</span>
-          <span class="cursor-blink">_</span>
-        </div>
-        <div class="mission-content">
-          <div class="mission-stats">
-            <div class="stat-item">
-              <div class="stat-icon">█</div>
-              <div class="stat-info">
-                <div class="stat-label">DOMAIN</div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill" id="statDomainBar"></div>
-                  <span class="stat-value" id="infoDomain">-</span>
-                </div>
-              </div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">█</div>
-              <div class="stat-info">
-                <div class="stat-label">OBSERVABILITY</div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill" id="statObsBar"></div>
-                  <span class="stat-value" id="infoObs">-</span>
-                </div>
-              </div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">█</div>
-              <div class="stat-info">
-                <div class="stat-label">DYNAMICS</div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill" id="statDynBar"></div>
-                  <span class="stat-value" id="infoDyn">-</span>
-                </div>
-              </div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-icon">█</div>
-              <div class="stat-info">
-                <div class="stat-label">PARAMETERS</div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill" id="statPBar"></div>
-                  <span class="stat-value" id="infoP">-</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Goal Card - Parallel to Mission Data Card -->
       <div class="info-card goal-card" id="goalCard">
         <div class="goal-label">TARGET</div>
         <div class="goal-content-wrapper">
@@ -219,12 +167,7 @@
           <!-- Monitor 01: Feedback -->
           <div class="monitor-wrapper" id="feedbackMonitor">
             <div class="monitor-frame">
-              <div class="monitor-header">
-                <span class="monitor-label">MONITOR_01</span>
-                <span class="monitor-status">●</span>
-              </div>
               <div class="monitor-screen">
-                <div class="monitor-title">FEEDBACK</div>
                 <div class="monitor-content">
                   <div class="feedback-text" id="promptText">Waiting for environment selection...</div>
                 </div>
@@ -238,12 +181,7 @@
           <!-- Monitor 02: Action -->
           <div class="monitor-wrapper">
             <div class="monitor-frame">
-              <div class="monitor-header">
-                <span class="monitor-label">MONITOR_02</span>
-                <span class="monitor-status">●</span>
-              </div>
               <div class="monitor-screen">
-                <div class="monitor-title">ACTION</div>
                 <div class="monitor-content">
                   <div class="action-terminal" id="actionOutput">-</div>
                 </div>
@@ -447,6 +385,7 @@
     const environmentCycleDelay = 5000; // 5 seconds per environment (adjust based on steps)
     let stepCycleCount = 0;
     const maxCyclesPerEnvironment = 1; // Play each environment 1 full cycle before switching
+    let isManuallyStopped = false; // Track if user manually stopped playback
 
     // Performance optimizations
     let environmentStepsMetadata = null; // Loaded metadata for step counts
@@ -507,6 +446,8 @@
       currentEnvironment = envName;
       currentStepIndex = -1; // Start at briefing state (-1 means briefing, 0 means stepId 1)
       traceData = [];
+      // Reset manual stop flag when loading new environment (allow auto-play for new environment)
+      isManuallyStopped = false;
       
       // Reset opacity for fade in effect
       const dashboardContainer = document.getElementById('dashboardContainer');
@@ -534,8 +475,6 @@
       if (missionDataContainer) missionDataContainer.style.display = 'flex';
 
       try {
-        // Update environment info
-        updateEnvironmentInfo(envName);
 
         // Get steps count from metadata (fast)
         maxSteps = await getStepsCount(envName);
@@ -575,13 +514,13 @@
         // Wait shorter time at briefing if auto-cycling (3 seconds), otherwise 8 seconds
         const briefingDelay = isAutoCyclingEnvironments ? 3000 : 8000;
         setTimeout(() => {
-          if (currentEnvironment === envName && traceData.length > 0) {
+          if (currentEnvironment === envName && traceData.length > 0 && !isManuallyStopped) {
             currentStepIndex = 0; // Move to stepId === 1
             updateDisplay();
             updateNavigationButtons();
             // Ensure we're not already playing before starting
             if (!isPlaying) {
-            startPlaying();
+              startPlaying();
             }
           }
         }, briefingDelay);
@@ -724,45 +663,17 @@
       }
     }
     
-    // Highlight important content in Goal section
+    // Escape HTML content in Goal section (no highlighting)
     function highlightGoalContent(text) {
       if (!text) return text;
       
       // Escape HTML to prevent XSS
-      let highlighted = text
+      let escaped = text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
       
-      // Highlight dimensions and numbers (e.g., 9x9, 3D, 102) - Yellow background
-      highlighted = highlighted.replace(/(\d+x\d+|\d+\s*x\s*\d+|\d+D|\d+)/g, '<span class="highlight-yellow">$1</span>');
-      
-      // Highlight colors (RED, BLUE, GREEN, etc.) - Yellow background
-      highlighted = highlighted.replace(/\b(RED|BLUE|GREEN|YELLOW|BLACK|WHITE|ORANGE|PURPLE|CYAN|MAGENTA)\b/gi, '<span class="highlight-yellow">$1</span>');
-      
-      // Highlight key objects and concepts - Blue background
-      highlighted = highlighted.replace(/\b(TARGET|GOAL|OBJECTIVE|SPHERE|CUBE|MAZE|BLOCK|PATCH|DOT|POINT|GRID|WALL|CORNER|EDGE|CENTER)\b/gi, '<span class="highlight-blue">$1</span>');
-      
-      // Highlight action functions - Code style (purple)
-      const actionFunctions = ['move', 'turn', 'stop', 'mark', 'rotate', 'swap', 'place', 'remove', 'saturate', 'undo', 'guess', 'reorder', 'gripper'];
-      actionFunctions.forEach(func => {
-        const regex = new RegExp(`\\b(${func})\\s*\\([^)]*\\)`, 'gi');
-        highlighted = highlighted.replace(regex, '<span class="highlight-code">$&</span>');
-      });
-      
-      // Highlight action function names without parentheses - Code style
-      actionFunctions.forEach(func => {
-        const regex = new RegExp(`\\b(${func})\\b(?![(])`, 'gi');
-        highlighted = highlighted.replace(regex, '<span class="highlight-code">$1</span>');
-      });
-      
-      // Highlight important keywords - Red background
-      highlighted = highlighted.replace(/\b(SUCCESS|FAILURE|ERROR|WARNING|IMPORTANT|NOTE|CONSTRAINT|LIMIT|MUST|CANNOT|AVOID)\b/gi, '<span class="highlight-red">$1</span>');
-      
-      // Highlight coordinates and positions - Yellow background
-      highlighted = highlighted.replace(/(\([^)]*\d+[^)]*\)|\[[^\]]*\d+[^\]]*\])/g, '<span class="highlight-yellow">$1</span>');
-      
-      return highlighted;
+      return escaped;
     }
 
 
@@ -773,70 +684,6 @@
       return promptText.trim();
     }
 
-    // Update environment info display with Mission Data Card style
-    function updateEnvironmentInfo(envName) {
-      // Helper function to calculate bar width based on value
-      function getBarWidth(value, type) {
-        if (!value || value === '-') return 0;
-        
-        // Map text values to percentages for visual bars
-        const valueMaps = {
-          domain: { 'Real': 60, 'Synthetic': 40 },
-          obs: { 'Full': 100, 'Partial': 50 },
-          dyn: { 'Known': 100, 'Unknown': 30 },
-          p: (val) => Math.min(parseInt(val) * 15, 100) // Parameters: scale by value
-        };
-        
-        if (type === 'p') {
-          return valueMaps.p(value);
-        }
-        
-        const map = valueMaps[type];
-        return map[value] || 50;
-      }
-      
-      if (!envName) {
-        document.getElementById('infoDomain').textContent = '-';
-        document.getElementById('infoObs').textContent = '-';
-        document.getElementById('infoDyn').textContent = '-';
-        document.getElementById('infoP').textContent = '-';
-        
-        // Reset bars
-        document.getElementById('statDomainBar').style.width = '0%';
-        document.getElementById('statObsBar').style.width = '0%';
-        document.getElementById('statDynBar').style.width = '0%';
-        document.getElementById('statPBar').style.width = '0%';
-        return;
-      }
-      
-      const metadata = environmentMetadata[envName];
-      if (metadata) {
-        // Update text values
-        document.getElementById('infoDomain').textContent = metadata.domain;
-        document.getElementById('infoObs').textContent = metadata.obs;
-        document.getElementById('infoDyn').textContent = metadata.dyn;
-        document.getElementById('infoP').textContent = metadata.p;
-        
-        // Update bar widths with animation
-        setTimeout(() => {
-          document.getElementById('statDomainBar').style.width = getBarWidth(metadata.domain, 'domain') + '%';
-          document.getElementById('statObsBar').style.width = getBarWidth(metadata.obs, 'obs') + '%';
-          document.getElementById('statDynBar').style.width = getBarWidth(metadata.dyn, 'dyn') + '%';
-          document.getElementById('statPBar').style.width = getBarWidth(metadata.p, 'p') + '%';
-        }, 100);
-      } else {
-        document.getElementById('infoDomain').textContent = '-';
-        document.getElementById('infoObs').textContent = '-';
-        document.getElementById('infoDyn').textContent = '-';
-        document.getElementById('infoP').textContent = '-';
-        
-        // Reset bars
-        document.getElementById('statDomainBar').style.width = '0%';
-        document.getElementById('statObsBar').style.width = '0%';
-        document.getElementById('statDynBar').style.width = '0%';
-        document.getElementById('statPBar').style.width = '0%';
-      }
-    }
 
     // Update all display elements with lazy loading
     async function updateDisplay() {
@@ -1023,9 +870,9 @@
         currentStepIndex = -1;
         updateDisplay();
         updateNavigationButtons();
-        // When going back to briefing, restart auto-play after 8 seconds
+        // When going back to briefing, restart auto-play after 8 seconds (only if not manually stopped)
         setTimeout(() => {
-          if (currentStepIndex === -1 && currentEnvironment && !isPlaying) {
+          if (currentStepIndex === -1 && currentEnvironment && !isPlaying && !isManuallyStopped) {
             currentStepIndex = 0;
             updateDisplay();
             updateNavigationButtons();
@@ -1057,9 +904,9 @@
         if (isPlaying && !isAutoPlay) {
           stopPlaying();
         }
-        // When going to briefing, restart auto-play after 8 seconds (only if not already playing)
+        // When going to briefing, restart auto-play after 8 seconds (only if not already playing and not manually stopped)
         setTimeout(() => {
-          if (currentStepIndex === -1 && currentEnvironment && !isPlaying) {
+          if (currentStepIndex === -1 && currentEnvironment && !isPlaying && !isManuallyStopped) {
             currentStepIndex = 0;
             updateDisplay();
             updateNavigationButtons();
@@ -1093,6 +940,7 @@
       }
       
       isPlaying = true;
+      isManuallyStopped = false; // Clear manual stop flag when user starts playing
       updatePlayPauseButton();
       
       // Reset cycle count when starting to play
@@ -1101,6 +949,13 @@
       // Clear any existing interval
       if (playInterval) {
         clearInterval(playInterval);
+      }
+      
+      // If at briefing state, move to first step immediately
+      if (currentStepIndex === -1) {
+        currentStepIndex = 0;
+        updateDisplay();
+        updateNavigationButtons();
       }
       
       playInterval = setInterval(() => {
@@ -1158,6 +1013,7 @@
       if (!isPlaying) return;
       
       isPlaying = false;
+      isManuallyStopped = true; // Mark as manually stopped
       if (playInterval) {
         clearInterval(playInterval);
         playInterval = null;
@@ -1193,6 +1049,7 @@
       traceData = [];
       currentStepIndex = -1; // Reset to briefing state
       designContext = '';
+      isManuallyStopped = false; // Reset manual stop flag
       document.getElementById('stepIndicator').textContent = 'Select an environment to start';
       document.getElementById('progressFill').style.width = '0%';
       document.getElementById('imagePlaceholder').textContent = 'No environment selected';
@@ -1210,7 +1067,6 @@
       if (consoleCable) consoleCable.style.display = 'block';
       if (missionDataContainer) missionDataContainer.style.display = 'flex';
       if (dashboardContainer) dashboardContainer.style.display = 'none'; // Hide dashboard when no environment
-      updateEnvironmentInfo(null);
       updateNavigationButtons();
       updatePlayPauseButton();
       updateEnvironmentSelection(null);
@@ -1270,18 +1126,16 @@
       initEnvironmentCardsScroll();
       // Preload metadata for faster loading
       loadEnvironmentMetadata();
-      // Auto-cycling disabled by default for better performance
-      // Users can manually select environments
-      // Uncomment the line below to enable auto-cycling:
-      // startAutoCyclingEnvironments();
+      // Auto-start playing when page loads
+      startAutoCyclingEnvironments();
     });
 
     // Also try to start immediately if DOM is already loaded
     if (document.readyState !== 'loading') {
       initEnvironmentCardsScroll();
       loadEnvironmentMetadata();
-      // Auto-cycling disabled - uncomment to enable:
-      // startAutoCyclingEnvironments();
+      // Auto-start playing when page loads
+      startAutoCyclingEnvironments();
     }
   </script>
 
