@@ -1087,6 +1087,9 @@ section.hero.is-light .title.is-3::after {
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
+    display: block !important;
+    position: relative !important;
+    box-sizing: border-box !important;
   }
   
   /* Mobile: Section containers - minimal padding, allow content to show */
@@ -1100,6 +1103,9 @@ section.hero.is-light .title.is-3::after {
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
+    display: block !important;
+    position: relative !important;
+    box-sizing: border-box !important;
   }
   
   /* Mobile: Simplified iframe styles */
@@ -1109,15 +1115,17 @@ section.hero.is-light .title.is-3::after {
   iframe[src*="failure_analysis"],
   .embed-frame {
     width: 100% !important;
-    min-height: 400px !important; /* Reasonable minimum height for mobile */
+    min-height: 0 !important; /* No fixed minimum, let content determine */
+    height: auto !important; /* Auto-adjust based on content */
     max-height: none !important;
     margin: 0 !important;
     padding: 0 !important;
     border: none !important;
     display: block !important;
-    overflow: hidden !important; /* Hide scrollbar inside iframe */
+    overflow: hidden !important; /* Hide scrollbar, let iframe handle scrolling */
     flex-shrink: 0 !important;
-    flex-grow: 0 !important;
+    flex-grow: 1 !important; /* Allow iframe to grow with content */
+    position: relative !important;
   }
   
   .frontier-fail-section .container,
@@ -1316,11 +1324,16 @@ section.hero.is-light .title.is-3::after {
   .dashboard-embed-container {
     width: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 var(--page-padding-mobile) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     overflow: visible !important;
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
+    display: block !important;
+    position: relative !important;
+    box-sizing: border-box !important;
   }
 
   .dashboard-iframe,
@@ -1329,15 +1342,17 @@ section.hero.is-light .title.is-3::after {
   iframe[src*="failure_analysis"],
   .embed-frame {
     width: 100% !important;
-    min-height: 350px !important; /* Reasonable minimum height for small mobile */
+    min-height: 0 !important; /* No fixed minimum, let content determine */
+    height: auto !important; /* Auto-adjust based on content */
     max-height: none !important;
     margin: 0 !important;
     padding: 0 !important;
     border: none !important;
     display: block !important;
-    overflow: hidden !important;
+    overflow: hidden !important; /* Hide scrollbar, let iframe handle scrolling */
     flex-shrink: 0 !important;
-    flex-grow: 0 !important;
+    flex-grow: 1 !important; /* Allow iframe to grow with content */
+    position: relative !important;
   }
   
   .frontier-fail-image-container {
@@ -3306,8 +3321,10 @@ a:focus {
   background-color: transparent;
   width: 100%;
   border: none;
-  overflow: visible; /* Allow iframe content to be fully visible */
-  height: auto;
+  overflow: visible !important; /* Allow iframe content to be fully visible */
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
   min-height: 0;
   max-height: none;
 }
@@ -3363,6 +3380,7 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   height: auto !important; /* Allow container to grow with content */
   min-height: 0 !important;
   max-height: none !important;
+  display: block !important; /* Ensure block display for proper height calculation */
 }
 
 .embed-shell iframe,
@@ -3370,7 +3388,7 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   width: 100% !important;
   display: block;
   flex-shrink: 0 !important; /* Prevent flex container from shrinking iframe */
-  flex-grow: 0 !important; /* Prevent flex container from growing iframe */
+  flex-grow: 1 !important; /* Allow iframe to grow with content */
   align-self: auto !important; /* Reset flex alignment */
 }
 
@@ -3401,13 +3419,14 @@ section.hero.is-light .container.is-max-desktop.page-shell {
 
 .embed-frame {
   width: 100% !important;
-  min-height: 0; /* Remove fixed min-height, let content determine height */
-  max-height: none !important; /* Remove any max-height restrictions */
+  min-height: 0; /* No fixed minimum, let content determine */
+  height: auto; /* Auto-adjust based on content */
+  max-height: none !important;
   border: none;
   display: block;
   margin: 0;
   padding: 0;
-  height: auto; /* Allow natural height */
+  overflow: hidden; /* Hide scrollbar, let iframe handle scrolling */
 }
 
 /* Remove fixed min-height classes - no longer needed */
@@ -3451,6 +3470,10 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
+    display: block !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
   
   .embed-shell iframe,
@@ -3458,6 +3481,12 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important; /* No fixed minimum, let content determine */
+    max-height: none !important;
+    display: block !important;
+    flex-grow: 1 !important;
+    flex-shrink: 0 !important;
   }
   
   section.hero.is-light .container.is-max-desktop.page-shell {

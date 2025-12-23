@@ -83,8 +83,16 @@ function setupVideoCarouselAutoplay() {
     });
 }
 
+// Store timeout IDs to prevent multiple simultaneous adjustments
+const iframeAdjustTimeouts = new WeakMap();
+
 // Function to calculate and set iframe height to fully contain all content
 function setIframeHeight(iframe) {
+    // Clear any existing timeout for this iframe
+    if (iframeAdjustTimeouts.has(iframe)) {
+        clearTimeout(iframeAdjustTimeouts.get(iframe));
+    }
+    
     try {
         const iframeDoc = iframe.contentWindow.document;
         const iframeBody = iframeDoc.body;
@@ -100,9 +108,7 @@ function setIframeHeight(iframe) {
         
         // Get the maximum height from body and html to ensure all content is included
         const bodyScrollHeight = iframeBody.scrollHeight;
-        const bodyOffsetHeight = iframeBody.offsetHeight;
         const htmlScrollHeight = iframeHtml.scrollHeight;
-        const htmlOffsetHeight = iframeHtml.offsetHeight;
         
         // Get computed styles to account for margins and padding
         const bodyStyle = iframe.contentWindow.getComputedStyle(iframeBody);
@@ -121,66 +127,67 @@ function setIframeHeight(iframe) {
         // Calculate total height including all margins and padding
         const totalHeight = Math.max(
             bodyScrollHeight + bodyMarginTop + bodyMarginBottom + bodyPaddingTop + bodyPaddingBottom,
-            htmlScrollHeight + htmlMarginTop + htmlMarginBottom + htmlPaddingTop + htmlPaddingBottom,
-            bodyOffsetHeight + bodyMarginTop + bodyMarginBottom + bodyPaddingTop + bodyPaddingBottom,
-            htmlOffsetHeight + htmlMarginTop + htmlMarginBottom + htmlPaddingTop + htmlPaddingBottom
+            htmlScrollHeight + htmlMarginTop + htmlMarginBottom + htmlPaddingTop + htmlPaddingBottom
         );
         
-        // Disable scrolling in iframe
-        iframe.style.overflow = 'hidden';
-        iframe.style.overflowX = 'hidden';
-        iframe.style.overflowY = 'hidden';
-        iframe.setAttribute('scrolling', 'no');
+        // Get current height
+        const currentHeight = parseInt(iframe.style.height) || 0;
         
-        // Disable scrolling in iframe document
-        iframeBody.style.overflow = 'hidden';
-        iframeBody.style.overflowX = 'hidden';
-        iframeBody.style.overflowY = 'hidden';
-        iframeHtml.style.overflow = 'hidden';
-        iframeHtml.style.overflowX = 'hidden';
-        iframeHtml.style.overflowY = 'hidden';
-        
-        // Set iframe height to fully contain all content (add small buffer to ensure everything is visible)
-        iframe.style.height = (totalHeight + 10) + 'px';
-        
-        // Multiple recalculations to handle dynamic content loading
-        const recalculateHeight = function(attempt) {
-            attempt = attempt || 0;
-            if (attempt > 5) return; // Limit to 5 attempts
+        // Only update if height changed significantly (more than 5px difference)
+        if (Math.abs(totalHeight - currentHeight) > 5) {
+            // Disable scrolling in iframe
+            iframe.style.overflow = 'hidden';
+            iframe.style.overflowX = 'hidden';
+            iframe.style.overflowY = 'hidden';
+            iframe.setAttribute('scrolling', 'no');
             
-            setTimeout(function() {
-                const newBodyHeight = iframeBody.scrollHeight;
-                const newHtmlHeight = iframeHtml.scrollHeight;
-                
-                const newTotalHeight = Math.max(
-                    newBodyHeight + bodyMarginTop + bodyMarginBottom + bodyPaddingTop + bodyPaddingBottom,
-                    newHtmlHeight + htmlMarginTop + htmlMarginBottom + htmlPaddingTop + htmlPaddingBottom
-                );
-                
-                const currentHeight = parseInt(iframe.style.height) || 0;
-                
-                if (newTotalHeight > currentHeight - 10) {
-                    iframe.style.height = (newTotalHeight + 10) + 'px';
-                    // Continue recalculating if height changed
-                    recalculateHeight(attempt + 1);
+            // Disable scrolling in iframe document
+            iframeBody.style.overflow = 'hidden';
+            iframeBody.style.overflowX = 'hidden';
+            iframeBody.style.overflowY = 'hidden';
+            iframeHtml.style.overflow = 'hidden';
+            iframeHtml.style.overflowX = 'hidden';
+            iframeHtml.style.overflowY = 'hidden';
+            
+            // Set iframe height to fully contain all content (add small buffer)
+            iframe.style.height = (totalHeight + 10) + 'px';
+            
+            // Single recalculation after a short delay to catch any late-loading content
+            const timeoutId = setTimeout(function() {
+                try {
+                    const finalBodyHeight = iframeBody.scrollHeight;
+                    const finalHtmlHeight = iframeHtml.scrollHeight;
+                    
+                    const finalTotalHeight = Math.max(
+                        finalBodyHeight + bodyMarginTop + bodyMarginBottom + bodyPaddingTop + bodyPaddingBottom,
+                        finalHtmlHeight + htmlMarginTop + htmlMarginBottom + htmlPaddingTop + htmlPaddingBottom
+                    );
+                    
+                    const finalCurrentHeight = parseInt(iframe.style.height) || 0;
+                    
+                    // Only update if height increased significantly
+                    if (finalTotalHeight > finalCurrentHeight + 5) {
+                        iframe.style.height = (finalTotalHeight + 10) + 'px';
+                    }
+                } catch (e) {
+                    console.log('Recalculation error:', e);
                 }
-                
-                // Ensure scrolling remains disabled
-                iframe.style.overflow = 'hidden';
-                iframeBody.style.overflow = 'hidden';
-                iframeHtml.style.overflow = 'hidden';
-            }, attempt === 0 ? 200 : 300); // First delay 200ms, subsequent 300ms
-        };
-        
-        // Start recalculation process
-        recalculateHeight(0);
+                iframeAdjustTimeouts.delete(iframe);
+            }, 300);
+            
+            iframeAdjustTimeouts.set(iframe, timeoutId);
+        }
         
     } catch (e) {
         // Fallback to simple scrollHeight if cross-origin or other error
         console.log('Iframe height calculation error:', e);
         try {
             const fallbackHeight = iframe.contentWindow.document.body.scrollHeight;
-            iframe.style.height = (fallbackHeight + 20) + 'px';
+            const currentHeight = parseInt(iframe.style.height) || 0;
+            // Only update if significantly different
+            if (Math.abs(fallbackHeight - currentHeight) > 5) {
+                iframe.style.height = (fallbackHeight + 20) + 'px';
+            }
         } catch (e2) {
             console.log('Fallback iframe height calculation error:', e2);
         }
@@ -220,5 +227,51 @@ $(document).ready(function() {
             setIframeHeight(iframe);
         }
     });
+    
+    // Listen for resize messages from iframes (with debouncing)
+    const resizeMessageTimeouts = new WeakMap();
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'iframe-resize') {
+            const iframes = document.querySelectorAll('iframe.embed-frame, iframe.dashboard-iframe');
+            iframes.forEach(function(iframe) {
+                try {
+                    if (iframe.contentWindow === event.source) {
+                        // Clear any existing timeout for this iframe
+                        if (resizeMessageTimeouts.has(iframe)) {
+                            clearTimeout(resizeMessageTimeouts.get(iframe));
+                        }
+                        
+                        // Debounce: wait 100ms before adjusting
+                        const timeoutId = setTimeout(function() {
+                            const currentHeight = parseInt(iframe.style.height) || 0;
+                            let newHeight;
+                            
+                            if (event.data.height) {
+                                newHeight = event.data.height + 20;
+                            } else {
+                                // Recalculate if no height provided
+                                setIframeHeight(iframe);
+                                return;
+                            }
+                            
+                            // Only update if height changed significantly (more than 5px)
+                            if (Math.abs(newHeight - currentHeight) > 5) {
+                                iframe.style.height = newHeight + 'px';
+                            }
+                            
+                            resizeMessageTimeouts.delete(iframe);
+                        }, 100);
+                        
+                        resizeMessageTimeouts.set(iframe, timeoutId);
+                    }
+                } catch (e) {
+                    console.log('Error adjusting iframe height:', e);
+                }
+            });
+        }
+    });
+    
+    // Make setIframeHeight available globally for iframes to call
+    window.setIframeHeight = setIframeHeight;
 
 })

@@ -541,17 +541,19 @@
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
         height: auto !important;
-        min-height: auto !important;
-        overflow-y: auto !important; /* Override index.css overflow-y: scroll */
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow-y: visible !important; /* Allow content to be fully visible */
       }
       
       body {
-        padding-bottom: 16px !important; /* Keep minimal normal spacing */
+        padding-bottom: 0 !important; /* Remove padding to allow accurate height calculation */
         margin-bottom: 0 !important;
         height: auto !important;
-        min-height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         display: block !important; /* Prevent flex + space-between layout */
-        overflow-y: auto !important; /* Allow scrolling without reserved space */
+        overflow-y: visible !important; /* Allow content to be fully visible */
       }
       
       /* --------------------------------------------
@@ -1163,6 +1165,82 @@
         expandText.textContent = 'Show All Models';
         expandIcon.textContent = '▼';
       }
+      
+      // Function to notify parent and adjust iframe height
+      function notifyParentToResize() {
+        if (window.parent && window.parent !== window) {
+          try {
+            // Force multiple reflows to ensure DOM is fully updated
+            void tbody.offsetHeight;
+            void document.body.offsetHeight;
+            
+            // Wait a bit for any CSS transitions/animations
+            requestAnimationFrame(function() {
+              requestAnimationFrame(function() {
+                // Calculate accurate height - use scrollHeight as it includes all content
+                const body = document.body;
+                const html = document.documentElement;
+                
+                // Get the actual content height
+                const bodyScrollHeight = body.scrollHeight;
+                const htmlScrollHeight = html.scrollHeight;
+                
+                // Use the maximum of both to ensure all content is included
+                const totalHeight = Math.max(bodyScrollHeight, htmlScrollHeight);
+                
+                console.log('Height calculation:', {
+                  bodyScrollHeight,
+                  htmlScrollHeight,
+                  totalHeight,
+                  bodyOffsetHeight: body.offsetHeight,
+                  htmlOffsetHeight: html.offsetHeight
+                });
+                
+                // Try to call parent's iframe height adjustment function
+                const iframe = window.frameElement;
+                if (iframe && window.parent.setIframeHeight) {
+                  window.parent.setIframeHeight(iframe);
+                }
+                
+                // Also send a message to parent with calculated height
+                window.parent.postMessage({
+                  type: 'iframe-resize',
+                  height: totalHeight
+                }, '*');
+                
+                console.log('Notified parent: isLeaderboardExpanded =', isLeaderboardExpanded, 'height =', totalHeight);
+              });
+            });
+          } catch (e) {
+            console.log('Could not notify parent:', e);
+            // Fallback: send simple scrollHeight
+            try {
+              const bodyHeight = document.body.scrollHeight;
+              const htmlHeight = document.documentElement.scrollHeight;
+              const fallbackHeight = Math.max(bodyHeight, htmlHeight);
+              
+              console.log('Fallback height calculation:', {
+                bodyHeight,
+                htmlHeight,
+                fallbackHeight
+              });
+              
+              window.parent.postMessage({
+                type: 'iframe-resize',
+                height: fallbackHeight
+              }, '*');
+            } catch (e2) {
+              console.log('Fallback notification failed:', e2);
+            }
+          }
+        }
+      }
+      
+      // Notify immediately after DOM update
+      notifyParentToResize();
+      
+      // Also notify after a short delay to catch any delayed rendering
+      setTimeout(notifyParentToResize, 200);
     };
     
     // Initialize table
