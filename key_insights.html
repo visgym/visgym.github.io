@@ -304,55 +304,99 @@
         </div>
 
         <!-- Core Thesis -->
-        <div class="mb-6">
-            <p class="text-gray-600 text-xl leading-relaxed mb-3" style="font-size: 1.25rem; line-height: 1.625;">
-                Standard imitation learning provides optimal paths—but not the exploratory behaviors required to understand hidden state.
+        <div class="mb-6 space-y-4">
+            <p class="text-gray-700 text-base leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
+                Some trajectories are far more informative than others—especially those that reveal hidden state or disambiguate perception. We test whether inducing such information-revealing behaviors during supervised finetuning improves VLM decision-making.
+            </p>
+            <p class="text-gray-700 text-base leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
+                Across tasks with unknown dynamics and partial observability, structured demonstrations that explicitly probe action–perception correspondence consistently outperform solve-only trajectories, improving both success and final accuracy.
+            </p>
+            <p class="text-gray-700 text-base leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
+                Further finetuning on longer but unstructured demonstrations degrades performance, confirming that gains come from the informative structure of demonstrations—not their length or quantity.
             </p>
         </div>
 
         <!-- Comparative Experiment -->
         <div class="mb-6">
-            <!-- Comparison Table -->
-            <div class="overflow-x-auto mb-6">
-                <table class="w-full border-collapse bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="px-4 py-3 text-left text-gray-800 font-bold">Comparison Dimension</th>
-                            <th class="px-4 py-3 text-center text-red-600 font-bold"> Baseline Demonstrations (Stochastic)</th>
-                            <th class="px-4 py-3 text-center text-green-600 font-bold"> Information-Revealing (Structured)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-700">
-                        <tr class="border-t border-gray-200">
-                            <td class="px-4 py-3 font-semibold">Strategy</td>
-                            <td class="px-4 py-3 text-center">Three stochastic moves toward the target</td>
-                            <td class="px-4 py-3 text-center">Two unit-scale steps to probe action–perception correspondence</td>
-                        </tr>
-                        <tr class="border-t border-gray-200 bg-gray-50/50">
-                            <td class="px-4 py-3 font-semibold">Intrinsic Goal</td>
-                            <td class="px-4 py-3 text-center">Reach the target quickly</td>
-                            <td class="px-4 py-3 text-center">Expose environment scale and dynamics</td>
-                        </tr>
-                        <tr class="border-t border-gray-200 bg-gray-50/50">
-                            <td class="px-4 py-4 font-semibold text-lg">Success Rate</td>
-                            <td class="px-4 py-4 text-center text-red-600 font-bold text-2xl">32.9%</td>
-                            <td class="px-4 py-4 text-center text-green-600 font-bold text-2xl">70.0% (≈2.1×)</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Comparison Tables Side by Side -->
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- First Comparison Table -->
+                <div class="flex-1 flex flex-col">
+                    <div class="mb-2 px-2">
+                        <h4 class="text-base font-semibold text-gray-800" style="font-family: 'Space Grotesk', sans-serif;">Matchstick Rotation (Unknown Dynamics)</h4>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden shadow-lg bg-white">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-gray-800 font-bold">Comparison Dimension</th>
+                                <th class="px-4 py-3 text-center text-red-600 font-bold">Baseline Demonstrations (Stochastic)</th>
+                                <th class="px-4 py-3 text-center text-green-600 font-bold">Information-Revealing (Structured)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <tr class="border-t border-gray-200">
+                                <td class="px-4 py-3 font-semibold">Strategy</td>
+                                <td class="px-4 py-3 text-center">Three stochastic moves toward the target</td>
+                                <td class="px-4 py-3 text-center">Two unit-scale steps to probe action–perception correspondence</td>
+                            </tr>
+                            <tr class="border-t border-gray-200 bg-gray-50/50">
+                                <td class="px-4 py-4 font-semibold text-lg">Success Rate</td>
+                                <td class="px-4 py-4 text-center text-red-600 font-bold text-2xl">32.9%</td>
+                                <td class="px-4 py-4 text-center text-green-600 font-bold text-2xl">70.0% (≈2.1×)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <!-- Second Comparison Table -->
+                <div class="flex-1 flex flex-col">
+                    <div class="mb-2 px-2">
+                        <h4 class="text-base font-semibold text-gray-800" style="font-family: 'Space Grotesk', sans-serif;">Mental Rotation 3D (Partial Observability)</h4>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300 rounded-lg overflow-hidden shadow-lg bg-white">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-gray-800 font-bold">Comparison Dimension</th>
+                                <th class="px-4 py-3 text-center text-red-600 font-bold">Baseline Demonstrations (Solve-Only)</th>
+                                <th class="px-4 py-3 text-center text-green-600 font-bold">Information-Revealing (Explore-Then-Solve)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <tr class="border-t border-gray-200">
+                                <td class="px-4 py-3 font-semibold">Strategy</td>
+                                <td class="px-4 py-3 text-center">Directly attempt to solve the task</td>
+                                <td class="px-4 py-3 text-center">Explicit exploratory actions to reveal hidden state</td>
+                            </tr>
+                            <tr class="border-t border-gray-200 bg-gray-50/50">
+                                <td class="px-4 py-3 font-semibold">State Coverage</td>
+                                <td class="px-4 py-3 text-center">Partial, implicit</td>
+                                <td class="px-4 py-3 text-center">Explicitly disambiguates latent variables</td>
+                            </tr>
+                            <tr class="border-t border-gray-200">
+                                <td class="px-4 py-4 font-semibold text-lg">Success Rate</td>
+                                <td class="px-4 py-4 text-center text-red-600 font-bold text-2xl">28.6%</td>
+                                <td class="px-4 py-4 text-center text-green-600 font-bold text-2xl">62.4% (≈2.2×)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Final Insight -->
         <div class="mt-4 p-4 border-l-4 border-green-600 bg-green-50 rounded-lg">
             <p class="text-base font-medium text-green-900" style="font-size: 1rem; line-height: 1.625;">
-                Structured demonstrations, not trajectory length or quantity, drive these gains. Teaching agents to disambiguate hidden state is essential for effective supervised fine-tuning.
+                Supervised finetuning is most effective when demonstrations teach agents how to reveal state, not just what action to take.
             </p>
         </div>
     </div>
 </section>
 
-<!-- Section 2: The Reasoning Bottleneck -->
+<!-- Section 2: Better Eyes Or Better Brain -->
 <section class="w-full py-8 bg-white">
     <div class="max-w-6xl mx-auto px-4">
         <div class="flex flex-col md:flex-row-reverse gap-8 items-center">
@@ -364,7 +408,7 @@
 
             <div class="w-full md:w-1/2 space-y-4">
                 <div class="flex items-center gap-3">
-                    <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">The Reasoning Bottleneck</h3>
+                    <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">Better Eyes Or Better Brain</h3>
                 </div>
                 <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
                     We decoupled the architecture to ask a simple question: does performance come from <b>better eyes</b> (the vision encoder) or a <b>better brain</b> (the LLM)?
@@ -398,17 +442,11 @@
                     <h3 class="text-xl font-bold berkeley-blue" style="font-family: 'Space Grotesk', sans-serif;">Stronger Base Model Generalizes Better</h3>
                 </div>
                 <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
-                    Contrary to expectations, models perform <b>worse</b> with unbounded history than with truncated windows.
+                    Supervised finetuning is known to generalize poorly to task variants. We revisit this question for modern VLMs by finetuning <b>Qwen2.5-VL-7B and Qwen3-VL-8B</b> on the same training data and optimization setup, then evaluating on harder task variants.
                 </p>
                 <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
-                    This reveals that simply providing more context does not improve performance—models struggle to <b>effectively leverage long context</b> for decision-making.
+                    While both models perform similarly on the easy variants seen during training, <b>Qwen3-VL generalizes substantially better</b> to harder settings, nearly doubling the success rate on average. This shows that newer VLMs expand the generalization limits of supervised finetuning in multi-step visual decision-making.
                 </p>
-                <p class="text-base text-gray-700 leading-relaxed" style="font-size: 1rem; line-height: 1.625;">
-                    The challenge lies in <b>selective attention</b> and <b>temporal reasoning</b>, not just context length.
-                </p>
-                <div class="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-600 text-base text-yellow-900 italic" style="font-size: 1rem; line-height: 1.625;">
-                    "More context does not guarantee better performance—effective context utilization is the key."
-                </div>
             </div>
         </div>
     </div>
