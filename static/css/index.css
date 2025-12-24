@@ -3539,3 +3539,61 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     backdrop-filter: none !important;
   }
 }
+
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+}
+
+
+/* Print styles */
+@media print {
+  .more-works-container {
+    display: none;
+  }
+  
+  .hero, .section {
+    animation: none;
+  }
+  
+  .button:not(.apple-button) {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    box-shadow: none !important;
+  }
+  
+  .apple-button {
+    background: rgba(0, 26, 51, 0.8) !important;
+    color: #ffffff !important;
+    backdrop-filter: none !important;
+  }
+}
+
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+}
+
+
+/* Print styles */
+@media print {
+  .more-works-container {
+    display: none;
+  }
+  
+  .hero, .section {
+    animation: none;
+  }
+  
+  .button:not(.apple-button) {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    box-shadow: none !important;
+  }
+  
+  .apple-button {
+    background: rgba(0, 26, 51, 0.8) !important;
+    color: #ffffff !important;
+    backdrop-filter: none !important;
+  }
+}
