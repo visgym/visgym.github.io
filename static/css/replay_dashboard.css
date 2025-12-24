@@ -43,8 +43,13 @@
 html {
   font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
   scroll-behavior: auto !important; /* Override index.css smooth scrolling if needed */
-  height: 100% !important;
+  height: auto !important; /* Allow html to grow with content for iframe embedding */
+  min-height: 0 !important; /* Remove min-height to allow proper height calculation */
   width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important; /* Ensure no hidden overflow */
 }
 
 /* Dashboard-specific body styles - scoped to avoid conflicts with index.css */
@@ -56,23 +61,26 @@ body {
     linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px) !important;
   background-size: 20px 20px !important;
   color: var(--dashboard-text-primary) !important;
-  height: 100vh !important;
-  overflow: auto !important; /* Changed from hidden to auto to allow scrolling */
+  min-height: 0 !important; /* Remove min-height to allow proper height calculation */
+  height: auto !important; /* Allow body to grow with content for iframe embedding */
+  overflow: visible !important; /* Changed to visible to allow proper height calculation */
   display: flex !important;
   flex-direction: column !important;
   margin: 0 !important;
   padding: 0 !important;
   line-height: 1.6 !important;
+  box-sizing: border-box !important;
 }
 
 .dashboard-shell {
   width: 100%;
   max-width: 1400px;
-  margin: 0 auto 0;
-  padding: 8px 10px 0;
+  margin: 0 auto;
+  padding: 8px 10px 8px;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  box-sizing: border-box;
 }
 
 /* Mission Data Container - Between Navigation and Dashboard */
@@ -1060,12 +1068,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 10px 0;
+  padding: 8px 10px 8px;
   margin-bottom: 0;
   border: var(--dashboard-border-weight) solid var(--black);
   border-radius: 4px;
   box-shadow: var(--shadow-hard);
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .player-controls-container {

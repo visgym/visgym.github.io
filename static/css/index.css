@@ -208,7 +208,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 
 /* Abstract - Back to Left Panel */
 .apple-abstract {
-  margin: 18px 0 16px; /* Tighter vertical spacing */
+  margin: 28px 0 24px; /* Increased vertical spacing */
   text-align: left;
   padding-top: 0;
   border-top: none;
@@ -217,7 +217,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-abstract p {
   font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(0.98rem, 1vw + 0.45rem, 1.15rem) !important; /* Slightly smaller */
-  line-height: 1.65; /* Improved readability */
+  line-height: 1.85; /* Increased line spacing */
   color: var(--text-body); /* Unified body text color */
   font-weight: 400; /* Regular weight */
   margin: 0;
@@ -843,7 +843,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 }
 
 .content.has-text-justified p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Abstract Section - Full Width */
@@ -1008,12 +1008,12 @@ section.hero.is-light .title.is-3::after {
   }
   
   .apple-abstract {
-    margin: 16px 0 !important;
+    margin: 24px 0 !important;
   }
   
   .apple-abstract p {
-    font-size: clamp(0.85rem, 2vw + 0.4rem, 0.95rem) !important;
-    line-height: 1.6 !important;
+    font-size: clamp(0.95rem, 2vw + 0.5rem, 1.05rem) !important;
+    line-height: 1.8 !important;
   }
   
   /* Mobile: Keep lab logos in affiliation-group, adjust layout */
@@ -1144,8 +1144,8 @@ section.hero.is-light .title.is-3::after {
   }
   
   .frontier-fail-description {
-    font-size: clamp(0.85rem, 2vw + 0.4rem, 0.95rem) !important;
-    margin-bottom: 1rem !important;
+    font-size: clamp(0.9rem, 2vw + 0.4rem, 1.1rem) !important;
+    margin: 2.5rem auto !important;
     line-height: 1.5 !important;
   }
   
@@ -1276,11 +1276,12 @@ section.hero.is-light .title.is-3::after {
   }
   
   .apple-abstract {
-    margin: 12px 0 !important;
+    margin: 20px 0 !important;
   }
   
   .apple-abstract p {
-    font-size: clamp(0.8rem, 2vw + 0.3rem, 0.9rem) !important;
+    font-size: clamp(0.9rem, 2vw + 0.4rem, 1.0rem) !important;
+    line-height: 1.75 !important;
   }
   
   /* Small mobile: Adjust lab logos size in affiliation-group */
@@ -1316,7 +1317,8 @@ section.hero.is-light .title.is-3::after {
   }
   
   .frontier-fail-description {
-    font-size: clamp(0.8rem, 2vw + 0.3rem, 0.9rem) !important;
+    font-size: clamp(0.85rem, 2vw + 0.3rem, 1.0rem) !important;
+    margin: 2.5rem auto !important;
   }
   
   /* Small mobile: Simplified iframe containers */
@@ -1458,20 +1460,22 @@ section.hero.is-light .title.is-3::after {
 
 .frontier-fail-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2rem, 4vw + 1rem, 3rem);
+  font-size: clamp(1.5rem, 3vw + 0.75rem, 2.25rem);
   font-weight: 800;
   color: #1d1d1f;
-  margin-bottom: 1.5rem;
+  margin: 0 auto 1rem auto;
   letter-spacing: -0.03em;
   position: relative;
-  display: inline-block;
+  display: block;
+  text-align: center;
 }
 
 .frontier-fail-title::after {
   content: '';
   position: absolute;
   bottom: -8px;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 80px;
   height: 4px;
   background: linear-gradient(90deg, #003262 0%, #1e88e5 100%);
@@ -1481,10 +1485,15 @@ section.hero.is-light .title.is-3::after {
 .frontier-fail-description {
   font-family: 'Karla', sans-serif;
   font-size: 1.2rem;
-  line-height: 1.8;
+  line-height: 1.5;
+  letter-spacing: 0;
   color: #424245;
-  margin: 0 0 1.5rem 0;
-  max-width: 900px;
+  margin: 2rem auto;
+  max-width: 750px;
+  text-align: center;
+  word-wrap: normal;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .frontier-fail-description .stat-easy {
@@ -1522,12 +1531,12 @@ section.hero.is-light .title.is-3::after {
   border: none;
   overflow: hidden;
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   margin: 0 auto;
-  min-height: 400px;
+  min-height: 300px;
 }
 
 .frontier-fail-image-container img {
@@ -1558,7 +1567,8 @@ section.hero.is-light .title.is-3::after {
   }
   
   .frontier-fail-description {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
+    margin: 2rem auto;
   }
 
   .content.has-text-justified {
@@ -1577,13 +1587,15 @@ section.hero.is-light .title.is-3::after {
   }
   
   .frontier-fail-title {
-    font-size: clamp(1.75rem, 5vw + 0.5rem, 2.5rem);
-    margin-bottom: 1.25rem;
+    font-size: clamp(1.25rem, 4vw + 0.5rem, 1.75rem);
+    margin-bottom: 0.75rem;
   }
   
   .frontier-fail-description {
     font-size: 1.1rem;
-    line-height: 1.7;
+    margin: 2.5rem auto;
+    line-height: 1.5;
+    letter-spacing: 0;
   }
   
   .frontier-fail-images-grid {
@@ -1961,7 +1973,7 @@ section.hero.is-light .title.is-3::after {
   .insight-description {
     font-size: 0.95rem;
   }
-}
+
 
 /* Density Curves Container - Transparent Background */
 .density-curves-container {
@@ -3085,6 +3097,7 @@ code {
   
   .apple-abstract p {
     font-size: 1.1rem;
+    line-height: 1.85;
   }
   
   .apple-links {
@@ -3218,12 +3231,12 @@ code {
   }
   
   .apple-abstract {
-    margin: 14px 0 12px;
+    margin: 22px 0 18px;
   }
   
   .apple-abstract p {
     font-size: 0.98rem !important;
-    line-height: 1.5 !important;
+    line-height: 1.75 !important;
   }
   
   .hero-body {
@@ -3344,7 +3357,8 @@ a:focus {
 }
 
 .abstract-content {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Unified horizontal rhythm for desktop and mobile */
@@ -3390,16 +3404,20 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   flex-shrink: 0 !important; /* Prevent flex container from shrinking iframe */
   flex-grow: 1 !important; /* Allow iframe to grow with content */
   align-self: auto !important; /* Reset flex alignment */
+  border: none !important; /* Remove default iframe border */
+  margin: 0 !important; /* Remove default margin */
+  padding: 0 !important; /* Remove default padding */
+  box-sizing: border-box !important;
 }
 
 /* Abstract tightening overrides */
 .apple-abstract {
-  margin: 14px 0 12px !important;
+  margin: 24px 0 20px !important;
 }
 
 .apple-abstract p {
   font-size: 1.05rem !important;
-  line-height: 1.65 !important;
+  line-height: 1.85 !important;
   letter-spacing: normal !important;
   color: var(--text-body) !important;
 }
@@ -3504,12 +3522,12 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   }
   
   .content.has-text-justified p {
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 1.25rem !important;
   }
   
   .apple-abstract p {
-    font-size: 0.95rem !important;
-    line-height: 1.45 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.75 !important;
     word-break: break-word;
     overflow-wrap: anywhere;
     hyphens: auto;
@@ -3540,11 +3558,6 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   }
 }
 
-    overflow-wrap: anywhere;
-    hyphens: auto;
-  }
-}
-
 
 /* Print styles */
 @media print {
@@ -3566,11 +3579,6 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     background: rgba(0, 26, 51, 0.8) !important;
     color: #ffffff !important;
     backdrop-filter: none !important;
-  }
-}
-
-    overflow-wrap: anywhere;
-    hyphens: auto;
   }
 }
 
