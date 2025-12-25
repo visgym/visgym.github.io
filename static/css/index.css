@@ -49,7 +49,7 @@ html {
 /* Body styles - Override Bulma framework styles */
 body {
   font-family: 'Karla', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif !important;
-  background-color: #f5f5f7 !important; /* Titanium gray - cold silver-white, override Bulma */
+  background-color: #ffffff !important; /* White background */
   color: #1d1d1f !important; /* Override Bulma's #4a4a4a */
   margin: 0 !important; /* Override Bulma and user agent (8px) */
   padding: 0 !important;
@@ -1448,7 +1448,7 @@ section.hero.is-light .title.is-3::after {
 /* Frontier VLMs Fail Section */
 .frontier-fail-section {
   background-color: #ffffff;
-  padding: 4rem 0;
+  padding: 3rem 0 1.5rem 0;
   position: relative;
 }
 
@@ -1458,6 +1458,8 @@ section.hero.is-light .title.is-3::after {
   text-align: left;
 }
 
+/* Unified Main Section Title Style */
+.section-main-title,
 .frontier-fail-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(1.5rem, 3vw + 0.75rem, 2.25rem);
@@ -1470,6 +1472,7 @@ section.hero.is-light .title.is-3::after {
   text-align: center;
 }
 
+.section-main-title::after,
 .frontier-fail-title::after {
   content: '';
   position: absolute;
@@ -1480,6 +1483,17 @@ section.hero.is-light .title.is-3::after {
   height: 4px;
   background: linear-gradient(90deg, #003262 0%, #1e88e5 100%);
   border-radius: 2px;
+}
+
+/* Abstract title - left aligned variant */
+.section-main-title.left-align {
+  text-align: left;
+  margin: 0 0 1rem 0;
+}
+
+.section-main-title.left-align::after {
+  left: 0;
+  transform: none;
 }
 
 .frontier-fail-description {
@@ -1559,7 +1573,7 @@ section.hero.is-light .title.is-3::after {
     gap: 1.5rem;
   }
   .frontier-fail-section {
-    padding: 4rem 0;
+    padding: 2.5rem 0 1rem 0;
   }
   
   .frontier-fail-content {
@@ -1579,13 +1593,14 @@ section.hero.is-light .title.is-3::after {
 
 @media screen and (max-width: 768px) {
   .frontier-fail-section {
-    padding: 2rem 0;
+    padding: 1.5rem 0 0.75rem 0;
   }
   
   .frontier-fail-content {
     padding: 0 12px;
   }
   
+  .section-main-title,
   .frontier-fail-title {
     font-size: clamp(1.25rem, 4vw + 0.5rem, 1.75rem);
     margin-bottom: 0.75rem;
@@ -1825,7 +1840,7 @@ section.hero.is-light .title.is-3::after {
 /* Key Insights Section */
 .key-insights-section {
   background-color: #ffffff;
-  padding: 4rem 0;
+  padding: 0.5rem 0 1.5rem 0;
   position: relative;
 }
 
@@ -3329,7 +3344,7 @@ a:focus {
 .task-success-rate-section,
 .key-insights-section,
 .failure-analysis-section {
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   margin: 0;
   background-color: transparent;
   width: 100%;
@@ -3338,8 +3353,6 @@ a:focus {
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
-  min-height: 0;
-  max-height: none;
 }
 
 .understanding-failures-section {
