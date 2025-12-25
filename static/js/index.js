@@ -228,44 +228,35 @@ $(document).ready(function() {
         }
     });
     
-    // Listen for resize messages from iframes (with debouncing)
-    const resizeMessageTimeouts = new WeakMap();
+    // Listen for height messages from iframes (standard approach)
+    window.addEventListener('message', function(event) {
+        if (!event.data || event.data.type !== 'visgymHeight') return;
+        
+        const iframe = document.getElementById('visgym-frame');
+        if (!iframe) return;
+        
+        try {
+            // Verify the message is from our iframe
+            if (iframe.contentWindow === event.source) {
+                const h = event.data.height;
+                iframe.style.height = h + 'px';
+            }
+        } catch (e) {
+            // Cross-origin or other error, ignore
+        }
+    });
+    
+    // Also handle legacy iframe-resize messages for backward compatibility
     window.addEventListener('message', function(event) {
         if (event.data && event.data.type === 'iframe-resize') {
             const iframes = document.querySelectorAll('iframe.embed-frame, iframe.dashboard-iframe');
             iframes.forEach(function(iframe) {
                 try {
-                    if (iframe.contentWindow === event.source) {
-                        // Clear any existing timeout for this iframe
-                        if (resizeMessageTimeouts.has(iframe)) {
-                            clearTimeout(resizeMessageTimeouts.get(iframe));
-                        }
-                        
-                        // Debounce: wait 100ms before adjusting
-                        const timeoutId = setTimeout(function() {
-                            const currentHeight = parseInt(iframe.style.height) || 0;
-                            let newHeight;
-                            
-                            if (event.data.height) {
-                                newHeight = event.data.height + 20;
-                            } else {
-                                // Recalculate if no height provided
-                                setIframeHeight(iframe);
-                                return;
-                            }
-                            
-                            // Only update if height changed significantly (more than 5px)
-                            if (Math.abs(newHeight - currentHeight) > 5) {
-                                iframe.style.height = newHeight + 'px';
-                            }
-                            
-                            resizeMessageTimeouts.delete(iframe);
-                        }, 100);
-                        
-                        resizeMessageTimeouts.set(iframe, timeoutId);
+                    if (iframe.contentWindow === event.source && event.data.height) {
+                        iframe.style.height = event.data.height + 'px';
                     }
                 } catch (e) {
-                    console.log('Error adjusting iframe height:', e);
+                    // Ignore errors
                 }
             });
         }

@@ -704,6 +704,13 @@
         const consoleCable = document.getElementById('consoleCable');
         if (feedbackMonitor) feedbackMonitor.style.display = 'none';
         if (consoleCable) consoleCable.style.display = 'none';
+        
+        // Send height update after briefing state change
+        setTimeout(() => {
+          if (window.sendHeightToParent) {
+            window.sendHeightToParent();
+          }
+        }, 100);
         return;
       }
 
@@ -754,15 +761,25 @@
         imageElement.src = currentData.imageUrl;
         imageElement.style.display = 'block';
         placeholderElement.style.display = 'none';
+        // Send height update after image loads
+        setTimeout(() => {
+          if (window.sendHeightToParent) {
+            window.sendHeightToParent();
+          }
+        }, 100);
       };
-      newImage.src = currentData.imageUrl;
-      
-      // Handle image load error
-      imageElement.onerror = function() {
+      newImage.onerror = function() {
         imageElement.style.display = 'none';
         placeholderElement.textContent = 'Image not available';
         placeholderElement.style.display = 'block';
+        // Send height update even if image fails
+        setTimeout(() => {
+          if (window.sendHeightToParent) {
+            window.sendHeightToParent();
+          }
+        }, 100);
       };
+      newImage.src = currentData.imageUrl;
       
       // Update prompt text (design context stays the same, loaded from prompt_0)
       // Don't show feedback monitor for step 0 (stepId === 1)
@@ -772,6 +789,7 @@
       const actionOutputElement = document.getElementById('actionOutput');
       
       if (currentData.stepId === 1) {
+        // Hide feedback monitor for first step
         if (feedbackMonitor) {
           feedbackMonitor.style.opacity = '0';
           setTimeout(() => {
@@ -784,7 +802,9 @@
             consoleCable.style.display = 'none';
           }, 300);
         }
+        // Don't update prompt text for first step (no feedback yet)
       } else {
+        // Show feedback monitor for steps after first
         if (feedbackMonitor && feedbackMonitor.style.display === 'none') {
           feedbackMonitor.style.display = 'block';
           feedbackMonitor.style.opacity = '0';
@@ -808,12 +828,19 @@
         }, 150);
       }
       
-      // Update action output with fade animation
+      // Update action output with fade animation (always show action)
       actionOutputElement.style.opacity = '0';
       setTimeout(() => {
         actionOutputElement.textContent = currentData.actionOutput;
         actionOutputElement.style.opacity = '1';
       }, 150);
+      
+      // Send height update after all content changes (wait for DOM to update and animations)
+      setTimeout(() => {
+        if (window.sendHeightToParent) {
+          window.sendHeightToParent();
+        }
+      }, 400); // Wait for all fade animations to complete
     }
 
     // Update navigation button states
@@ -967,12 +994,8 @@
           return;
         }
         
-        if (currentStepIndex < traceData.length - 1) {
-          // Auto-play: navigate to next step without pausing
-          currentStepIndex++;
-          updateDisplay();
-          updateNavigationButtons();
-        } else {
+        // Check if we've reached the last step
+        if (currentStepIndex >= traceData.length - 1) {
           // Reached the last step - switch to next environment if auto-cycling
           if (isAutoCyclingEnvironments) {
             // Stop current playback
@@ -1004,6 +1027,11 @@
             updateDisplay();
             updateNavigationButtons();
           }
+        } else {
+          // Normal step progression: move to next step
+          currentStepIndex++;
+          updateDisplay();
+          updateNavigationButtons();
         }
       }, playIntervalDelay);
     }
@@ -1100,14 +1128,18 @@
       });
     }
 
-    // Initialize auto-scrolling environment cards
+    // Initialize auto-scrolling environment cards (if duplicate wrapper exists)
     function initEnvironmentCardsScroll() {
       const wrapper = document.getElementById('environmentCardsWrapper');
       const duplicateWrapper = document.getElementById('environmentCardsWrapperDuplicate');
       
-      if (!wrapper || !duplicateWrapper) return;
+      // Only initialize if both wrapper and duplicate wrapper exist
+      // Mobile grid layout doesn't need marquee duplication
+      if (!wrapper || !duplicateWrapper) {
+        return; // Mobile grid shows all envs, no marquee needed
+      }
       
-      // Clone all cards to duplicate wrapper for seamless loop
+      // Clone all cards to duplicate wrapper for seamless loop (desktop marquee)
       const cards = wrapper.querySelectorAll('.environment-card');
       cards.forEach(card => {
         const clonedCard = card.cloneNode(true);
@@ -1122,7 +1154,7 @@
 
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', function() {
-      // Initialize auto-scrolling cards
+      // Initialize auto-scrolling cards (if needed)
       initEnvironmentCardsScroll();
       // Preload metadata for faster loading
       loadEnvironmentMetadata();
@@ -1131,7 +1163,7 @@
     });
 
     // Also try to start immediately if DOM is already loaded
-    if (document.readyState !== 'loading') {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
       initEnvironmentCardsScroll();
       loadEnvironmentMetadata();
       // Auto-start playing when page loads
@@ -1141,6 +1173,57 @@
 
   <script>
     // No marquee duplication needed; mobile grid shows all envs
+    
+    // Standard iframe height notification to parent page
+    function sendHeight() {
+      try {
+        if (window.parent && window.parent !== window) {
+          // Use max of scroll/offset/client heights to cover all cases
+          const doc = document.documentElement;
+          const body = document.body;
+          const h = Math.max(
+            doc.scrollHeight,
+            doc.offsetHeight,
+            doc.clientHeight,
+            body ? body.scrollHeight : 0,
+            body ? body.offsetHeight : 0,
+            body ? body.clientHeight : 0
+          );
+          
+          window.parent.postMessage(
+            { type: 'visgymHeight', height: h },
+            '*'
+          );
+        }
+      } catch (e) {
+        // Cross-origin or other error, ignore silently
+      }
+    }
+    
+    // Send height on initial load
+    window.addEventListener('load', sendHeight);
+    
+    // Use ResizeObserver to detect content changes (step text changes, window resize, etc.)
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(function() {
+        sendHeight();
+      });
+      ro.observe(document.documentElement);
+    }
+    
+    // Also listen to window resize
+    window.addEventListener('resize', sendHeight);
+    
+    // Send height immediately if DOM is already loaded
+    if (document.readyState === 'complete') {
+      setTimeout(sendHeight, 100);
+    }
+
+    // Periodic safety ping to catch any missed updates
+    setInterval(sendHeight, 1500);
+    
+    // Make sendHeight available globally so it can be called after step changes
+    window.sendHeightToParent = sendHeight;
   </script>
 </body>
 </html>
