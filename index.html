@@ -1044,11 +1044,11 @@
                   </div>
                 </div>
 
-                <div class="relative h-64 ascii-viewport mt-8 overflow-hidden rounded-xl">
-                  <img id="img-layer" src="static/text_mode_compare/matchstick_equation.png" class="absolute w-full h-full transition-opacity duration-500 opacity-100" alt="Visual Input" style="object-fit: contain; padding: 0.75rem; background-color: #020617;">
+                <div class="relative h-80 ascii-viewport mt-8 overflow-hidden rounded-xl">
+                  <img id="img-layer" src="static/text_mode_compare/matchstick_equation.png" class="absolute w-full h-full transition-opacity duration-500 opacity-100" alt="Visual Input" style="object-fit: contain; padding: 0.75rem; background-color: #f8f9fa;">
                   
-                  <div id="ascii-layer" class="absolute w-full h-full flex items-start justify-start opacity-0 transition-opacity duration-500 overflow-auto p-2">
-                    <div id="ascii-content" class="text-green-400 text-[8px] leading-tight font-mono whitespace-pre text-left w-full"></div>
+                  <div id="ascii-layer" class="absolute w-full h-full flex items-start justify-start opacity-0 transition-opacity duration-500 overflow-auto p-1.5">
+                    <img id="ascii-content" src="" alt="ASCII Input" class="w-full h-full object-contain" style="display: none;">
                   </div>
                 </div>
               </div>
@@ -1089,7 +1089,7 @@
             <img id="stringsightImage" src="static/stringsight_visualizations/traj_0/image_0.png" class="transition-opacity duration-500" alt="StringSight Action Looping" style="display: block; width: 100%; height: 100%; object-fit: contain;">
             <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-gray-300 border border-gray-700 shadow-lg">
               <div class="text-[11px] text-gray-300 mb-1 font-semibold">Model: GPT-5 | Step: <span id="stepCounter">1</span> / 7</div>
-              <div class="font-bold text-green-400 text-[10px]" id="actionLine3">> ('swap', ((0, 0), (0, 1))) <span class="animate-pulse">_</span></div>
+              <div class="font-bold text-gray-800 text-[10px]" id="actionLine3">> ('swap', ((0, 0), (0, 1))) <span class="animate-pulse">_</span></div>
               <div class="text-[10px] text-gray-400 mt-1" id="actionNote1"># Swap pieces at positions (0,0) and (0,1)</div>
             </div>
           </div>
@@ -1119,7 +1119,7 @@
             <img id="stringsightImage2" src="static/stringsight_visualizations/traj_3/image_0.png" class="transition-opacity duration-500" alt="StringSight State Mismanagement" style="display: block; width: 100%; height: 100%; object-fit: contain;">
             <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-gray-300 border border-gray-700 shadow-lg">
               <div class="text-[11px] text-gray-300 mb-1 font-semibold">Model: Gemma3 27B | Step: <span id="stepCounter2">1</span> / 14</div>
-              <div class="font-bold text-green-400 text-[10px]" id="actionLine2_3">> ('move', [1, 0, 2, 0]) <span class="animate-pulse">_</span></div>
+              <div class="font-bold text-gray-800 text-[10px]" id="actionLine2_3">> ('move', [1, 0, 2, 0]) <span class="animate-pulse">_</span></div>
               <div class="text-[10px] text-gray-400 mt-1" id="actionNote2"># Move pieces</div>
             </div>
           </div>
@@ -1148,7 +1148,7 @@
             <img id="stringsightImage3" src="static/stringsight_visualizations/traj_2/image_0.png" class="transition-opacity duration-500" alt="StringSight Early Termination" style="display: block; width: 100%; height: 100%; object-fit: contain;">
             <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-gray-300 border border-gray-700 shadow-lg">
               <div class="text-[11px] text-gray-300 mb-1 font-semibold">Model: Claude Sonnet 4 | Step: <span id="stepCounter3">1</span> / 20</div>
-              <div class="font-bold text-green-400 text-[10px]" id="actionLine3_3">> ('move', 2) <span class="text-gray-400 font-normal"># To move left</span> <span class="animate-pulse">_</span></div>
+              <div class="font-bold text-gray-800 text-[10px]" id="actionLine3_3">> ('move', 2) <span class="text-gray-400 font-normal"># To move left</span> <span class="animate-pulse">_</span></div>
             </div>
           </div>
         </div>
@@ -1176,7 +1176,7 @@
             <img id="stringsightImage4" src="static/stringsight_visualizations/traj_1/image_0.png" class="transition-opacity duration-500" alt="StringSight Visual Misjudgment" style="display: block; width: 100%; height: 100%; object-fit: contain;">
             <div class="absolute bottom-2 left-2 right-2 bg-black/80 backdrop-blur-sm p-2 rounded text-[10px] font-mono text-gray-300 border border-gray-700 shadow-lg">
               <div class="text-[11px] text-gray-300 mb-1 font-semibold">Model: Gemini 2.5 Pro | Step: <span id="stepCounter4">1</span> / 13</div>
-              <div class="font-bold text-green-400 text-[10px]" id="actionLine4_3">> ('observe', 'scene') <span class="animate-pulse">_</span></div>
+              <div class="font-bold text-gray-800 text-[10px]" id="actionLine4_3">> ('observe', 'scene') <span class="animate-pulse">_</span></div>
               <div class="text-[10px] text-gray-400 mt-1" id="actionNote4"># Observe the current scene</div>
             </div>
           </div>
@@ -1790,24 +1790,22 @@ End Radar Chart Comparison Section -->
         {
           name: "Sliding Block",
           visual: "static/text_mode_compare/sliding_block.png",
-          ascii: "Target Current\n\n3114 | 3114\n\n3114 | 3114\n\n226. | 5226\n\n576. | 5906\n\n5890 | 7.8."
+          ascii: "static/images/asci_1.png"
         },
         {
           name: "Matchstick Equation",
           visual: "static/text_mode_compare/matchstick_equation.png",
-          ascii: " _   _         _   _       _           _   _   _ \n\n  | |_|   _     |  | |_|   _   |_|   _    |  |  |\n\n  | |_|         |  |  _|       | |        |  |  |\n\n                                                 \n\n 0   1    2    3   4  5    6    7    8    9   10"
+          ascii: "static/images/asci_2.png"
         },
         {
           name: "Maze 2D",
           visual: "static/text_mode_compare/maze2d.png",
-          ascii: "#############\n#           #\n## #      A##\n## ####### ##\n## #     # ##\n## ### ### ##\n##         ##\n## ####### ##\n##   #     ##\n## # ####### \n##T#       ##\n#############\n#############"
+          ascii: "static/images/asci_3.png"
         },
         {
           name: "Patch Reassembly",
           visual: "static/text_mode_compare/patch_reassembly.png",
-          ascii: "  0 1 2 3 4\n  ---------\n0 | 0 0 . . .\n\n1 | 0 0 0 0 .\n\n2 | . . . . .\n\n3 | . . . . .\n\n4 | . . . . .",
-          asciiPart2: "--- Parked Patches ---\n\n\nPatch 1:\n  *\n  1\n  1\n  1\n  1\n\n\nPatch 2:\n  *\n  22\n\n\nPatch 3:\n  *3\n  3\n  3\n\n\nPatch 4:\n  *4\n  444\n  44",
-          isTwoColumn: true
+          ascii: "static/images/asci_4.png"
         }
       ];
 
@@ -1854,25 +1852,25 @@ End Radar Chart Comparison Section -->
           newImg.src = example.visual;
           
           asciiLayer.style.opacity = '0';
-          btnVisual.className = "px-3 py-1 rounded-full bg-red-500 text-white text-[9px] font-bold transition-all cursor-pointer hover:bg-red-600";
-          btnText.className = "px-3 py-1 rounded-full text-gray-500 text-[9px] font-bold transition-all cursor-pointer hover:bg-gray-100";
+          asciiContent.style.display = 'none';
+          btnVisual.className = "ascii-toggle-btn active";
+          btnText.className = "ascii-toggle-btn";
           displayContainer.className = "ascii-display relative overflow-hidden group transition-all duration-500";
           displayContainer.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.3), 0 0 30px rgba(239, 68, 68, 0.2), 0 0 45px rgba(239, 68, 68, 0.1)";
         } else {
           imgLayer.style.opacity = '0';
           asciiLayer.style.opacity = '1';
-          btnVisual.className = "px-3 py-1 rounded-full text-gray-500 text-[9px] font-bold transition-all cursor-pointer hover:bg-gray-100";
-          btnText.className = "px-3 py-1 rounded-full bg-green-500 text-white text-[9px] font-bold transition-all cursor-pointer hover:bg-green-600";
+          btnVisual.className = "ascii-toggle-btn";
+          btnText.className = "ascii-toggle-btn active";
           displayContainer.className = "ascii-display relative overflow-hidden group transition-all duration-500";
           displayContainer.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.3), 0 0 30px rgba(34, 197, 94, 0.2), 0 0 45px rgba(34, 197, 94, 0.1)";
           
-          if (example.asciiPart2) {
-            asciiContent.className = "text-green-400 text-[6px] leading-tight font-mono flex gap-3 items-start w-full";
-            asciiContent.innerHTML = `<pre class="text-green-400 text-[6px] leading-tight font-mono whitespace-pre-wrap flex-shrink-0">${example.ascii}</pre><pre class="text-green-400 text-[6px] leading-tight font-mono whitespace-pre-wrap flex-shrink-0">${example.asciiPart2}</pre>`;
-          } else {
-            asciiContent.className = "text-green-400 text-[8px] leading-tight font-mono whitespace-pre text-left w-full";
-            asciiContent.innerHTML = `<pre class="text-green-400 text-[8px] leading-tight font-mono whitespace-pre text-left m-0 w-full">${example.ascii}</pre>`;
-          }
+          const asciiImg = new Image();
+          asciiImg.onload = function() {
+            asciiContent.src = example.ascii;
+            asciiContent.style.display = 'block';
+          };
+          asciiImg.src = example.ascii;
         }
       }
 
@@ -2295,24 +2293,22 @@ End Radar Chart Comparison Section -->
         {
           name: "Sliding Block",
           visual: "static/text_mode_compare/sliding_block.png",
-          ascii: "Target Current\n\n3114 | 3114\n\n3114 | 3114\n\n226. | 5226\n\n576. | 5906\n\n5890 | 7.8."
+          ascii: "static/images/asci_1.png"
         },
         {
           name: "Matchstick Equation",
           visual: "static/text_mode_compare/matchstick_equation.png",
-          ascii: " _   _         _   _       _           _   _   _ \n\n  | |_|   _     |  | |_|   _   |_|   _    |  |  |\n\n  | |_|         |  |  _|       | |        |  |  |\n\n                                                 \n\n 0   1    2    3   4  5    6    7    8    9   10"
+          ascii: "static/images/asci_2.png"
         },
         {
           name: "Maze 2D",
           visual: "static/text_mode_compare/maze2d.png",
-          ascii: "#############\n#           #\n## #      A##\n## ####### ##\n## #     # ##\n## ### ### ##\n##         ##\n## ####### ##\n##   #     ##\n## # ####### \n##T#       ##\n#############\n#############"
+          ascii: "static/images/asci_3.png"
         },
         {
           name: "Patch Reassembly",
           visual: "static/text_mode_compare/patch_reassembly.png",
-          ascii: "  0 1 2 3 4\n  ---------\n0 | 0 0 . . .\n\n1 | 0 0 0 0 .\n\n2 | . . . . .\n\n3 | . . . . .\n\n4 | . . . . .",
-          asciiPart2: "--- Parked Patches ---\n\n\nPatch 1:\n  *\n  1\n  1\n  1\n  1\n\n\nPatch 2:\n  *\n  22\n\n\nPatch 3:\n  *3\n  3\n  3\n\n\nPatch 4:\n  *4\n  444\n  44",
-          isTwoColumn: true
+          ascii: "static/images/asci_4.png"
         }
       ];
 
@@ -2359,25 +2355,25 @@ End Radar Chart Comparison Section -->
           newImg.src = example.visual;
           
           asciiLayer.style.opacity = '0';
-          btnVisual.className = "px-3 py-1 rounded-full bg-red-500 text-white text-[9px] font-bold transition-all cursor-pointer hover:bg-red-600";
-          btnText.className = "px-3 py-1 rounded-full text-gray-500 text-[9px] font-bold transition-all cursor-pointer hover:bg-gray-100";
+          asciiContent.style.display = 'none';
+          btnVisual.className = "ascii-toggle-btn active";
+          btnText.className = "ascii-toggle-btn";
           displayContainer.className = "ascii-display relative overflow-hidden group transition-all duration-500";
           displayContainer.style.boxShadow = "0 0 15px rgba(239, 68, 68, 0.3), 0 0 30px rgba(239, 68, 68, 0.2), 0 0 45px rgba(239, 68, 68, 0.1)";
         } else {
           imgLayer.style.opacity = '0';
           asciiLayer.style.opacity = '1';
-          btnVisual.className = "px-3 py-1 rounded-full text-gray-500 text-[9px] font-bold transition-all cursor-pointer hover:bg-gray-100";
-          btnText.className = "px-3 py-1 rounded-full bg-green-500 text-white text-[9px] font-bold transition-all cursor-pointer hover:bg-green-600";
+          btnVisual.className = "ascii-toggle-btn";
+          btnText.className = "ascii-toggle-btn active";
           displayContainer.className = "ascii-display relative overflow-hidden group transition-all duration-500";
           displayContainer.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.3), 0 0 30px rgba(34, 197, 94, 0.2), 0 0 45px rgba(34, 197, 94, 0.1)";
           
-          if (example.asciiPart2) {
-            asciiContent.className = "text-green-400 text-[6px] leading-tight font-mono flex gap-3 items-start w-full";
-            asciiContent.innerHTML = `<pre class="text-green-400 text-[6px] leading-tight font-mono whitespace-pre-wrap flex-shrink-0">${example.ascii}</pre><pre class="text-green-400 text-[6px] leading-tight font-mono whitespace-pre-wrap flex-shrink-0">${example.asciiPart2}</pre>`;
-          } else {
-            asciiContent.className = "text-green-400 text-[8px] leading-tight font-mono whitespace-pre text-left w-full";
-            asciiContent.innerHTML = `<pre class="text-green-400 text-[8px] leading-tight font-mono whitespace-pre text-left m-0 w-full">${example.ascii}</pre>`;
-          }
+          const asciiImg = new Image();
+          asciiImg.onload = function() {
+            asciiContent.src = example.ascii;
+            asciiContent.style.display = 'block';
+          };
+          asciiImg.src = example.ascii;
         }
       }
 

@@ -1,27 +1,27 @@
-/* ASCII display - dark terminal look */
+/* ASCII display - white terminal look */
 #display-container.ascii-display {
-  background: #0b1020;
-  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 18px;
   padding: 8px;
   box-shadow:
-    0 0 18px rgba(15, 23, 42, 0.35),
-    0 0 32px rgba(15, 23, 42, 0.25);
+    0 0 18px rgba(0, 0, 0, 0.1),
+    0 0 32px rgba(0, 0, 0, 0.05);
 }
 #display-container .ascii-viewport {
-  background: #020617;
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: #f8f9fa;
+  border: 1px solid rgba(148, 163, 184, 0.3);
   box-shadow:
-    inset 0 0 20px rgba(15, 23, 42, 0.5),
-    0 0 10px rgba(15, 23, 42, 0.35);
+    inset 0 0 20px rgba(0, 0, 0, 0.05),
+    0 0 10px rgba(0, 0, 0, 0.05);
 }
 #ascii-layer {
-  background: #020617;
+  background: #f8f9fa;
 }
 #display-container .ascii-toggle {
-  background: rgba(15, 23, 42, 0.85);
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  box-shadow: 0 0 12px rgba(15, 23, 42, 0.35);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
   border-radius: 999px;
   padding: 4px;
   gap: 6px;
@@ -33,19 +33,19 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  color: #cbd5e1;
-  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #64748b;
+  background: rgba(248, 249, 250, 0.8);
 }
 .ascii-toggle-btn.active {
-  background: rgba(34, 197, 94, 0.18);
-  color: #22c55e;
-  border-color: rgba(34, 197, 94, 0.35);
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+  border-color: rgba(34, 197, 94, 0.4);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
 }
 .ascii-toggle-btn:hover {
-  color: #e2e8f0;
-  border-color: rgba(148, 163, 184, 0.55);
+  color: #475569;
+  border-color: rgba(148, 163, 184, 0.5);
 }
 /* Modern CSS Variables for consistent theming */
 :root {
