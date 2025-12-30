@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://visgym.github.io/sitemap.xml
 Sitemap: https://visgym.github.io/site-map.xml
