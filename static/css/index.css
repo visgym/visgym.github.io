@@ -240,6 +240,11 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   opacity: 0.6;
 }
 
+/* Hugging Face button icon - same opacity as paper button */
+.paper-button .hf-icon-container {
+  opacity: 1;
+}
+
 /* Hugging Face icon container - prevent clipping */
 .hf-icon-container {
   display: inline-flex !important;
@@ -281,12 +286,36 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 /* Desktop: Ensure buttons stay in one row */
 @media screen and (min-width: 769px) {
   .apple-links {
-    flex-wrap: nowrap; /* Prevent wrapping on desktop */
+    flex-wrap: wrap; /* Allow wrapping for newline buttons */
   }
   
   .link-block {
     display: inline-block;
     flex-shrink: 0; /* Prevent shrinking */
+  }
+  
+  /* First button stays on first line */
+  .apple-links > .link-block:first-child {
+    flex-basis: auto;
+    width: auto;
+  }
+  
+  /* Force line break: insert a break element */
+  .link-block-newline {
+    flex-basis: 100%;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+  }
+  
+  /* Buttons after newline should stay on same line */
+  .link-block-newline ~ .link-block {
+    flex-basis: auto;
+    width: auto;
+    margin-top: 0;
   }
 }
 
@@ -422,6 +451,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-image-container {
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start; /* Align image to top */
   justify-content: center;
   position: relative;
@@ -444,6 +474,19 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-teaser-image:hover {
   transform: none;
   box-shadow: none;
+}
+
+/* Teaser description text */
+.teaser-description {
+  font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(0.95rem, 1vw + 0.4rem, 1.05rem);
+  line-height: 1.7;
+  color: var(--text-body);
+  font-weight: 400;
+  margin: 24px 0 0 0;
+  padding: 0;
+  text-align: left;
+  max-width: 100%;
 }
 
 /* Hero Section Modernization (fallback) */
@@ -3494,8 +3537,8 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   width: 100%;
   max-width: 100% !important; /* Use full width instead of max-width-wide */
   margin: 0 auto 2rem auto !important; /* Add bottom margin to separate from next section */
-  padding-left: var(--page-padding-desktop) !important;
-  padding-right: var(--page-padding-desktop) !important;
+  padding-left: calc(var(--page-padding-desktop) + 20px) !important; /* Add extra margin */
+  padding-right: calc(var(--page-padding-desktop) + 20px) !important; /* Add extra margin */
   padding-top: 0 !important; /* Remove top padding */
   padding-bottom: 0 !important; /* Remove bottom padding */
   box-sizing: border-box;
@@ -3574,8 +3617,8 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   .page-shell,
   .embed-shell,
   .dashboard-embed-container.embed-shell {
-    padding-left: var(--page-padding-tablet) !important;
-    padding-right: var(--page-padding-tablet) !important;
+    padding-left: calc(var(--page-padding-tablet) + 15px) !important; /* Add extra margin */
+    padding-right: calc(var(--page-padding-tablet) + 15px) !important; /* Add extra margin */
   }
   
   section.hero.is-light .container.is-max-desktop.page-shell {
@@ -3594,8 +3637,8 @@ section.hero.is-light .container.is-max-desktop.page-shell {
   /* Mobile: Simplified iframe containers - keep horizontal padding for content spacing */
   .embed-shell,
   .dashboard-embed-container {
-    padding-left: var(--page-padding-mobile) !important;
-    padding-right: var(--page-padding-mobile) !important;
+    padding-left: calc(var(--page-padding-mobile) + 10px) !important; /* Add extra margin */
+    padding-right: calc(var(--page-padding-mobile) + 10px) !important; /* Add extra margin */
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     margin: 0 !important;
