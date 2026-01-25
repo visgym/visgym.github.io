@@ -240,6 +240,28 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   opacity: 0.6;
 }
 
+/* Hugging Face icon container - prevent clipping */
+.hf-icon-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  line-height: 1 !important;
+}
+
+.hf-logo-img {
+  width: 18px !important;
+  height: 18px !important;
+  display: block !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .coming-soon-text {
   font-size: 0.7rem;
   opacity: 0.7;
@@ -253,6 +275,19 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   gap: 10px; /* Reduced: 12px→10px */
   margin-top: 0; /* Controlled by abstract margin */
   text-align: left;
+  align-items: center;
+}
+
+/* Desktop: Ensure buttons stay in one row */
+@media screen and (min-width: 769px) {
+  .apple-links {
+    flex-wrap: nowrap; /* Prevent wrapping on desktop */
+  }
+  
+  .link-block {
+    display: inline-block;
+    flex-shrink: 0; /* Prevent shrinking */
+  }
 }
 
 /* Abstract - Back to Left Panel */

@@ -1152,12 +1152,152 @@
       });
     }
 
+    // Card image animation system (GIF-like playback for each card)
+    const cardAnimations = {}; // Store animation intervals for each card
+    const cardImageIndices = {}; // Store current image index for each card
+    const cardImageCounts = {}; // Store total image count for each card
+    const cardPreloadedImages = {}; // Store preloaded images for smooth transitions
+    const cardAnimationDelay = 600; // 600ms per frame for smooth GIF-like effect
+
+    // Preload all images for an environment card
+    async function preloadCardImages(envName, imageCount) {
+      if (!cardPreloadedImages[envName]) {
+        cardPreloadedImages[envName] = [];
+      }
+      
+      const preloaded = cardPreloadedImages[envName];
+      if (preloaded.length >= imageCount) {
+        return; // Already preloaded
+      }
+      
+      // Preload images in background
+      for (let i = 0; i < imageCount; i++) {
+        if (!preloaded[i]) {
+          const img = new Image();
+          img.src = `static/appendix/${envName}/image_${i}.png`;
+          preloaded[i] = img;
+        }
+      }
+    }
+
+    // Start animation for a specific environment card
+    async function startCardAnimation(envName) {
+      // Stop existing animation if any
+      stopCardAnimation(envName);
+      
+      // Get image count for this environment
+      if (!cardImageCounts[envName]) {
+        cardImageCounts[envName] = await getStepsCount(envName);
+        if (cardImageCounts[envName] === 0) {
+          return; // No images to animate
+        }
+      }
+      
+      const imageCount = cardImageCounts[envName];
+      if (imageCount === 0 || imageCount === 1) return; // No need to animate if only one image
+      
+      // Preload all images for smooth transitions
+      await preloadCardImages(envName, imageCount);
+      
+      // Initialize index if not set
+      if (cardImageIndices[envName] === undefined) {
+        cardImageIndices[envName] = 0;
+      }
+      
+      // Find all card elements (original and duplicates)
+      const cards = document.querySelectorAll(`.environment-card[data-env="${envName}"]`);
+      if (cards.length === 0) return;
+      
+      // Start animation loop
+      cardAnimations[envName] = setInterval(() => {
+        const currentIndex = cardImageIndices[envName];
+        const nextIndex = (currentIndex + 1) % imageCount;
+        
+        // Update all card instances (original and duplicates)
+        cards.forEach(card => {
+          const imgElement = card.querySelector('.card-image');
+          if (!imgElement) return;
+          
+          // Check if next image is preloaded
+          const preloadedImg = cardPreloadedImages[envName] && cardPreloadedImages[envName][nextIndex];
+          
+          if (preloadedImg && preloadedImg.complete) {
+            // Image is ready, switch immediately without fade (smoother)
+            imgElement.src = preloadedImg.src;
+            imgElement.style.opacity = '1';
+          } else {
+            // Fallback: load image normally
+            const nextImageUrl = `static/appendix/${envName}/image_${nextIndex}.png`;
+            const nextImage = new Image();
+            
+            nextImage.onload = function() {
+              // Direct switch without fade for smoother effect
+              imgElement.src = nextImageUrl;
+              imgElement.style.opacity = '1';
+            };
+            
+            nextImage.onerror = function() {
+              // Skip this frame, continue to next
+            };
+            
+            nextImage.src = nextImageUrl;
+          }
+        });
+        
+        // Update index for next iteration
+        cardImageIndices[envName] = nextIndex;
+      }, cardAnimationDelay);
+    }
+
+    // Stop animation for a specific environment card
+    function stopCardAnimation(envName) {
+      if (cardAnimations[envName]) {
+        clearInterval(cardAnimations[envName]);
+        delete cardAnimations[envName];
+      }
+    }
+    
+    // Reset card image to first frame
+    function resetCardImage(envName) {
+      const cards = document.querySelectorAll(`.environment-card[data-env="${envName}"]`);
+      cards.forEach(card => {
+        const imgElement = card.querySelector('.card-image');
+        if (imgElement) {
+          imgElement.src = `static/appendix/${envName}/image_0.png`;
+          imgElement.style.opacity = '1';
+        }
+      });
+      if (cardImageIndices[envName] !== undefined) {
+        cardImageIndices[envName] = 0;
+      }
+    }
+
+    // Start animations for all environment cards
+    async function startAllCardAnimations() {
+      // Wait for metadata to be loaded
+      await loadEnvironmentMetadata();
+      
+      // Start animation for each environment
+      environments.forEach(envName => {
+        startCardAnimation(envName);
+      });
+    }
+
+    // Stop all card animations
+    function stopAllCardAnimations() {
+      environments.forEach(envName => {
+        stopCardAnimation(envName);
+      });
+    }
+
     // Initialize on page load
     window.addEventListener('DOMContentLoaded', function() {
       // Initialize auto-scrolling cards (if needed)
       initEnvironmentCardsScroll();
       // Preload metadata for faster loading
       loadEnvironmentMetadata();
+      // Start card image animations (GIF-like effect)
+      startAllCardAnimations();
       // Auto-start playing when page loads
       startAutoCyclingEnvironments();
     });
@@ -1166,6 +1306,8 @@
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       initEnvironmentCardsScroll();
       loadEnvironmentMetadata();
+      // Start card image animations (GIF-like effect)
+      startAllCardAnimations();
       // Auto-start playing when page loads
       startAutoCyclingEnvironments();
     }
