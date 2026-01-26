@@ -122,7 +122,11 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 }
 
 
-/* Modern Button Styles */
+/* ============================================
+   MODERN ACTION BUTTONS SYSTEM
+   ============================================ */
+
+/* Base Button Reset - Remove Bulma defaults */
 .button {
   border-radius: var(--border-radius) !important;
   font-weight: 600 !important;
@@ -132,139 +136,161 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   overflow: hidden;
 }
 
-/* Only apply .is-dark styles if NOT .apple-button */
-.button.is-dark:not(.apple-button) {
+/* Default Bulma button styles (for non-action buttons) */
+.button.is-dark:not(.action-button) {
   background: var(--text-primary) !important;
   border: none !important;
   color: white !important;
   box-shadow: var(--shadow-md);
 }
 
-.button.is-dark:not(.apple-button):hover {
+.button.is-dark:not(.action-button):hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
   background: var(--primary-color) !important;
 }
 
-.button.is-dark:not(.apple-button):active {
+.button.is-dark:not(.action-button):active {
   transform: translateY(0);
   box-shadow: var(--shadow-md);
 }
 
-/* Apple-style Buttons - Glassmorphism with Dark Blue Semi-transparent */
-.button.is-dark.apple-button,
-.apple-button {
-  /* Glassmorphism effect - Dark blue semi-transparent */
+/* ============================================
+   MODERN ACTION BUTTONS - UNIFIED STYLE SYSTEM
+   ============================================ */
+
+/* Base Action Button - Opaque deep blue, minimal flat */
+.action-button {
+  /* Layout */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  
+  /* Typography - Clear and readable */
   font-family: 'Space Mono', 'Courier New', monospace !important;
-  background: rgba(0, 26, 51, 0.6) !important; /* Dark blue (#001a33) semi-transparent */
-  backdrop-filter: blur(20px) saturate(180%) !important; /* Glass blur effect */
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important; /* Safari support */
-  color: #ffffff !important; /* White text for contrast */
-  border-radius: 980px !important; /* Apple's pill shape */
-  padding: 12px 24px !important;
-  font-weight: 500 !important;
-  font-size: 0.95rem !important;
-  border: 1px solid rgba(0, 26, 51, 0.5) !important; /* Dark blue border */
-  box-shadow: 
-    0 4px 16px rgba(0, 26, 51, 0.3),
-    0 1px 3px rgba(0, 26, 51, 0.2) !important; /* Dark blue shadows */
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  /* Override any conflicting styles */
-  overflow: visible !important;
-}
-
-.button.is-dark.apple-button:hover,
-.apple-button:hover {
-  background: rgba(0, 26, 51, 0.7) !important; /* Darker blue on hover */
-  backdrop-filter: blur(25px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 
-    0 8px 24px rgba(0, 26, 51, 0.4),
-    0 2px 6px rgba(0, 26, 51, 0.3) !important; /* Darker blue shadows */
-  border-color: rgba(0, 26, 51, 0.6) !important; /* Darker border on hover */
-}
-
-.button.is-dark.apple-button:active,
-.apple-button:active {
-  transform: translateY(0) !important;
-  box-shadow: 
-    0 2px 8px rgba(0, 26, 51, 0.3) !important; /* Dark blue shadow */
-  background-color: rgba(0, 26, 51, 0.65) !important; /* Slightly lighter when pressed */
-}
-
-/* Paper Button - Dark Navy Blue */
-.paper-button {
-  background: #1a1a2e !important; /* Dark navy blue */
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.3 !important;
+  color: #ffffff !important; /* White text for clarity */
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 0 4px rgba(0, 0, 0, 0.2) !important; /* Text clarity */
+  
+  /* Visual Design - Opaque deep blue (flat) */
+  background: #001a33 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 980px !important;
+  
+  /* Spacing */
+  padding: 9px 18px !important;
+  min-height: 36px !important;
+  
+  /* Effects - minimal (flat) */
+  box-shadow: none !important;
+  transition: background-color 0.18s ease, border-color 0.18s ease, opacity 0.18s ease !important;
+  
+  /* Behavior */
+  cursor: pointer !important;
+  overflow: visible !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
 }
 
-.paper-button:hover {
-  background: #16213e !important; /* Slightly lighter on hover */
-  box-shadow: 
-    0 8px 24px rgba(26, 26, 46, 0.4),
-    0 2px 6px rgba(26, 26, 46, 0.3) !important;
+/* Hover State */
+.action-button:hover {
+  background: #062a4d !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  color: #ffffff !important;
 }
 
-.paper-button:active {
-  background: #0f1419 !important; /* Darker when pressed */
-  box-shadow: 
-    0 2px 8px rgba(26, 26, 46, 0.3) !important;
+/* Active/Pressed State */
+.action-button:active {
+  transform: none !important;
+  background: #001428 !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  box-shadow: none !important;
 }
 
-/* Coming Soon Buttons (Code and arXiv) */
-.coming-soon-button {
-  background: rgba(0, 26, 51, 0.3) !important;
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  color: rgba(255, 255, 255, 0.6) !important;
-  border: 1px solid rgba(0, 26, 51, 0.3) !important;
+/* Focus State - Accessibility */
+.action-button:focus {
+  outline: 2px solid rgba(120, 175, 255, 0.65) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px rgba(120, 175, 255, 0.22) !important;
+}
+
+.action-button:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+/* Disabled State */
+.action-button:disabled,
+.action-button.disabled {
+  opacity: 0.5 !important;
   cursor: not-allowed !important;
-  opacity: 0.6 !important;
+  pointer-events: none !important;
 }
 
-.coming-soon-button:hover {
-  background: rgba(0, 26, 51, 0.35) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  border-color: rgba(0, 26, 51, 0.4) !important;
-  transform: none !important;
-}
-
-.coming-soon-button:active {
-  background: rgba(0, 26, 51, 0.3) !important;
-  transform: none !important;
-}
-
-.coming-soon-button .icon {
-  opacity: 0.6;
-}
-
-/* Hugging Face button icon - same opacity as paper button */
-.paper-button .hf-icon-container {
-  opacity: 1;
-}
-
-/* Hugging Face icon container - prevent clipping */
-.hf-icon-container {
+/* Button Icon Container */
+.action-button .button-icon {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: auto !important;
   height: auto !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  overflow: visible !important;
+  flex-shrink: 0 !important;
   line-height: 1 !important;
 }
 
+/* Icon Font Awesome Icons - Enhanced clarity, narrower height */
+.action-button .button-icon i {
+  font-size: 0.88rem !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  color: #ffffff !important;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 0 4px rgba(0, 0, 0, 0.2) !important;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3)) !important;
+}
+
+/* Button Text - Enhanced clarity */
+.action-button .button-text {
+  display: inline-block !important;
+  white-space: nowrap !important;
+  line-height: 1.5 !important;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.3),
+    0 0 4px rgba(0, 0, 0, 0.2) !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================
+   BUTTON VARIANTS
+   ============================================ */
+
+/* All buttons now use the same dark navy blue style */
+/* Hugging Face, Paper, Code, and arXiv buttons all inherit from .action-button */
+
+/* Hugging Face Logo Image - Enhanced clarity, narrower height */
 .hf-logo-img {
   width: 18px !important;
-  height: 18px !important;
+  height: 14px !important;
   display: block !important;
   object-fit: contain !important;
   margin: 0 !important;
   padding: 0 !important;
+  opacity: 1 !important;
+  flex-shrink: 0 !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) 
+          drop-shadow(0 0 4px rgba(0, 0, 0, 0.2)) 
+          contrast(1.1) brightness(1.1) !important;
 }
 
 .coming-soon-text {
@@ -277,16 +303,38 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .apple-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Reduced: 12px→10px */
+  --apple-links-gap: 10px;
+  gap: var(--apple-links-gap); /* Reduced: 12px→10px */
   margin-top: 0; /* Controlled by abstract margin */
   text-align: left;
   align-items: center;
+}
+
+.apple-links .link-block a.action-button {
+  margin: 0 !important; /* prevent misalignment from generic link margins */
+}
+
+/* Button width control - First button sets width, bottom three equal to first */
+.apple-links > .link-block:first-child {
+  flex: 0 0 auto;
+}
+
+.apple-links > .link-block-newline ~ .link-block {
+  flex: 1 1 calc(50% - 7px); /* Two buttons share the width of first button */
+  min-width: 0;
+}
+
+.apple-links > .link-block-newline ~ .link-block .action-button {
+  width: 100%;
+  justify-content: center;
 }
 
 /* Desktop: Ensure buttons stay in one row */
 @media screen and (min-width: 769px) {
   .apple-links {
     flex-wrap: wrap; /* Allow wrapping for newline buttons */
+    /* Make bottom row match benchmark row width */
+    width: min(420px, 100%);
   }
   
   .link-block {
@@ -297,7 +345,12 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   /* First button stays on first line */
   .apple-links > .link-block:first-child {
     flex-basis: auto;
-    width: auto;
+    width: 100%;
+  }
+
+  .apple-links > .link-block:first-child .action-button {
+    width: 100%;
+    justify-content: center;
   }
   
   /* Force line break: insert a break element */
@@ -311,12 +364,30 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
     overflow: hidden;
   }
   
-  /* Buttons after newline should stay on same line */
+  /* Buttons after newline - two buttons sum to the benchmark width */
   .link-block-newline ~ .link-block {
-    flex-basis: auto;
-    width: auto;
+    flex: 1 1 0;
+    max-width: calc((100% - var(--apple-links-gap)) / 2);
+    min-width: 0;
     margin-top: 0;
   }
+  
+  .link-block-newline ~ .link-block .action-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Desktop buttons: same height, premium alignment */
+  .apple-links .action-button {
+    min-height: 50px !important; /* 48–52px */
+    padding: 0 18px !important;
+  }
+}
+
+/* Make Code / arXiv icons a bit smaller */
+.action-button-code .button-icon i,
+.action-button-arxiv .button-icon i {
+  font-size: 0.74rem !important;
 }
 
 /* Abstract - Back to Left Panel */
@@ -440,7 +511,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   display: flex;
   align-items: flex-start; /* Align to top to match authors */
   justify-content: center;
-  padding: 40px var(--page-padding-desktop) 20px;
+  padding: 24px var(--page-padding-desktop) 20px; /* move montage upward */
   background-color: #f5f5f7;
   position: relative;
   overflow: hidden;
@@ -455,7 +526,18 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   align-items: flex-start; /* Align image to top */
   justify-content: center;
   position: relative;
-  margin-top: 0; /* Ensure no extra top margin */
+  margin-top: -6px; /* subtle upward nudge */
+  /* Card look */
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 24px; /* ~2xl */
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.07),
+    0 1px 4px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 18px 18px 16px;
+  overflow: hidden;
 }
 
 .apple-teaser-image {
@@ -464,22 +546,28 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
   max-height: 95vh;
   max-width: 100%;
   object-fit: contain;
-  border-radius: 0;
-  box-shadow: none;
+  /* Make montage feel premium: white mat + subtle border */
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 18px;
+  box-shadow: 0 1px 8px rgba(15, 23, 42, 0.06);
+  /* Slightly reduce “noise” */
+  filter: saturate(0.96) contrast(1.02) brightness(0.99);
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: transparent;
-  padding: 0;
+  display: block;
 }
 
 .apple-teaser-image:hover {
   transform: none;
-  box-shadow: none;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
 }
 
 /* Teaser description text */
 .teaser-description {
   font-family: 'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(0.95rem, 1vw + 0.4rem, 1.05rem);
+  font-size: clamp(0.88rem, 0.7vw + 0.35rem, 0.98rem);
   line-height: 1.7;
   color: var(--text-body);
   font-weight: 400;
@@ -533,7 +621,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .publication-title.apple-title,
 .apple-title {
     font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif !important;
-    font-size: clamp(2rem, 3vw + 1rem, 3.2rem) !important; /* Reduced: 2rem on small, 3.2rem on large - less overwhelming */
+    font-size: clamp(2.2rem, 3.2vw + 1rem, 3.6rem) !important;
     font-weight: 800 !important; /* Slightly lighter than 900 */
     letter-spacing: -0.04em !important; /* Slightly looser tracking */
     margin: 0 !important; /* Reset all margins to prevent browser default spacing */
@@ -556,13 +644,13 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .publication-title.apple-title .title-main,
 .apple-title .title-main {
     font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    font-size: clamp(2rem, 3.5vw + 1rem, 3.5rem) !important; /* Reduced: 2rem on small, 3.5rem on large (was 4rem) */
+    font-size: clamp(2.3rem, 3.8vw + 1rem, 3.9rem) !important;
     font-weight: 900 !important; /* Ultra bold */
     color: #001a33 !important; /* Navy blue - deep dark blue (墨蓝) */
     -webkit-text-fill-color: #001a33 !important;
     display: inline-flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.35rem; /* more breathing room between icon and text */
     line-height: 1.1 !important; /* Improved readability */
     margin: 0 !important; /* Reset all margins */
     margin-bottom: -0.15em !important; /* More negative margin to pull subtitle closer */
@@ -580,12 +668,12 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .publication-title.apple-title .title-subtitle,
 .apple-title .title-subtitle {
     font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    font-size: clamp(1.2rem, 2vw + 0.6rem, 1.8rem) !important; /* Increased: 1.2rem on small, 1.8rem on large (was 1.6rem) */
-    font-weight: 500 !important; /* Medium weight - lighter than main */
+    font-size: clamp(1.25rem, 2.1vw + 0.65rem, 2.0rem) !important;
+    font-weight: 400 !important; /* lighter, more modern */
     color: #424245 !important; /* Medium gray - softer than main */
     -webkit-text-fill-color: #424245 !important;
     display: block;
-    line-height: 1.1 !important; /* Tighter line height */
+    line-height: 1.25 !important; /* more readable tagline */
     letter-spacing: -0.01em;
     margin: 0 !important; /* Reset all margins */
     margin-top: 0 !important;
@@ -641,10 +729,10 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
     content: '';
     position: absolute;
     left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: linear-gradient(180deg, #003262 0%, #1e88e5 100%); /* Berkeley Blue gradient */
+    top: 8px;
+    bottom: 8px; /* shorter so it doesn't dominate */
+    width: 2px; /* thinner */
+    background: linear-gradient(180deg, rgba(0, 50, 98, 0.85) 0%, rgba(30, 136, 229, 0.85) 100%); /* softer Berkeley Blue */
     border-radius: 2px;
 }
 
@@ -690,7 +778,7 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 .affiliation-group {
     display: flex;
     align-items: center; /* Perfect vertical center alignment */
-    gap: 20px; /* Increased: 16px→20px for more spacing between UC Berkeley and logos */
+    gap: 22px; /* refined spacing */
     flex-wrap: wrap;
     margin-bottom: 0; /* No bottom margin since eql-cntrb is above now */
     margin-top: 4px; /* Add top margin for spacing from eql-cntrb */
@@ -698,10 +786,19 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
     min-height: 40px; /* Minimum height for consistent alignment */
 }
 
+.affiliation-group .author-block {
+    display: inline-flex !important;
+    align-items: center;
+    margin-right: 0 !important;
+    font-size: 1.05rem;
+    font-weight: 600 !important;
+    line-height: 1;
+}
+
 .lab-logos {
     display: flex;
     align-items: center; /* Perfect center alignment with UC Berkeley */
-    gap: 20px; /* Increased: 14px→20px for more spacing between logos */
+    gap: 22px; /* refined spacing */
     /* Match the visual center line of text */
     height: fit-content;
 }
@@ -726,9 +823,9 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
 }
 
 .lab-logo-img {
-    height: 42px; /* Increased: 36px→42px for larger logos */
+    height: 40px; /* unify row height */
     width: auto;
-    max-width: 180px; /* Increased: 150px→180px */
+    max-width: 180px;
     object-fit: contain;
     display: block;
 }
@@ -1162,8 +1259,8 @@ section.hero.is-light .title.is-3::after {
   }
   
   .affiliation-group .lab-logo-img {
-    height: 28px !important;
-    max-width: 120px !important;
+    height: 30px !important;
+    max-width: 130px !important;
   }
   
   /* Mobile: Hide separate lab logos container */
@@ -1176,10 +1273,10 @@ section.hero.is-light .title.is-3::after {
     margin-top: 0 !important;
   }
   
-  .apple-button {
-    font-size: clamp(0.8rem, 2vw + 0.4rem, 0.9rem) !important;
-    padding: 10px 18px !important;
-    min-height: 44px !important; /* Touch target size */
+  .action-button {
+    font-size: clamp(0.78rem, 2vw + 0.35rem, 0.88rem) !important;
+    padding: 8px 16px !important;
+    min-height: 36px !important;
   }
   
   .apple-teaser-image {
@@ -1428,9 +1525,9 @@ section.hero.is-light .title.is-3::after {
     gap: 10px !important;
   }
   
-  .apple-button {
-    font-size: clamp(0.75rem, 2vw + 0.3rem, 0.85rem) !important;
-    padding: 8px 16px !important;
+  .action-button {
+    font-size: clamp(0.74rem, 2vw + 0.25rem, 0.84rem) !important;
+    padding: 7px 14px !important;
   }
   
   .apple-teaser-image {
@@ -1598,7 +1695,7 @@ section.hero.is-light .title.is-3::after {
 .section-main-title,
 .frontier-fail-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(1.5rem, 3vw + 0.75rem, 2.25rem);
+  font-size: clamp(1.65rem, 3.1vw + 0.8rem, 2.45rem);
   font-weight: 800;
   color: #1d1d1f;
   margin: 0 auto 1rem auto;
@@ -3256,12 +3353,12 @@ code {
     gap: 10px;
   }
   
-  .apple-button {
+  .action-button {
     width: 100%;
     justify-content: center;
   }
   
-  .button:not(.apple-button) {
+  .button:not(.action-button) {
     margin: 0.25rem !important;
     font-size: 0.875rem !important;
     padding: 0.75rem 1rem !important;
@@ -3424,12 +3521,12 @@ code {
     margin-bottom: 0.5rem;
   }
   
-  .button:not(.apple-button) {
+  .button:not(.action-button) {
     width: 100%;
     justify-content: center;
   }
   
-  .apple-button {
+  .action-button {
     width: 100%;
     justify-content: center;
   }
@@ -3703,16 +3800,19 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     animation: none;
   }
   
-  .button:not(.apple-button) {
+  .button:not(.action-button) {
     background: transparent !important;
     color: var(--text-primary) !important;
     box-shadow: none !important;
   }
   
-  .apple-button {
-    background: rgba(0, 26, 51, 0.8) !important;
+  .action-button {
+    background: #001a33 !important;
     color: #ffffff !important;
     backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #001a33 !important;
+    box-shadow: none !important;
   }
 }
 
@@ -3727,16 +3827,19 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     animation: none;
   }
   
-  .button:not(.apple-button) {
+  .button:not(.action-button) {
     background: transparent !important;
     color: var(--text-primary) !important;
     box-shadow: none !important;
   }
   
-  .apple-button {
-    background: rgba(0, 26, 51, 0.8) !important;
+  .action-button {
+    background: #001a33 !important;
     color: #ffffff !important;
     backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #001a33 !important;
+    box-shadow: none !important;
   }
 }
 
@@ -3751,15 +3854,18 @@ section.hero.is-light .container.is-max-desktop.page-shell {
     animation: none;
   }
   
-  .button:not(.apple-button) {
+  .button:not(.action-button) {
     background: transparent !important;
     color: var(--text-primary) !important;
     box-shadow: none !important;
   }
   
-  .apple-button {
-    background: rgba(0, 26, 51, 0.8) !important;
+  .action-button {
+    background: #001a33 !important;
     color: #ffffff !important;
     backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #001a33 !important;
+    box-shadow: none !important;
   }
 }
