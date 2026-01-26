@@ -481,7 +481,7 @@
     "url": "https://visgym.github.io/",
     "image": "https://visgym.github.io/static/images/teaser.png",
     "keywords": ["Vision Language Models", "Multimodal Agents", "Reinforcement Learning", "machine learning", "computer vision", "Interactive Environments", "VLM Evaluation"],
-    "abstract": "Modern Vision–Language Models (VLMs) remain poorly characterized in multi-step visual interactions, particularly in how they integrate perception, memory, and action over long horizons. We introduce VisGym, a comprehensive gymnasium of 17 diverse environments designed to systematically evaluate and train VLMs on visually interactive tasks. The suite spans multiple domains—including symbolic puzzles, real-image understanding, navigation, and manipulation—and provides flexible controls over difficulty, input representation, planning horizon, and feedback mechanisms.",
+    "abstract": "Modern Vision–Language Models (VLMs) remain poorly characterized in multi-step visual interactions, particularly in how they integrate perception, memory, and action over long horizons. We introduce VisGym, a gymnasium of 17 environments for evaluating and training VLMs. The suite spans symbolic puzzles, real-image understanding, navigation, and manipulation, and provides flexible controls over difficulty, input representation, planning horizon, and feedback. We also provide multi-step solvers that generate structured demonstrations, enabling supervised finetuning. Our evaluations show that all frontier models struggle in interactive settings, achieving low success rates in both the easy (46.6%) and hard (26.0%) configurations. Our experiments reveal notable limitations: models struggle to effectively leverage long context, performing worse with an unbounded history than with truncated windows. Furthermore, we find that several text-based symbolic tasks become substantially harder once rendered visually. However, explicit goal observations, textual feedback, and exploratory demonstrations in partially observable or unknown-dynamics settings for supervised finetuning yield consistent gains, highlighting concrete failure modes and pathways for improving multi-step visual decision-making.",
     "isAccessibleForFree": true,
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "mainEntity": {
@@ -620,7 +620,7 @@
               <span class="icon hf-icon-container">
                 <img src="static/images/hf-logo-pirate.png" alt="Hugging Face" class="hf-logo-img">
               </span>
-              <span>Benchmark / Dataset / Models</span>
+              <span> Benchmark / Dataset / Models</span>
             </a>
           </span>
 
@@ -677,7 +677,7 @@
             <span class="icon hf-icon-container">
               <img src="static/images/hf-logo-pirate.png" alt="Hugging Face" class="hf-logo-img">
             </span>
-            <span>Benchmark / Dataset / Models</span>
+            <span> Benchmark / Dataset / Models</span>
           </a>
         </span>
 
@@ -725,9 +725,9 @@
         <h2 class="section-main-title left-align">Abstract</h2>
         <div class="content has-text-justified abstract-content">
           <p>Modern Vision–Language Models (VLMs) remain poorly characterized in multi-step visual interactions, particularly in how they integrate perception, memory, and action over long horizons.</p>
-          <p>We introduce <span class="highlight-contribution">VisGym</span>, a comprehensive gymnasium of <span class="highlight-contribution">17 diverse environments</span> designed to <span class="highlight-contribution">systematically evaluate and train VLMs</span> on visually interactive tasks. The suite spans multiple domains—including symbolic puzzles, real-image understanding, navigation, and manipulation—and provides flexible controls over difficulty, input representation, planning horizon, and feedback mechanisms. We also provide multi-step solvers that generate structured demonstrations, enabling supervised finetuning approaches.</p>
-          <p>Our comprehensive evaluations reveal that all frontier models struggle significantly in interactive settings, achieving low success rates in both easy (<span class="stat-easy">26.8%</span>) and hard (<span class="stat-hard">12.6%</span>) configurations. Through detailed experiments, we identify several critical limitations: models <span class="highlight-negative">fail to effectively leverage long context</span>, performing worse with unbounded history than with truncated windows. Additionally, we find that several text-based symbolic tasks become substantially harder once rendered visually, highlighting the unique challenges of visual reasoning.</p>
-          <p>However, we demonstrate that explicit goal observations, textual feedback, and exploratory demonstrations in partially observable or unknown-dynamics settings yield <span class="highlight-negative">consistent improvements through supervised finetuning</span>, revealing concrete failure modes and actionable pathways for advancing multi-step visual decision-making. All code, data, and models will be publicly released.</p>
+          <p>We introduce <span class="highlight-contribution">VisGym</span>, a gymnasium of <span class="highlight-contribution">17 environments</span> for <span class="highlight-contribution">evaluating and training VLMs</span>. The suite spans symbolic puzzles, real-image understanding, navigation, and manipulation, and provides flexible controls over difficulty, input representation, planning horizon, and feedback. We also provide multi-step solvers that generate structured demonstrations, enabling supervised finetuning.</p>
+          <p>Our evaluations show that all frontier models struggle in interactive settings, achieving low success rates in both the easy (<span class="stat-easy">46.6%</span>) and hard (<span class="stat-hard">26.0%</span>) configurations. Our experiments reveal notable limitations: models struggle to effectively leverage long context, performing worse with an unbounded history than with truncated windows. Furthermore, we find that several text-based symbolic tasks become substantially harder once rendered visually.</p>
+          <p>However, explicit goal observations, textual feedback, and exploratory demonstrations in partially observable or unknown-dynamics settings for supervised finetuning yield <span class="highlight-negative">consistent gains</span>, highlighting concrete failure modes and pathways for improving multi-step visual decision-making.</p>
         </div>
       </div>
     </div>
