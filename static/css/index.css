@@ -1808,7 +1808,7 @@ section.hero.is-light .title.is-3::after {
   letter-spacing: 0;
   color: #424245;
   margin: 2rem auto;
-  max-width: 750px;
+  max-width: 920px; /* reduce line breaks on desktop */
   text-align: center;
   word-wrap: normal;
   overflow-wrap: normal;
@@ -3770,6 +3770,17 @@ section.hero.is-light .container.is-max-desktop.page-shell {
 
 .content.has-text-justified p {
   margin-bottom: 0.9rem !important;
+}
+
+/* Extra whitespace between Abstract and Environment Episode Progression */
+section.section.hero.is-light + .dashboard-embed-container.embed-shell {
+  margin-top: 40px !important;
+}
+
+@media screen and (max-width: 768px) {
+  section.section.hero.is-light + .dashboard-embed-container.embed-shell {
+    margin-top: 24px !important;
+  }
 }
 
 .embed-frame {
