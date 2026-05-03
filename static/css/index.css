@@ -711,6 +711,43 @@ blockquote, dd, dl, dt, fieldset, figure, h1, h2, h3, h4, h5, h6, hr, iframe, le
     padding-top: 0;
 }
 
+/* Award Badge - displayed beneath the main title */
+.award-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 0.75em;
+  padding: 0.45em 1em 0.45em 0.8em;
+  background: linear-gradient(135deg, #fffbe6 0%, #fff3cd 100%);
+  border: 1.5px solid #f0c040;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(240, 192, 64, 0.25);
+  font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.award-icon {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.award-text {
+  font-size: clamp(0.8rem, 1.2vw + 0.4rem, 1.05rem);
+  color: #7a5500;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.award-text strong {
+  color: #5a3c00;
+  font-weight: 700;
+}
+
+.award-percentile {
+  font-weight: 600;
+  color: #7a5500;
+}
+
 .publication-banner {
   max-height: 70vh;
   border-radius: var(--border-radius-lg);
